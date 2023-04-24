@@ -1,0 +1,80 @@
+,League,Round,Week,Year,Date,Local,Visitor,max_prob,bet,phg,pag
+20,england,,16,2023,2023-04-22,Liverpool,Nottm Forest,0.9143490230336662,Local,4.0,0.0
+40,portugal,,16,2023,2023-04-22,Pacos Ferreira,FC Porto,0.8314808740056233,Visitor,0.0,3.0
+6,england,,16,2023,2023-04-21,Arsenal,Southampton,0.789960296427358,Local,3.0,1.0
+8,france,,16,2023,2023-04-21,Angers,Paris SG,0.7821035096350237,Visitor,1.0,3.0
+72,portugal,,16,2023,2023-04-23,Benfica,Estoril,0.7695028996945876,Local,2.0,1.0
+63,mexico,,16,2023,2023-04-23,CF America,Pumas UNAM,0.7656584058883751,Local,3.0,1.0
+0,england,,16,2023,2023-04-17,Leeds Utd,Liverpool,0.7590323360935293,Visitor,1.0,3.0
+31,mexico,,16,2023,2023-04-22,Mazatlan,Monterrey,0.7522324573123652,Visitor,1.0,2.0
+43,spain,,16,2023,2023-04-22,Real Madrid,Celta Vigo,0.7136780489995221,Local,2.0,1.0
+2,mexico,,16,2023,2023-04-17,Monterrey,Santos Laguna,0.6991123188747214,Local,2.0,1.0
+59,italy,,16,2023,2023-04-23,Empoli,Inter Milan,0.6971324836490974,Visitor,1.0,2.0
+33,mexico,,16,2023,2023-04-22,Pachuca,A. San Luis,0.6944154129728725,Local,2.0,1.0
+68,netherlands,,16,2023,2023-04-23,Feyenoord,FC Utrecht,0.6914442380929265,Local,2.0,1.0
+24,germany,,16,2023,2023-04-22,Dortmund,E. Frankfurt,0.6866133278578379,Local,3.0,1.0
+55,germany,,16,2023,2023-04-23,Freiburg,Schalke 04,0.6773728991636748,Local,2.0,0.0
+65,mexico,,16,2023,2023-04-23,Toluca,Juarez,0.6555800062031497,Local,2.0,1.0
+16,england,,16,2023,2023-04-22,Brighton,Manchester City,0.6536276887573256,Visitor,1.0,2.0
+37,netherlands,,16,2023,2023-04-22,Vitesse Arnhem,Excelsior,0.6507851127348537,Local,2.0,1.0
+67,netherlands,,16,2023,2023-04-23,FC Twente,Sparta,0.6338588956512423,Local,2.0,1.0
+62,italy,,16,2023,2023-04-23,Udinese,Cremonese,0.6261931380875526,Local,2.0,1.0
+66,netherlands,,16,2023,2023-04-23,AZ Alkmaar,RKC Waalwijk,0.62599793532081,Local,2.0,1.0
+52,france,,16,2023,2023-04-23,Nantes,Troyes,0.5947660439831656,Local,2.0,1.0
+58,italy,,16,2023,2023-04-23,AC Milan,Lecce,0.5808167318828373,Local,1.0,0.0
+39,portugal,,16,2023,2023-04-22,Famalicao,Maritimo,0.5800799874755451,Local,2.0,1.0
+17,england,,16,2023,2023-04-22,Crystal Palace,Everton,0.5705598593283278,Local,1.0,1.0
+42,spain,,16,2023,2023-04-22,Osasuna,Real Betis,0.5667878105059891,Visitor,1.0,2.0
+48,france,,16,2023,2023-04-23,AC Ajaccio,Brest,0.5475235587443897,Visitor,1.0,1.0
+21,france,,16,2023,2023-04-22,Auxerre,Lille,0.542381373468903,Visitor,1.0,1.0
+13,portugal,,16,2023,2023-04-21,Casa Pia,Sporting Braga,0.5416404357434397,Visitor,1.0,1.0
+69,netherlands,,16,2023,2023-04-23,Go Ahead Eagles,Fortuna Sittard,0.5358858006910926,Local,2.0,1.0
+4,spain,,16,2023,2023-04-17,Celta Vigo,Mallorca,0.530939516783634,Local,2.0,1.0
+28,italy,,16,2023,2023-04-22,Lazio,Torino,0.525427642746978,Local,2.0,1.0
+29,italy,,16,2023,2023-04-22,Salernitana,Sassuolo,0.5253376887664686,Visitor,1.0,2.0
+18,england,,16,2023,2023-04-22,Fulham,Leeds Utd,0.5168479093419153,Local,2.0,1.0
+36,netherlands,,16,2023,2023-04-22,Heerenveen,FC Emmen,0.5115207534028418,Local,2.0,1.0
+10,italy,,16,2023,2023-04-21,Hellas Verona,Bologna,0.508328461193145,Local,2.0,1.0
+76,spain,,16,2023,2023-04-23,FC Barcelona,Atletico Madrid,0.49978616865279446,Local,1.0,1.0
+11,mexico,,16,2023,2023-04-21,Tigres,Puebla,0.49099128630800193,Local,2.0,1.0
+50,france,,16,2023,2023-04-23,Lyon,Marseille,0.48651145247012456,Visitor,1.0,1.0
+64,mexico,,16,2023,2023-04-23,Guadalajara,Cruz Azul,0.4856664268617637,Local,2.0,1.0
+26,germany,,16,2023,2023-04-22,Hertha Berlin,Werder Bremen,0.4793924810355191,Visitor,2.0,2.0
+46,england,,16,2023,2023-04-23,Bournemouth,West Ham Utd,0.4785171181584303,Visitor,1.0,1.0
+22,france,,16,2023,2023-04-22,Lens,Monaco,0.4660436724631337,Local,2.0,1.0
+35,netherlands,,16,2023,2023-04-22,FC Groningen,NEC Nijmegen,0.4654548460702019,Visitor,1.0,1.0
+25,germany,,16,2023,2023-04-22,FSV Mainz,Bayern Munich,0.462010695812037,Visitor,1.0,2.0
+60,italy,,16,2023,2023-04-23,Juventus,Napoli,0.45986828764474813,Visitor,1.0,1.0
+44,spain,,16,2023,2023-04-22,Real Sociedad,Rayo Vallecano,0.45865886735346184,Local,1.0,0.0
+38,portugal,,16,2023,2023-04-22,Boavista,Rio Ave,0.4535822995009603,Local,1.0,1.0
+30,italy,,16,2023,2023-04-22,Sampdoria,Spezia,0.4529260068124236,Local,1.0,1.0
+53,france,,16,2023,2023-04-23,Nice,Clermont,0.4510233592930968,Local,1.0,1.0
+12,netherlands,,16,2023,2023-04-21,FC Volendam,Cambuur,0.4498381625913889,Local,2.0,2.0
+1,italy,,16,2023,2023-04-17,Fiorentina,Atalanta,0.4465917152397813,Visitor,1.0,2.0
+5,netherlands,,16,2023,2023-04-19,Go Ahead Eagles,RKC Waalwijk,0.44365123434801035,Local,2.0,1.0
+3,portugal,,16,2023,2023-04-17,Vizela,Boavista,0.43920346508258573,Local,1.0,1.0
+27,germany,,16,2023,2023-04-22,Hoffenheim,FC Koln,0.43917690375273793,Local,2.0,2.0
+14,spain,,16,2023,2023-04-21,Espanyol,Cadiz,0.437565232023028,Local,1.0,1.0
+19,england,,16,2023,2023-04-22,Leicester City,Wolverhampton,0.4369074448285664,Local,1.0,1.0
+51,france,,16,2023,2023-04-23,Montpellier,Rennes,0.43302005982289266,Visitor,1.0,2.0
+57,germany,,16,2023,2023-04-23,Monchengladbach,Union Berlin,0.4312919995708766,Local,2.0,1.0
+15,england,,16,2023,2023-04-22,Brentford,Aston Villa,0.43127751899666916,Local,1.0,1.0
+77,spain,,16,2023,2023-04-23,Mallorca,Getafe,0.42976747393429926,Local,1.0,1.0
+9,germany,,16,2023,2023-04-21,FC Augsburg,Stuttgart,0.42608638655122044,Local,1.0,1.0
+23,germany,,16,2023,2023-04-22,Bochum,Wolfsburg,0.4258295991188087,Visitor,1.0,1.0
+32,mexico,,16,2023,2023-04-22,Necaxa,Atlas,0.42176008921752406,Visitor,1.0,2.0
+71,portugal,,16,2023,2023-04-23,Arouca,Vizela,0.4165935312827886,Visitor,1.0,1.0
+75,spain,,16,2023,2023-04-23,Elche,Valencia,0.41441141933281295,Visitor,1.0,1.0
+47,england,,16,2023,2023-04-23,Newcastle Utd,Tottenham,0.41342024224067453,Local,2.0,1.0
+54,france,,16,2023,2023-04-23,Reims,Strasbourg,0.41323618788148375,Local,1.0,1.0
+61,italy,,16,2023,2023-04-23,Monza,Fiorentina,0.4119034772332483,Local,1.0,1.0
+73,portugal,,16,2023,2023-04-23,Portimonense,Gil Vicente,0.40926498254185645,Visitor,1.0,1.0
+74,portugal,,16,2023,2023-04-23,Santa Clara,Chaves,0.40844010910079814,Visitor,1.0,1.0
+49,france,,16,2023,2023-04-23,Lorient,Toulouse,0.4083010059534593,Local,1.0,1.0
+41,spain,,16,2023,2023-04-22,Almeria,Athletic Bilbao,0.40129986236193493,Visitor,1.0,1.0
+56,germany,,16,2023,2023-04-23,Leverkusen,RB Leipzig,0.40075096993783665,Local,2.0,2.0
+70,netherlands,,16,2023,2023-04-23,PSV Eindhoven,Ajax Amsterdam,0.38659870027370263,Visitor,2.0,2.0
+34,mexico,,16,2023,2023-04-22,Tijuana,Club Leon,0.3701930970641147,Visitor,1.0,1.0
+45,spain,,16,2023,2023-04-22,Valladolid,Girona,0.3681064124147736,Local,1.0,1.0
+78,spain,,16,2023,2023-04-23,Sevilla FC,Villarreal,0.36537978812110933,Visitor,1.0,1.0
+7,england,,16,2023,2023-04-21,Manchester Utd,Chelsea,0.36521063922059527,Visitor,1.0,1.0

@@ -178,7 +178,13 @@ df_final.to_sql('predictions_history', con=engine, if_exists='append', index=Fal
 # Close the connection to MySQL
 engine.dispose()
 
-# df_final.to_csv(r'C:\Users\ignac\OneDrive\Documentos\Prueba Chat GPT\Football\Results csv\final.csv')
-# print(datetime.datetime.now())
-
-# El próximo paso es crear otra tabla en mysql con los resultados vs las predicciones
+'''
+Siguientes pasos:
+1. Crear 3 tablas en html - partidos con resultados, predicciones y resultados vs predicciones
+2. Crear un formulario para que el usuario meta cantidad y número de partidos para que le diga el 
+   monto a apostar por juego
+3. Crear un diseño mejor
+4. Meter google ads
+5. Comprar dominio
+6. Publicar
+'''

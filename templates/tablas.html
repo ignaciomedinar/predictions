@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>League</th>
+                <th>Week</th>
+                <th>Date</th>
+                <th>Local</th>
+                <th>Goals Local</th>
+                <th>Goals Visitor</th>
+                <th>Visitor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for match in matches %}
+            <tr>
+                <td>{{ match.League }}</td>
+                <td>{{ match.Week }}</td>
+                <td>{{ match.Date }}</td>
+                <td>{{ match.Local }}</td>
+                <td class="local">{{ match.Goalslocal }}</td>
+                <td class="visitor">{{ match.Goalsvisitor }}</td>
+                <td>{{ match.Visitor }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>League</th>
+                <th>Week</th>
+                <th>Date</th>
+                <th>Local</th>
+                <th>Goals Local</th>
+                <th>Goals Visitor</th>
+                <th>Visitor</th>
+                <th>Result</th>
+                <th>Prediction</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.League }}</td>
+                <td>{{ result.Week }}</td>
+                <td>{{ result.Date }}</td>
+                <td>{{ result.Local }}</td>
+                <td class="local">{{ result.Goalslocal }}</td>
+                <td class="visitor">{{ result.Goalsvisitor }}</td>
+                <td>{{ result.Visitor }}</td>
+                <td class="result">{{ result.Result }}</td>
+                <td>{{ result.bet }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+   
+
+    
+    <table>
+        <thead>
+            <tr>
+                <th>League</th>
+                <!-- <th>Round</th> -->
+                <th>Week</th>
+                <!-- <th>Year</th> -->
+                <th>Date</th>
+                <th>Local</th>
+                <th>Goals Local</th>
+                <th>Goals Visitor</th>
+                <th>Visitor</th>
+                <th>Victor</th>
+                <th>Probability</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prediction in predictions %}
+            <tr>
+                <td>{{ prediction.League }}</td>
+                <!-- <td>{{ prediction.Round }}</td> -->
+                <td>{{ prediction.Week }}</td>
+                <!-- <td>{{ prediction.Year }}</td> -->
+                <td>{{ prediction.Date }}</td>
+                <td>{{ prediction.Local }}</td>
+                <td class="local">{{ prediction.phg }}</td>
+                <td class="visitor">{{ prediction.pag }}</td>
+                <td>{{ prediction.Visitor }}</td>
+                <td>{{ prediction.bet }}</td>
+                <td>{{ prediction.max_prob }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+</body>
+</html>

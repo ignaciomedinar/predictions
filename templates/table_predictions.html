@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="search-container">
+    <input type="text" placeholder="Search team..." id="search-input">
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>League <br>
+                <select class="filter-header" data-col-index="0">
+                    <option value="">All</option></th>
+            <!-- <th>Round</th> -->
+            <th>Week</th>
+            <!-- <th>Year</th> -->
+            <th>Date <br>
+                <select class="filter-header" data-col-index="2">
+                    <option value="">All</option></th>
+            <th>Local <br>
+                <select class="filter-header" data-col-index="3">
+                    <option value="">All</option></th>
+            <th>Goals Local </th>
+            <th>Goals Visitor </th>
+            <th>Visitor <br>
+                <select class="filter-header" data-col-index="6">
+                    <option value="">All</option></th>
+            <th>Victor <br>
+                <select class="filter-header" data-col-index="7">
+                    <option value="">All</option></th>
+            <th>Probability <br>
+                <select class="filter-header" data-col-index="8">
+                    <option value="">All</option></th>
+            <th>Real Result <br>
+                <select class="filter-header" data-col-index="9">
+                    <option value="">All</option></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for prediction in predictions %}
+        <tr>
+            <td>{{ prediction.League }}</td>
+            <!-- <td>{{ prediction.Round }}</td> -->
+            <td>{{ prediction.Week }}</td>
+            <!-- <td>{{ prediction.Year }}</td> -->
+            <td>{{ prediction.Date }}</td>
+            <td>{{ prediction.Local }}</td>
+            <td class="local">{{ prediction.phg }}</td>
+            <td class="visitor">{{ prediction.pag }}</td>
+            <td>{{ prediction.Visitor }}</td>
+            <td>{{ prediction.bet }}</td>
+            <td>{{ prediction.max_prob }}</td>
+            <td>{{ prediction.result }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

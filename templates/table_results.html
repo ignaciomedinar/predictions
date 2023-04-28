@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="search-container">
+    <input type="text" placeholder="Search team..." id="search-input">
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>League<br>
+                <select class="filter-header" data-col-index="0">
+                    <option value="">All</option>
+                </select></th>
+            <th>Week</th>
+            <th>Date<br>
+                <select class="filter-header" data-col-index="2">
+                    <option value="">All</option>
+                </select></th>
+            <th>Local<br>
+                <select class="filter-header" data-col-index="3">
+                    <option value="">All</option>
+                </select></th>
+            <th>Goals Local</th>
+            <th>Goals Visitor</th>
+            <th>Visitor<br>
+                <select class="filter-header" data-col-index="6">
+                    <option value="">All</option>
+                </select></th>
+            <th>Result<br>
+                <select class="filter-header" data-col-index="7">
+                    <option value="">All</option>
+                </select></th>
+            <th>Prediction<br>
+                <select class="filter-header" data-col-index="8">
+                    <option value="">All</option>
+                </select></th>
+            <th>Successful<br>
+                <select class="filter-header" data-col-index="9">
+                    <option value="">All</option>
+                </select></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in results %}
+        <tr>
+            <td>{{ result.League }}</td>
+            <td>{{ result.Week }}</td>
+            <td>{{ result.Date }}</td>
+            <td>{{ result.Local }}</td>
+            <td class="local">{{ result.Goalslocal }}</td>
+            <td class="visitor">{{ result.Goalsvisitor }}</td>
+            <td>{{ result.Visitor }}</td>
+            <td class="result">{{ result.Result }}</td>
+            <td>{{ result.bet }}</td>
+            <td>{{ result.success }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -134,3 +134,5 @@ calendar.to_sql(table_name, con=engine, if_exists='replace', index=False)
 
 # Close the connection to MySQL
 engine.dispose()
+
+print('Calendar created successfully!')

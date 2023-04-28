@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% extends 'base.html' %}
+{% block main %}
 <body>
     <table>
         <thead>
@@ -33,7 +27,7 @@
             {% endfor %}
         </tbody>
     </table>
-
+    {% endblock %}
 
     <table>
         <thead>
@@ -82,6 +76,7 @@
                 <th>Visitor</th>
                 <th>Victor</th>
                 <th>Probability</th>
+                <th>Real Result</th>
             </tr>
         </thead>
         <tbody>
@@ -98,6 +93,7 @@
                 <td>{{ prediction.Visitor }}</td>
                 <td>{{ prediction.bet }}</td>
                 <td>{{ prediction.max_prob }}</td>
+                <td>{{ prediction.result }}</td>
             </tr>
             {% endfor %}
         </tbody>

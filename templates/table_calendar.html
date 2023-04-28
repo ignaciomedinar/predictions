@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="search-container">
+    <input type="text" placeholder="Search team..." id="search-input">
+</div>
+<table>
+    <thead>
+        <tr>
+            <th data-sort-by="league">League <br>
+                
+            </th>
+            <select class="filter-header" data-col-index="0">
+                <option value="">All</option>
+            </select>
+            <th>Week
+                <!-- <select class="filter-header" data-col-index="1">
+                    <option value="">All</option>
+                </select> -->
+            </th>
+            <th>Date <br>
+                <select class="filter-header" data-col-index="2">
+                    <option value="">All</option>
+                </select>
+            </th>
+            <th>Local <br>
+                <select class="filter-header" data-col-index="3">
+                    <option value="">All</option>
+                </select>
+            </th>
+            <th>Goals Local
+                <!-- <select class="filter-header" data-col-index="4">
+                    <option value="">All</option>
+                </select> -->
+            </th>
+            <th>Goals Visitor
+                <!-- <select class="filter-header" data-col-index="5">
+                    <option value="">All</option>
+                </select> -->
+            </th>
+            <th>Visitor <br>
+                <select class="filter-header" data-col-index="6">
+                    <option value="">All</option>
+                </select>
+            </th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+        {% for match in matches %}
+        <tr>
+            <td>{{ match.League }}</td>
+            <td>{{ match.Week }}</td>
+            <td>{{ match.Date }}</td>
+            <td>{{ match.Local }}</td>
+            <td class="local">{{ match.Goalslocal }}</td>
+            <td class="visitor">{{ match.Goalsvisitor }}</td>
+            <td>{{ match.Visitor }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

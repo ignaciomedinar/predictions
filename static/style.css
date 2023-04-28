@@ -1,140 +1,26 @@
-
-body {
-    background-color: #353535;
-  }
-
-  .table {
-    /* background-color: #fff; */
-    color: #fff;
-  }
-
-  th {
-    background-color: #353535;
-    color: #fff;
-    text-align: center;
-  }
-
-  tr {
-    /* background-color: #f1f1f1; */
-    text-align: center;
-  }
-
-  h1, h2 {
-    color: #fff;
-  }
-
-  * {
-    font-family: 'Oswald', sans-serif;
-  }
-
-  th {
-    position: sticky;
-    top: 0;
-    background-color: #353535;
-    color: #fff;
-  }
-
-  /* Footer styles */
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: #1c2331;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-}
-
-.search-container {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .search-container input[type="text"] {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    margin-right: 5px;
-    font-size: 16px;
-    width: 60%;
-    box-shadow: 0 0 5px #777;
-  }
-  
-  .search-container button {
-    padding: 10px 15px;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
+th {
+    position: relative;
     cursor: pointer;
-    box-shadow: 0 0 5px #777;
   }
   
-  .search-container button:hover {
-    background-color: #3e8e41;
-  }
-
-  header {
-    position: sticky;
-    background-color: #000;
-    color: #fff;
-    height: 60px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
+  th::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    width: 0.75rem;
+    height: 0.75rem;
+    background-image: url("https://www.veryicon.com/icons/miscellaneous/font_awesome/sort-asc-3.html");
+    background-repeat: no-repeat;
+    background-position: center center;
   }
   
-  header h1 {
-    margin: 0;
-    font-size: 28px;
-    line-height: 60px;
-    padding-left: 20px;
+  th[data-sort="asc"]::before {
+    background-image: url("https://www.veryicon.com/icons/miscellaneous/font_awesome/sort-asc-3.html");
   }
   
-  nav {
-    float: right;
-    margin-top: 5px;
-  }
-  
-  nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  nav li {
-    display: inline-block;
-    margin-left: 20px;
-  }
-  
-  nav a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-    line-height: 60px;
-    padding: 0 10px;
-    transition: all 0.3s ease;
-  }
-  
-  nav a:hover {
-    background-color: #555;
-  }
-  
-  .local, .visitor, .result{
-    color:yellow;
-    font-weight: bold;
-  }
-  .highlight {
-    color: green;
-    font-weight: bolder;
-  }
-
-  .lowlight {
-    color: red;
-    font-weight: lighter;
+  th[data-sort="desc"]::before {
+    background-image: url("https://www.veryicon.com/icons/miscellaneous/font_awesome/sort-desc-3.html");
   }
   

@@ -43,11 +43,11 @@
             <!-- <td>{{ prediction.Year }}</td> -->
             <td>{{ prediction.Date }}</td>
             <td>{{ prediction.Local }}</td>
-            <td class="local">{{ prediction.phg }}</td>
-            <td class="visitor">{{ prediction.pag }}</td>
+            <td class="local">{{ prediction.phg | int }}</td>
+            <td class="visitor">{{ prediction.pag | int }}</td>
             <td>{{ prediction.Visitor }}</td>
             <td>{{ prediction.bet }}</td>
-            <td>{{ prediction.max_prob }}</td>
+            <td>{{ "%.2f" % prediction.max_prob }}</td>
             <td>{{ prediction.result }}</td>
         </tr>
         {% endfor %}

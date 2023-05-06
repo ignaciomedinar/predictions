@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import mysql.connector
 import datetime
 
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -13,7 +14,7 @@ def home():
 
 @app.route('/calendar')
 def show_matches():
-    title = 'Calendar'
+    title = 'Next Matches'
     cnx = mysql.connector.connect(user='root', password='milanesa',
                                   host='localhost', database='football')
     cursor = cnx.cursor()
@@ -23,10 +24,11 @@ def show_matches():
     # Query the database for the results for the current week
     query = ("SELECT * "
                 "FROM football_results "
-                "WHERE date >= %s AND date <= %s "
+                "WHERE date >= %s "
+                "AND goalslocal ='' "
                 "ORDER BY date asc, League"
                 )
-    cursor.execute(query, (current_week_start, current_week_end))
+    cursor.execute(query, (current_week_start, ))
     # Get the column names
     columns = [col[0] for col in cursor.description]
 
@@ -48,30 +50,85 @@ def show_results():
     cursor = cnx.cursor()
     previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=7)
     current_week_end = previous_week_start + datetime.timedelta(days=13)
+    current_week=datetime.date.today().isocalendar()[1]
+    current_year=datetime.date.today().year
 
-    # Query the database for the results for the current week
-    query = ("SELECT fr.*, ph.bet, case when ph.bet is null "
-                "then 'No Contest' when upper(fr.Result)=upper(left(ph.bet,1)) "
-                "then 'Correct' else 'Incorrect' end as success "
-                "FROM football.football_results fr "
-                "left join football.predictions_history ph "
-                "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
-                "WHERE fr.date >= %s AND fr.date <= %s AND fr.Result in ('l','v','t') "
-                "ORDER BY fr.date desc, fr.League"
+    # Get all the weeks from the database
+    query = ("SELECT DISTINCT concat(Year,'-W',lpad(Week,2,0)) "
+                "FROM football.football_results "
+                "WHERE concat(year,week)<=%s%s "
+                "ORDER by concat(Year,'-W',lpad(week,2,0)) DESC"
                 )
-    cursor.execute(query, (previous_week_start, current_week_end))
+    cursor.execute(query, (current_year,current_week,))
+    weeks = [week[0] for week in cursor.fetchall()]
+    first_dates_week=[datetime.datetime.strptime(week + '-1', "%Y-W%W-%w") for week in weeks]
+    last_dates_week=[first + datetime.timedelta(days=6) for first in first_dates_week]
+
+    selected_week_start = request.args.get('week')
+    
+
+    # Get all the teams from the database
+    query = ("SELECT DISTINCT Local "
+                "FROM football.football_results "
+                "ORDER BY Local ASC"
+                )
+    cursor.execute(query)
+    teams = [team[0] for team in cursor.fetchall()]
+
+    if selected_week_start:
+        selected_week_start=datetime.datetime.strptime(selected_week_start,'%Y-%m-%d %H:%M:%S')
+        # print(type(selected_week_start))
+        # print(selected_week_start)
+        selected_week_end = selected_week_start + datetime.timedelta(days=6)
+        # Query the database for the results for the current week
+        query = ("SELECT fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
+                    "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
+                    "then 'Correct' else 'Incorrect' end as success "
+                    "FROM football.football_results fr "
+                    "left join football.predictions_history ph "
+                    "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
+                    "WHERE fr.date >= %s AND fr.date <= %s "
+                    "AND fr.goalslocal <>'' "
+                    "ORDER BY fr.date desc, fr.League"
+                    )
+        cursor.execute(query, (selected_week_start, selected_week_end))
+        # print("selección: " + selected_week_start)
+    else:
+        # Query the database for the results for the current week
+        query = ("SELECT fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
+                    "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
+                    "then 'Correct' else 'Incorrect' end as success "
+                    "FROM football.football_results fr "
+                    "left join football.predictions_history ph "
+                    "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
+                    "WHERE fr.date >= %s AND fr.date <= %s "
+                    "AND fr.goalslocal <>'' "
+                    "ORDER BY fr.date desc, fr.League"
+                    )
+        cursor.execute(query, (previous_week_start, current_week_end))
+        # print("selección: " + previous_week_start)
     # Get the column names
     columns = [col[0] for col in cursor.description]
 
     # Fetch all rows and convert to list of dictionaries
     results = [dict(zip(columns, row)) for row in cursor.fetchall()]
-
+    # predict=[results['success'].count('Correct'),results['success'].count('Incorrect')]
+    # correct = results[0]['success'].count('Correct')
+    correct=0
+    incorrect=0
+    for x in range(len(results)):
+        if results[x]['success']=='Correct':
+            correct+=1
+        if results[x]['success']=='Incorrect':
+            incorrect+=1
+    
+    
     # Close the database connection
     cursor.close()
     cnx.close()
 
     # Pass the results and weeks to the HTML template
-    return render_template("table_results.html", title=title, results=results)
+    return render_template("table_results.html", title=title, results=results, first_dates_week=first_dates_week, last_dates_week=last_dates_week,correct=correct,incorrect=incorrect) #,predict=predict*/
 
 @app.route('/predictions')
 def show_predictions():
@@ -80,6 +137,7 @@ def show_predictions():
                                   host='localhost', database='football')
     cursor = cnx.cursor()
     previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=7)
+    current_week_start = previous_week_start + datetime.timedelta(days=7)
     current_week_end = previous_week_start + datetime.timedelta(days=13)
 
     # Query the database for the results for the current week
@@ -90,7 +148,7 @@ def show_predictions():
                 "WHERE pr.date >= %s AND pr.date <= %s "
                 "ORDER BY pr.max_prob desc"
                 )
-    cursor.execute(query, (previous_week_start, current_week_end))
+    cursor.execute(query, (current_week_start, current_week_end))
     # Get the column names
     columns = [col[0] for col in cursor.description]
 
@@ -107,6 +165,7 @@ def show_predictions():
 @app.route('/invest', methods=['GET', 'POST'])
 def show_invest():
     title = 'Investing'
+    inputs=()
     predictions=''
     if request.method == 'POST':
         amount = request.form['amount']
@@ -137,7 +196,7 @@ def show_invest():
             probs = 0
             for row in predictions:
                 probs += row['max_prob']
-            ratio=int(amount)/probs
+            ratio=float(amount)/probs
             for row in predictions:
                 row['bet_amount'] = row['max_prob'] * ratio
             print(probs)

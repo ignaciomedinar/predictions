@@ -174,6 +174,7 @@ df_final.to_sql(table_name, con=engine, if_exists='replace', index=False)
 
 # Append the dataframe to the MySQL table
 df_final.to_sql('predictions_history', con=engine, if_exists='append', index=False)
+print('Predictions completed!')
 
 # Close the connection to MySQL
 engine.dispose()

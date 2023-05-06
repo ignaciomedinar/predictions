@@ -3,6 +3,23 @@
 <div class="search-container">
     <input type="text" placeholder="Search team..." id="search-input">
 </div>
+<div>
+    <form action="{{ url_for('show_results') }}" method="get">
+        <label for="week">Select a week:</label>
+        <select name="week" class="form-select" onchange="this.form.submit()">
+            <option value="">Select a week</option>
+            {% for first_date_week in first_dates_week %}
+            <option value="{{ first_date_week }}" {% if selected_week == first_date_week %}selected{% endif %}}>
+                Week Start: {{ first_date_week.strftime('%Y-%m-%d') }}
+            </option>
+            {% endfor %}
+        </select> 
+    </form>
+</div>
+
+<p>Correct Predictions: {{ correct }}</p>
+<p>Incorrect Predictions: {{ incorrect }}</p>
+
 <table>
     <thead>
         <tr>

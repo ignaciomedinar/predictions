@@ -8,6 +8,12 @@
     <input type="number" id="num_matches" name="num_matches" min="1" max="20"><br>
 
     <input type="submit" value="Submit">
+    <label for="leagues">Select leagues:</label>
+    <select name="leagues" id="leagues" multiple>
+        {% for league in leagues %}
+        <option value="{{ league }}">{{ league }}</option>
+        {% endfor %}
+    </select>
 </form>
 
 <div>
@@ -69,7 +75,7 @@
         </tbody>
     </table>
     {% else %}
-    <p>Write the amount of money you want to invest and the number of matches you want to bet to</p>
+    <p>Write the amount of money you want to invest, the number of matches you want to bet to (default=10) and the Leagues you desire</p>
    {% endif %}
 </div>  
 

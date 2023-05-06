@@ -165,12 +165,40 @@ def show_predictions():
 @app.route('/invest', methods=['GET', 'POST'])
 def show_invest():
     title = 'Investing'
+
+    cnx = mysql.connector.connect(user='root', password='milanesa',
+                                  host='localhost', database='football')
+    cursor = cnx.cursor()
+    current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
+    current_week_end = current_week_start + datetime.timedelta(days=6)
+
+    # Query the database for the results for the current week
+    query = ("SELECT distinct League "
+                "FROM predictions "
+                "WHERE date >= %s "
+                "ORDER BY League"
+                )
+    cursor.execute(query, (current_week_start, ))
+    # Get the column names
+    
+    leagues = [league[0] for league in cursor.fetchall()]
+
     inputs=()
     predictions=''
     if request.method == 'POST':
         amount = request.form['amount']
-        num_matches = int(request.form['num_matches'])
-        if amount != '':
+        try:
+            num_matches = int(request.form['num_matches'])
+        except: 
+            num_matches = 10
+ 
+        selected_leagues = request.form.getlist('leagues')
+        if len(selected_leagues):
+            pass
+        else:
+            selected_leagues = leagues
+        selected_leagues_str = ",".join(["'" + league + "'" for league in selected_leagues])
+        if amount != '' and num_matches!='':
             inputs=(amount, num_matches)
             current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
             current_week_end = current_week_start + datetime.timedelta(days=6)
@@ -184,8 +212,9 @@ def show_invest():
                         "left join football.football_results r "
                         "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
                         "WHERE pr.date >= %s AND pr.date <= %s "
+                        f"AND pr.league in ({selected_leagues_str}) "
                         "ORDER BY pr.max_prob desc "
-                        "limit %s "
+                        "limit %s"
                         )
             cursor.execute(query, (current_week_start, current_week_end, num_matches))
 
@@ -199,9 +228,6 @@ def show_invest():
             ratio=float(amount)/probs
             for row in predictions:
                 row['bet_amount'] = row['max_prob'] * ratio
-            print(probs)
-            print(ratio)
-            print(predictions)
 
             # Close the database connection
             cursor.close()
@@ -209,7 +235,7 @@ def show_invest():
 
         else:
             predictions=''
-    return render_template("invest.html", title=title, predictions=predictions,inputs=inputs)
+    return render_template("invest.html", title=title, predictions=predictions,inputs=inputs,leagues=leagues)
 
 # @app.route("/")
 # def show_results():

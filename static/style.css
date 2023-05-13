@@ -1,8 +1,17 @@
+/* * {
+  font: 10px verdana,sans-serif;
+} */
+
 th {
     position: relative;
     cursor: pointer;
   }
-  
+
+tbody tr{
+  border-top: 1px solid #dfdfe5;
+  border-radius: 1px;
+  margin: 1px;
+}
 
   th::before {
     content: "";

@@ -9,42 +9,44 @@
     <title>{{ title }}</title>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Goal Genius</a>
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="calendar">Next Matches</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="results">Results</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="predictions">Predictions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="invest">Investing</a>
-                        </li>
-
-                    </ul>
-                </div>
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <h3>
+                    <a class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none" href="/">Goal Genius</a>
+                </h3>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li>
+                        <a class="nav-link px-2 text-secondary" href="/">Home</a>
+                    </li>
+                    <li>
+                        <a class="nav-link px-2 text-white" href="calendar">Next Matches</a>
+                    </li>
+                    <li>
+                        <a class="nav-link px-2 text-white" href="results">Results</a>
+                    </li>
+                    <li>
+                        <a class="nav-link px-2 text-white" href="predictions">Predictions</a>
+                    </li>
+                    <li>
+                        <a class="nav-link px-2 text-white" href="invest">Investing</a>
+                    </li>
+                </ul>   
             </div>
-        </nav>
+        </div>
     </header>
     <main>
-        <h2>{{ title }}</h2>
-        {% block main %}
-        <p>{{ message }}</p>
-        <a href=""></a>        <a href="/">Home</a>
-        <a href="calendar">Next Matches</a>
-        <a href="results">Results</a>
-        <a href="predictions">Predictions</a>
-        <a href="invest">Investing</a>        {% endblock %}
+        <div class="container">
+            <h2>{{ title }}</h2>
+            {% block main %}
+            <p>{{ message }}</p>
+            <a href=""></a>        <a href="/">Home</a>
+            <a href="calendar">Next Matches</a>
+            <a href="results">Results</a>
+            <a href="predictions">Predictions</a>
+            <a href="invest">Investing</a>        
+            {% endblock %}
+        </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>

@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% block main %}
+{% if selected_week_start is not none %}
+<h3>Week Start: {{ selected_week_start.strftime('%Y-%m-%d') }}</h3>
+{% endif %}
 <div class="search-container">
     <input type="text" placeholder="Search team..." id="search-input">
 </div>
@@ -17,8 +20,11 @@
     </form>
 </div>
 
-<p>Correct Predictions: {{ correct }}</p>
-<p>Incorrect Predictions: {{ incorrect }}</p>
+{% if correct == 0 %}
+    <div>Effectiveness: N/A</div>
+{% else %}
+    <div>Effectiveness: {{ '%.2f' % ((incorrect/correct)*100) }} %</div>
+{% endif %}
 
 <table>
     <thead>

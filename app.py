@@ -131,7 +131,7 @@ def show_results():
     cnx.close()
 
     # Pass the results and weeks to the HTML template
-    return render_template("table_results.html", title=title, results=results, first_dates_week=first_dates_week, last_dates_week=last_dates_week,correct=correct,incorrect=incorrect) #,predict=predict*/
+    return render_template("table_results.html", title=title, results=results, first_dates_week=first_dates_week, last_dates_week=last_dates_week,correct=correct,incorrect=incorrect, selected_week_start=selected_week_start) #,predict=predict*/
 
 @app.route('/predictions')
 def show_predictions():
@@ -144,7 +144,7 @@ def show_predictions():
     current_week_end = previous_week_start + datetime.timedelta(days=13)
 
     # Query the database for the results for the current week
-    query = ("SELECT pr.*, r.result "
+    query = ("SELECT pr.*, r.result, r.goalslocal, r.goalsvisitor "
                 "FROM football.predictions pr "
                 "left join football.football_results r "
                 "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
@@ -163,12 +163,12 @@ def show_predictions():
     cnx.close()
 
     # Pass the results and weeks to the HTML template
-    return render_template("table_predictions.html", title=title, predictions=predictions)
+    return render_template("table_predictions.html", title=title, predictions=predictions, current_week_end=current_week_end)
 
 @app.route('/invest', methods=['GET', 'POST'])
 def show_invest():
     title = 'Investing'
-
+    selected_leagues =()
     cnx = mysql.connector.connect(user='root', password='milanesa',
                                   host='localhost', database='football')
     cursor = cnx.cursor()
@@ -195,7 +195,7 @@ def show_invest():
         except: 
             num_matches = 10
  
-        selected_leagues = request.form.getlist('leagues')
+        selected_leagues = request.form.getlist('leagues[]')
         if len(selected_leagues):
             pass
         else:
@@ -238,7 +238,7 @@ def show_invest():
 
         else:
             predictions=''
-    return render_template("invest.html", title=title, predictions=predictions,inputs=inputs,leagues=leagues)
+    return render_template("invest.html", title=title, predictions=predictions,inputs=inputs,leagues=leagues,selected_leagues=selected_leagues)
 
 # @app.route("/")
 # def show_results():

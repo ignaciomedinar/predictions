@@ -10,12 +10,31 @@
 </head>
 <body>
     <header>
-        <h1>Goal Genius</h1>
-        <a href="/">Home</a>
-        <a href="calendar">Next Matches</a>
-        <a href="results">Results</a>
-        <a href="predictions">Predictions</a>
-        <a href="invest">Investing</a>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Goal Genius</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="calendar">Next Matches</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="results">Results</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="predictions">Predictions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="invest">Investing</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
     <main>
         <h2>{{ title }}</h2>

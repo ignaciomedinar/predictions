@@ -1,15 +1,16 @@
 from flask import Flask, render_template, request
 import mysql.connector
 import datetime
-
+from dateutil.relativedelta import relativedelta
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
     title = 'Home'
-    message='Goal Genius is a space where you can find football matches from the most important Leagues \
-        with Dates, Results and Predictions based on goals scored and goals received.'
+    message='Goal Genius is a platform that offers information about football matches from \
+        the most significant Leagues. It provides Dates, Results, and Predictions that are based \
+        on goals scored and received by teams in the last two years.'
     return render_template('base.html', title=title, message=message)
 
 @app.route('/calendar')
@@ -20,15 +21,17 @@ def show_matches():
     cursor = cnx.cursor()
     current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
     current_week_end = current_week_start + datetime.timedelta(days=6)
+    six_months = datetime.date.today() + relativedelta(months=+6)
 
     # Query the database for the results for the current week
     query = ("SELECT * "
                 "FROM football_results "
                 "WHERE date >= %s "
+                "AND date <= %s "
                 "AND goalslocal ='' "
                 "ORDER BY date asc, League"
                 )
-    cursor.execute(query, (current_week_start, ))
+    cursor.execute(query, (current_week_start, six_months,))
     # Get the column names
     columns = [col[0] for col in cursor.description]
 

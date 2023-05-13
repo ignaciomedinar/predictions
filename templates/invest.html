@@ -8,12 +8,14 @@
     <input type="number" id="num_matches" name="num_matches" min="1" max="20"><br>
 
     <input type="submit" value="Submit">
-    <label for="leagues">Select leagues:</label>
-    <select name="leagues" id="leagues" multiple>
-        {% for league in leagues %}
-        <option value="{{ league }}">{{ league }}</option>
-        {% endfor %}
-    </select>
+    <div class="form-group">
+        <label for="leagues">Select leagues:</label>
+        <select multiple class="form-control" name="leagues" id="leagues" multiple>
+            {% for league in leagues %}
+            <option value="{{ league }}">{{ league }}</option>
+            {% endfor %}
+        </select>
+    </div>
 </form>
 
 <div>
@@ -67,7 +69,7 @@
                 <td class="visitor">{{ prediction.pag | int }}</td>
                 <td>{{ prediction.Visitor }}</td>
                 <td>{{ prediction.bet }}</td>
-                <td>{{ "%.2f" % prediction.max_prob }}</td>
+                <td>{{ '%.1f' %  (prediction.max_prob * 100) }} %</td>
                 <!-- <td>{{ prediction.result }}</td> -->
                 <td>{{ "%.2f" % prediction.bet_amount }}</td>
             </tr>
@@ -75,7 +77,8 @@
         </tbody>
     </table>
     {% else %}
-    <p>Write the amount of money you want to invest, the number of matches you want to bet to (default=10) and the Leagues you desire</p>
+    <p>Enter the amount of money you want to invest in any currency, select the number of matches
+        you want to bet on (default is 10), and choose the Leagues you're interested in.</p>
    {% endif %}
 </div>  
 

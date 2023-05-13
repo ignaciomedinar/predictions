@@ -47,7 +47,8 @@
             <td class="visitor">{{ prediction.pag | int }}</td>
             <td>{{ prediction.Visitor }}</td>
             <td>{{ prediction.bet }}</td>
-            <td>{{ "%.2f" % prediction.max_prob }}</td>
+            <!-- <td>{{ "%.2f" % prediction.max_prob }}</td> -->
+            <td>{{ '%.1f' %  (prediction.max_prob * 100) }} %</td>
             <td>{{ prediction.result }}</td>
         </tr>
         {% endfor %}

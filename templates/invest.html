@@ -1,20 +1,44 @@
 {% extends 'base.html' %}
 {% block main %}
 <form method="POST" action="/invest">
-    <label for="amount">Amount:</label>
-    <input type="text" id="amount" name="amount"><br>
-
-    <label for="num_matches">Number of Matches:</label>
-    <input type="number" id="num_matches" name="num_matches" min="1" max="20"><br>
-    
-    {% for league in leagues %}
+    <div class="cont">
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount"><br>
+    </div>
+    <div class="cont">
+        <label for="num_matches">Number of Matches:</label>
+        <input type="number" id="num_matches" name="num_matches" min="1" max="20">
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
     <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="{{ league }}" name="leagues[]" id="league-{{ league }}" checked>
-        <label class="form-check-label" for="league-{{ league }}">
-            {{ league }}
+        <input class="form-check-input" type="checkbox" id="check-all" checked>
+        <label class="form-check-label" for="check-all">
+            Check/Uncheck All
         </label>
     </div>
-    {% endfor %}
+    </div>
+    <div class="col-sm-4">
+        {% for league in leagues[0:3] %}
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{ league }}" name="leagues[]" id="league-{{ league }}" checked>
+          <label class="form-check-label" for="league-{{ league }}">
+            {{ league }}
+          </label>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="col-sm-4">
+        {% for league in leagues[3:6] %}
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{ league }}" name="leagues[]" id="league-{{ league }}" checked>
+          <label class="form-check-label" for="league-{{ league }}">
+            {{ league }}
+          </label>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
     
     <input type="submit" value="Submit">
 
@@ -22,9 +46,9 @@
 
 <div>
     {% if predictions %}
-    <div>Amount desired to bet: {{ inputs[0] }}</div>
-    <div>Matches to bet: {{ inputs[1] }}</div>
-    <div>Leagues selected: {% for selected_league in selected_leagues %} {{ selected_league }}, {% endfor %}</div>
+    <div>Amount desired to bet: <b>{{ inputs[0] }}</b></div>
+    <div>Matches to bet: <b>{{ inputs[1] }}</b></div>
+    <div>Leagues selected: <b>{% for selected_league in selected_leagues %} {{ selected_league }}, {% endfor %}</b></div>
     <table>
         <thead>
             <tr>

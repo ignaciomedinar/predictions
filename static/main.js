@@ -179,3 +179,11 @@ $(document).ready(function() {
     });
   });
 });
+
+/*code to check/uncheck all*/
+
+$(document).ready(function() {
+    $('#check-all').click(function() {
+        $('input[type=checkbox]').prop('checked', $(this).prop('checked'));
+    });
+});

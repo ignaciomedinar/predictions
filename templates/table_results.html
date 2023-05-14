@@ -6,9 +6,9 @@
 <div class="search-container">
     <input type="text" placeholder="Search team..." id="search-input">
 </div>
-<div>
+<div class="cont">
     <form action="{{ url_for('show_results') }}" method="get">
-        <label for="week">Select a week:</label>
+        <!-- <label for="week">Select a week:</label> -->
         <select name="week" class="form-select" onchange="this.form.submit()">
             <option value="">Select a week</option>
             {% for first_date_week in first_dates_week %}
@@ -23,7 +23,7 @@
 {% if correct == 0 %}
     <div>Effectiveness: N/A</div>
 {% else %}
-    <div>Effectiveness: {{ '%.2f' % ((incorrect/correct)*100) }} %</div>
+    <div class="cont">Effectiveness: <b>{{ '%.2f' % ((incorrect/correct)*100) }} %</b></div>
 {% endif %}
 
 <table>
@@ -65,7 +65,7 @@
     <tbody>
         {% for result in results %}
         <tr>
-            <td>{{ result.League }}</td>
+            <td><img src="{{ result.flag_url }}" alt="{{ result.League }}"></img> <br/>{{ result.League }}</td>
             <td>{{ result.Week }}</td>
             <td>{{ result.Date }}</td>
             <td>{{ result.Local }}</td>

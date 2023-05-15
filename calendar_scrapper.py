@@ -104,29 +104,50 @@ calendar = tabla()
 # print(prueba)
 
 # Connect to the MySQL database
+# conn = mysql.connector.connect(
+#     host="localhost",
+#     user="root",
+#     password="milanesa",
+#     # database="football"
+# )
 conn = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="milanesa",
-    # database="football"
+    host='sql7.freemysqlhosting.net',
+    database='sql7618393',
+    user='sql7618393',
+    password='iYNUZFVcWQ',
+    port='3306'
 )
+# cursor = conn.cursor()
+# sql = 'CREATE DATABASE IF NOT EXISTS football;'
+# cursor.execute(sql)
+# sql='USE football;'
+# cursor.execute(sql)
+# sql='DROP TABLE IF EXISTS football.football_results'
+# cursor.execute(sql)
 cursor = conn.cursor()
-sql = 'CREATE DATABASE IF NOT EXISTS football;'
+sql = 'CREATE DATABASE IF NOT EXISTS sql7618393;'
 cursor.execute(sql)
-sql='USE football;'
+sql='USE sql7618393;'
 cursor.execute(sql)
-sql='DROP TABLE IF EXISTS football.football_results'
+sql='DROP TABLE IF EXISTS sql7618393.football_results'
 cursor.execute(sql)
+
 conn.close()
 
 # Define the connection parameters
-user = 'root'
-password = 'milanesa'
-host = 'localhost'
-database = 'football'
+# user = 'root'
+# password = 'milanesa'
+# host = 'localhost'
+# database = 'football'
+
 
 # Create a SQLAlchemy engine to connect to the database
-engine = create_engine(f'mysql://{user}:{password}@{host}/{database}')
+# engine = create_engine(f'mysql://{user}:{password}@{host}/{database}')
+# Define the connection URL
+connection_url = 'mysql+mysqlconnector://sql7618393:iYNUZFVcWQ@sql7.freemysqlhosting.net:3306/sql7618393'
+
+# Create the engine
+engine = create_engine(connection_url)
 
 # Insert data from the DataFrame to MySQL
 table_name = 'football_results'

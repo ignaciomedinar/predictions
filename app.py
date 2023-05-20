@@ -18,15 +18,15 @@ def home():
 @app.route('/calendar')
 def show_matches():
     title = 'Next Matches'
-    # cnx = mysql.connector.connect(user='root', password='milanesa',
-                                #   host='localhost', database='football')
-    cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
-    port='3306'
-    )
+    cnx = mysql.connector.connect(user='root', password='milanesa',
+                                  host='localhost', database='football')
+    # cnx = mysql.connector.connect(
+    # host='sql7.freemysqlhosting.net',
+    # database='sql7618393',
+    # user='sql7618393',
+    # password='iYNUZFVcWQ',
+    # port='3306'
+    # )
     cursor = cnx.cursor()
     current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
     current_week_end = current_week_start + datetime.timedelta(days=6)
@@ -59,15 +59,15 @@ def show_matches():
 @app.route('/results')
 def show_results():
     title = 'Results'
-    # cnx = mysql.connector.connect(user='root', password='milanesa',
-    #                               host='localhost', database='football')
-    cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
-    port='3306'
-    )
+    cnx = mysql.connector.connect(user='root', password='milanesa',
+                                  host='localhost', database='football')
+    # cnx = mysql.connector.connect(
+    # host='sql7.freemysqlhosting.net',
+    # database='sql7618393',
+    # user='sql7618393',
+    # password='iYNUZFVcWQ',
+    # port='3306'
+    # )
     cursor = cnx.cursor()
     previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=7)
     current_week_end = previous_week_start + datetime.timedelta(days=13)
@@ -158,15 +158,15 @@ def show_results():
 @app.route('/predictions')
 def show_predictions():
     title = 'Predictions'
-    # cnx = mysql.connector.connect(user='root', password='milanesa',
-    #                               host='localhost', database='football')
-    cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
-    port='3306'
-    )
+    cnx = mysql.connector.connect(user='root', password='milanesa',
+                                  host='localhost', database='football')
+    # cnx = mysql.connector.connect(
+    # host='sql7.freemysqlhosting.net',
+    # database='sql7618393',
+    # user='sql7618393',
+    # password='iYNUZFVcWQ',
+    # port='3306'
+    # )
     cursor = cnx.cursor()
     previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=7)
     current_week_start = previous_week_start + datetime.timedelta(days=7)
@@ -200,15 +200,15 @@ def show_predictions():
 def show_invest():
     title = 'Investing'
     selected_leagues =()
-    # cnx = mysql.connector.connect(user='root', password='milanesa',
-    #                               host='localhost', database='football')
-    cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
-    port='3306'
-    )
+    cnx = mysql.connector.connect(user='root', password='milanesa',
+                                  host='localhost', database='football')
+    # cnx = mysql.connector.connect(
+    # host='sql7.freemysqlhosting.net',
+    # database='sql7618393',
+    # user='sql7618393',
+    # password='iYNUZFVcWQ',
+    # port='3306'
+    # )
     cursor = cnx.cursor()
     current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
     current_week_end = current_week_start + datetime.timedelta(days=6)
@@ -243,15 +243,15 @@ def show_invest():
             inputs=(amount, num_matches)
             current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
             current_week_end = current_week_start + datetime.timedelta(days=6)
-            # cnx = mysql.connector.connect(user='root', password='milanesa',
-            #                             host='localhost', database='football')
-            cnx = mysql.connector.connect(
-                host='sql7.freemysqlhosting.net',
-                database='sql7618393',
-                user='sql7618393',
-                password='iYNUZFVcWQ',
-                port='3306'
-            )
+            cnx = mysql.connector.connect(user='root', password='milanesa',
+                                        host='localhost', database='football')
+            # cnx = mysql.connector.connect(
+            #     host='sql7.freemysqlhosting.net',
+            #     database='sql7618393',
+            #     user='sql7618393',
+            #     password='iYNUZFVcWQ',
+            #     port='3306'
+            # )
             cursor = cnx.cursor()
 
     # Query the database for the results for the current week

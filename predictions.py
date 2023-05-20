@@ -61,16 +61,16 @@ df=pd.DataFrame(columns=['id','Pos','Team','GP','W','D','L','GF','GA','GD','Pts'
 df_tabla=tabla()
 
 # Connect to the MySQL database
-# cnx = mysql.connector.connect(user='root', password='milanesa',
-#                                 host='localhost', database='football')
+cnx = mysql.connector.connect(user='root', password='milanesa',
+                                host='localhost', database='football')
 
-cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
-    port='3306'
-)
+# cnx = mysql.connector.connect(
+#     host='sql7.freemysqlhosting.net',
+#     database='sql7618393',
+#     user='sql7618393',
+#     password='iYNUZFVcWQ',
+#     port='3306'
+# )
 
 cursor = cnx.cursor()
 
@@ -83,7 +83,7 @@ current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=da
 current_week_end = current_week_start + datetime.timedelta(days=6)
 next_week_end=current_week_start + datetime.timedelta(days=13)
 query = ("SELECT DISTINCT * "
-            "FROM sql7618393.football_results "
+            "FROM football.football_results "
             "ORDER BY Date ASC"
             )
 
@@ -173,10 +173,10 @@ df_final['Created']=datetime.datetime.now()
 
 # Define the connection parameters
 # These parameters are local
-# user = 'root'
-# password = 'milanesa'
-# host = 'localhost'
-# database = 'football'
+user = 'root'
+password = 'milanesa'
+host = 'localhost'
+database = 'football'
 
 # Theses parameters are from https://www.freemysqlhosting.net/account/
 # Server = 'sql7.freemysqlhosting.net'
@@ -186,13 +186,13 @@ df_final['Created']=datetime.datetime.now()
 # Port = 3306
 
 # Define the connection URL
-connection_url = 'mysql+mysqlconnector://sql7618393:iYNUZFVcWQ@sql7.freemysqlhosting.net:3306/sql7618393'
+# connection_url = 'mysql+mysqlconnector://sql7618393:iYNUZFVcWQ@sql7.freemysqlhosting.net:3306/sql7618393'
 
 # Create the engine
-engine = create_engine(connection_url)
+# engine = create_engine(connection_url)
 
 # Create a SQLAlchemy engine to connect to the database
-# engine = create_engine(f'mysql://{user}:{password}@{host}/{database}')
+engine = create_engine(f'mysql://{user}:{password}@{host}/{database}')
 
 # Insert data from the DataFrame to MySQL
 table_name = 'predictions'

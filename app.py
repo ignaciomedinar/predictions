@@ -35,7 +35,7 @@ def show_matches():
     # Query the database for the results for the current week
     query = ("SELECT fr.*, fl.flag_url "
                 "FROM football_results fr "
-                "left join football.flags fl "
+                "left join sql7618393.flags fl "
                 "on upper(fl.Country) = upper(fr.League) "
                 "WHERE date >= %s "
                 "AND date <= %s "
@@ -76,7 +76,7 @@ def show_results():
 
     # Get all the weeks from the database
     query = ("SELECT DISTINCT concat(Year,'-W',lpad(Week,2,0)) "
-                "FROM football.football_results "
+                "FROM sql7618393.football_results "
                 "WHERE concat(year,week)<=%s%s "
                 "ORDER by concat(Year,'-W',lpad(week,2,0)) DESC"
                 )
@@ -90,7 +90,7 @@ def show_results():
 
     # Get all the teams from the database
     query = ("SELECT DISTINCT Local "
-                "FROM football.football_results "
+                "FROM sql7618393.football_results "
                 "ORDER BY Local ASC"
                 )
     cursor.execute(query)
@@ -105,10 +105,10 @@ def show_results():
         query = ("SELECT fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
                     "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
                     "then 'Correct' else 'Incorrect' end as success, fl.flag_url "
-                    "FROM football.football_results fr "
-                    "left join football.predictions_history ph "
+                    "FROM sql7618393.football_results fr "
+                    "left join sql7618393.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
-                    "left join football.flags fl "
+                    "left join sql7618393.flags fl "
                     "on upper(fl.Country) = upper(fr.League) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
@@ -121,10 +121,10 @@ def show_results():
         query = ("SELECT fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
                     "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
                     "then 'Correct' else 'Incorrect' end as success, fl.flag_url "
-                    "FROM football.football_results fr "
-                    "left join football.predictions_history ph "
+                    "FROM sql7618393.football_results fr "
+                    "left join sql7618393.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
-                    "left join football.flags fl "
+                    "left join sql7618393.flags fl "
                     "on upper(fl.Country) = upper(fr.League) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
@@ -174,10 +174,10 @@ def show_predictions():
 
     # Query the database for the results for the current week
     query = ("SELECT pr.*, r.result, r.goalslocal, r.goalsvisitor, fl.flag_url "
-                "FROM football.predictions pr "
-                "left join football.football_results r "
+                "FROM sql7618393.predictions pr "
+                "left join sql7618393.football_results r "
                 "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
-                "left join football.flags fl "
+                "left join sql7618393.flags fl "
                 "on upper(fl.Country) = upper(pr.League) "
                 "WHERE pr.date >= %s AND pr.date <= %s "
                 "ORDER BY pr.max_prob desc"
@@ -215,7 +215,7 @@ def show_invest():
 
     # Query the database for the results for the current week
     query = ("SELECT distinct League "
-                "FROM predictions "
+                "FROM sql7618393.predictions "
                 "WHERE date >= %s "
                 "ORDER BY League"
                 )
@@ -256,8 +256,8 @@ def show_invest():
 
     # Query the database for the results for the current week
             query = ("SELECT pr.*, r.result "
-                        "FROM football.predictions pr "
-                        "left join football.football_results r "
+                        "FROM sql7618393.predictions pr "
+                        "left join sql7618393.football_results r "
                         "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
                         "WHERE pr.date >= %s AND pr.date <= %s "
                         f"AND pr.league in ({selected_leagues_str}) "

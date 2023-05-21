@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 import datetime
 import math
-import statsmodels.formula.api as smf
 import mysql.connector
 from sqlalchemy import create_engine
 

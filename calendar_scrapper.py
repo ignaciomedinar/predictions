@@ -104,19 +104,19 @@ calendar = tabla()
 # print(prueba)
 
 # Connect to the MySQL database
-# conn = mysql.connector.connect(
-#     host="localhost",
-#     user="root",
-#     password="milanesa",
-#     # database="football"
-# )
 conn = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
-    port='3306'
+    host="localhost",
+    user="root",
+    password="milanesa",
+    # database="football"
 )
+# conn = mysql.connector.connect(
+#     host='sql7.freemysqlhosting.net',
+#     database='sql7618393',
+#     user='sql7618393',
+#     password='iYNUZFVcWQ',
+#     port='3306'
+# )
 cursor = conn.cursor()
 sql = 'CREATE DATABASE IF NOT EXISTS football;'
 cursor.execute(sql)
@@ -124,6 +124,7 @@ sql='USE football;'
 cursor.execute(sql)
 sql='DROP TABLE IF EXISTS football.football_results'
 cursor.execute(sql)
+
 # cursor = conn.cursor()
 # sql = 'CREATE DATABASE IF NOT EXISTS sql7618393;'
 # cursor.execute(sql)

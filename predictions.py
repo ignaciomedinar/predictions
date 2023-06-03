@@ -32,32 +32,35 @@ def tabla():
             divTag = soup.find_all('div',id="h2h-team1")
             divTaga = soup.find_all('div',id="h2h-team2")
 
-            for tag in divTag:
-                table = tag.find_all('table')
-                df_h=pd.read_html(str(table))[0]
-            c=c+1
-            print(c)
-            print(df_h)
-            df_h.columns=df_h.iloc[0]
-            df_h.drop(index=df_h.index[0],axis=0,inplace=True)
-            df_h.rename(columns = {np.nan:'Team'}, inplace=True)
-            df_h.columns = df_h.columns.fillna('Pos')
-            df_h['HA']='Home'
-            df_h['Season']=str(yr) + "-" + str(yr+1)
-            df_h['League']=country
-            df = pd.concat([df, df_h], ignore_index=True)
+            try:
+                for tag in divTag:
+                    table = tag.find_all('table')
+                    df_h=pd.read_html(str(table))[0]
+                c=c+1
+                df_h.columns=df_h.iloc[0]
+                df_h.drop(index=df_h.index[0],axis=0,inplace=True)
+                df_h.rename(columns = {np.nan:'Team'}, inplace=True)
+                df_h.columns = df_h.columns.fillna('Pos')
+                df_h['HA']='Home'
+                df_h['Season']=str(yr) + "-" + str(yr+1)
+                df_h['League']=country
+                df = pd.concat([df, df_h], ignore_index=True)
 
-            for tag in divTaga:
-                table = tag.find_all('table')
-                df_a=pd.read_html(str(table))[0]
-            df_a.columns=df_a.iloc[0]
-            df_a.drop(index=df_a.index[0],axis=0,inplace=True)
-            df_a.rename(columns = {np.nan:'Team'}, inplace=True)
-            df_a.columns = df_a.columns.fillna('Pos')
-            df_a['HA']='Away'
-            df_a['Season']=str(yr) + "-" + str(yr+1)
-            df_a['League']=country
-            df = pd.concat([df, df_a], ignore_index=True)
+                for tag in divTaga:
+                    table = tag.find_all('table')
+                    df_a=pd.read_html(str(table))[0]
+                df_a.columns=df_a.iloc[0]
+                df_a.drop(index=df_a.index[0],axis=0,inplace=True)
+                df_a.rename(columns = {np.nan:'Team'}, inplace=True)
+                df_a.columns = df_a.columns.fillna('Pos')
+                df_a['HA']='Away'
+                df_a['Season']=str(yr) + "-" + str(yr+1)
+                df_a['League']=country
+                df = pd.concat([df, df_a], ignore_index=True)
+                df_h.drop(df_h.index , inplace=True)
+                df_a.drop(df_a.index , inplace=True)
+            except:
+                print("Missed: "+country+" - "+str(yr))
         yr=yr+1
     return(df)
 

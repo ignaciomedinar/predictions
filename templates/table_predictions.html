@@ -51,7 +51,11 @@
             <td>{{ prediction.Visitor }}</td>
             <td>{{ prediction.bet }}</td>
             <!-- <td>{{ "%.2f" % prediction.max_prob }}</td> -->
-            <td>{{ '%.1f' %  (prediction.max_prob * 100) }} %</td>
+            <td>
+                {% if prediction.max_prob is not none %}
+                  {{ '%.1f' % (prediction.max_prob * 100) }} %
+                {% endif %}
+            </td>
             <td>{{ prediction.result }}</td>
         </tr>
         {% endfor %}

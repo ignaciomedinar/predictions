@@ -8,12 +8,13 @@ import statsmodels.formula.api as smf
 import mysql.connector
 from sqlalchemy import create_engine
 
-url='https://www.soccerstats.com/'
+url='https://www.soccerstats.com'
 leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal')
 actualyear = datetime.date.today().strftime("%Y")
 
 '''Función de scrapping'''
 def tabla():
+    c=0
     df=pd.DataFrame()
     yr=int(actualyear)-1
     while yr<=int(actualyear):
@@ -34,6 +35,9 @@ def tabla():
             for tag in divTag:
                 table = tag.find_all('table')
                 df_h=pd.read_html(str(table))[0]
+            c=c+1
+            print(c)
+            print(df_h)
             df_h.columns=df_h.iloc[0]
             df_h.drop(index=df_h.index[0],axis=0,inplace=True)
             df_h.rename(columns = {np.nan:'Team'}, inplace=True)

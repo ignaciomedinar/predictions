@@ -59,8 +59,8 @@ def tabla():
 
                 # Scrape dates and teams with scores
                 table = soup.find('table', id='btable')
-                rows = table.find_all('tr')
                 try:
+                    rows = table.find_all('tr')
                     for row in range(0,len(rows)):
                         if len(rows[row].find_all('td')[0].get_text(strip=True))>3:
                             dt = rows[row].find_all('td')[0].get_text(strip=True)
@@ -94,7 +94,7 @@ def tabla():
                             
                             df.loc[len(df)] = new_row
                 except:
-                    print(country+str(yr)+str(mt)+": No record")
+                    print(country+str(yr)+" - "+str(mt)+": No record")
         yr=yr+1
                     
     return(df)

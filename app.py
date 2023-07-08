@@ -59,14 +59,26 @@ def show_matches():
 @app.route('/results')
 def show_results():
     title = 'Results'
-    cnx = mysql.connector.connect(user='root', password='milanesa',
-                                  host='localhost', database='football')
+    # # local
+    # cnx = mysql.connector.connect(user='root', password='milanesa',
+    #                               host='localhost', database='football')
+    ## free my sql hosting
     # cnx = mysql.connector.connect(
     # host='sql7.freemysqlhosting.net',
     # database='sql7618393',
     # user='sql7618393',
     # password='iYNUZFVcWQ',
     # port='3306'
+    # )
+    
+    ## heroku db
+    cnx = mysql.connector.connect(
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
+    port='3306'
+    )
     # )
     cursor = cnx.cursor()
     previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=7)

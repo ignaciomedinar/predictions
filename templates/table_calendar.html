@@ -3,59 +3,99 @@
 <div class="search-container">
     <input type="text" placeholder="Search team..." id="search-input">
 </div>
-<table>
-    <thead>
+
+<div class="overflow-auto rounded-lg shadow hidden md:block">
+
+<table class="w-full">
+    <thead class="bg-gray-50 border-b-2 border-gray-200">
+        <!-- inline invisible md:visible -->
         <tr>
-            <th data-sort-by="league">League <br>
+            <th class="p-3 text-sm font-semibold tracking-wide text-left" data-sort-by="league">League <br>
                 <select class="filter-header" data-col-index="0">
                     <option value="">All</option>
                 </select>
             </th>
             
-            <th>Week
+            <th class="p-3 text-sm font-semibold tracking-wide text-left">Week
                 <!-- <select class="filter-header" data-col-index="1">
                     <option value="">All</option>
                 </select> -->
             </th>
-            <th>Date <br>
+            <th class="p-3 text-sm font-semibold tracking-wide text-left">Date <br>
                 <select class="filter-header" data-col-index="2">
                     <option value="">All</option>
                 </select>
             </th>
-            <th>Local <br>
+            <th class="p-3 text-sm font-semibold tracking-wide text-left">Local <br>
                 <select class="filter-header" data-col-index="3">
                     <option value="">All</option>
                 </select>
             </th>
-            <!-- <th>Goals Local
+            <!-- <th class="p-3 text-sm font-semibold tracking-wide text-left">Goals Local
                 <select class="filter-header" data-col-index="4">
                     <option value="">All</option>
                 </select>
             </th>
-            <th>Goals Visitor
+            <th class="p-3 text-sm font-semibold tracking-wide text-left">Goals Visitor
                 <select class="filter-header" data-col-index="5">
                     <option value="">All</option>
                 </select>
             </th> -->
-            <th>Visitor <br>
+            <th class="p-3 text-sm font-semibold tracking-wide text-left">Visitor <br>
                 <select class="filter-header" data-col-index="6">
                     <option value="">All</option>
                 </select>
             </th>
         </tr>
     </thead>
-    <tbody id="table-body">
+    <tbody class="bg-white" id="table-body">
+        <!-- inline md:block -->
         {% for match in matches %}
         <tr>
-            <td><img src="{{ match.flag_url }}" alt="{{ match.League }}"><br/>{{ match.League }}</td>
-            <td>{{ match.Week }}</td>
-            <td>{{ match.Date }}</td>
-            <td>{{ match.Local }}</td>
-            <!-- <td class="local">{{ match.Goalslocal }}</td>
-            <td class="visitor">{{ match.Goalsvisitor }}</td> -->
-            <td>{{ match.Visitor }}</td>
+            <td class="inline-flex items-end p-3 text-sm text-gray-700 whitespace-nowrap"><img class="w-7 h-7 rounded-full  mx-2" src="{{ match.flag_url }}" alt="{{ match.League }}">
+                <span class="visible md:hidden">League: </span><br/>{{ match.League }}</td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">{{ match.Week }}</td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">{{ match.Date }}</td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">{{ match.Local }}</td>
+            <!-- <td class="p-3 text-sm text-gray-700 whitespace-nowrap " class="local">{{ match.Goalslocal }}</td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap " class="visitor">{{ match.Goalsvisitor }}</td> -->
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">{{ match.Visitor }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
+    {% set grouped_matches = matches | sort(attribute='League') | groupby('Date') %}
+    {% for date_group, matches_by_date in grouped_matches %}
+      {% set matches_by_league = matches_by_date | groupby('League') %}
+      {% for league_group, matches in matches_by_league %}
+        <div class="bg-white p-4 rounded-lg shadow">
+          <div class="flex items-center space-x-3 justify-between">
+            {% for match in matches %}
+            {% if loop.first %}
+              <div>
+                <img class="w-7 h-7 rounded-full  mx-2" src="{{ match.flag_url }}" alt="{{ match.League }}">
+            </div>
+            {% endif %}
+            {% endfor %}
+            <div class="">{{ league_group }}</div>
+            <div>{{ date_group }}</div>
+          </div>
+          <div class="flex items-center m-2 justify-between p-2">
+            <div>Local</div>
+            <div>Visitor</div>
+          </div>
+          {% for match in matches %}
+          <div class="m-2 text-gray-700 text-sm flex justify-between px-2">
+            <span class="text-left">{{ match.Local }}</span> 
+            <span class="text-right">{{ match.Visitor }}</span>
+          </div>
+          
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div>    
 {% endblock %}

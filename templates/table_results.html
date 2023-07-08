@@ -23,7 +23,7 @@
 {% if correct == 0 %}
     <div>Effectiveness: N/A</div>
 {% else %}
-    <div class="cont">Effectiveness: <b>{{ '%.2f' % ((incorrect/correct)*100) }} %</b></div>
+    <div class="cont">Effectiveness: <b>{{ '%.2f' % ((correct/(incorrect+correct))*100) }} %</b></div>
 {% endif %}
 
 <table>
@@ -65,7 +65,7 @@
     <tbody>
         {% for result in results %}
         <tr>
-            <td><img src="{{ result.flag_url }}" alt="{{ result.League }}"></img> <br/>{{ result.League }}</td>
+            <td><img class="w-7 h-7 rounded-full  mx-2" src="{{ result.flag_url }}" alt="{{ result.League }}""></img> <br/>{{ result.League }}</td>
             <td>{{ result.Week }}</td>
             <td>{{ result.Date }}</td>
             <td>{{ result.Local }}</td>

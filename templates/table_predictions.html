@@ -6,7 +6,7 @@
 <div class="search-container">
     <input type="text" placeholder="Search team..." id="search-input">
 </div>
-<table>
+<table class="table table-hover">
     <thead>
         <tr>
             <th>League<br>
@@ -40,10 +40,9 @@
     <tbody>
         {% for prediction in predictions %}
         <tr>
-            <td><img src="{{ prediction.flag_url }}" alt="{{ prediction.League }}"><br/>{{ prediction.League }}</td>
-            <!-- <td>{{ prediction.Round }}</td> -->
-            <!-- <td>{{ prediction.Week }}</td> -->
-            <!-- <td>{{ prediction.Year }}</td> -->
+            <td>
+                <span class="header-text">League: </span> <span class="value-text"></span><img class="w-7 h-7 rounded-full  mx-2" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}"><br/>{{ prediction.League }}</span>
+            </td>
             <td>{{ prediction.Date }}</td>
             <td>{{ prediction.Local }}</td>
             <td class="local">{{ prediction.phg | int }} <br> {{ prediction.goalslocal }} </td>

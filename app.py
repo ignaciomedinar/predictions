@@ -20,11 +20,12 @@ def show_matches():
     title = 'Next Matches'
     # cnx = mysql.connector.connect(user='root', password='milanesa',
                                 #   host='localhost', database='football')
+     ## heroku db
     cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
     port='3306'
     )
     cursor = cnx.cursor()
@@ -35,7 +36,7 @@ def show_matches():
     # Query the database for the results for the current week
     query = ("SELECT fr.*, fl.flag_url "
                 "FROM football_results fr "
-                "left join sql7618393.flags fl "
+                "left join heroku_f8c05e23b7aa26a.flags fl "
                 "on upper(fl.Country) = upper(fr.League) "
                 "WHERE date >= %s "
                 "AND date <= %s "
@@ -61,11 +62,12 @@ def show_results():
     title = 'Results'
     # cnx = mysql.connector.connect(user='root', password='milanesa',
     #                               host='localhost', database='football')
+     ## heroku db
     cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
     port='3306'
     )
     cursor = cnx.cursor()
@@ -76,7 +78,7 @@ def show_results():
 
     # Get all the weeks from the database
     query = ("SELECT DISTINCT concat(Year,'-W',lpad(Week,2,0)) "
-                "FROM sql7618393.football_results "
+                "FROM heroku_f8c05e23b7aa26a.football_results "
                 "WHERE concat(year,week)<=%s%s "
                 "ORDER by concat(Year,'-W',lpad(week,2,0)) DESC"
                 )
@@ -90,7 +92,7 @@ def show_results():
 
     # Get all the teams from the database
     query = ("SELECT DISTINCT Local "
-                "FROM sql7618393.football_results "
+                "FROM heroku_f8c05e23b7aa26a.football_results "
                 "ORDER BY Local ASC"
                 )
     cursor.execute(query)
@@ -105,10 +107,10 @@ def show_results():
         query = ("SELECT fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
                     "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
                     "then 'Correct' else 'Incorrect' end as success, fl.flag_url "
-                    "FROM sql7618393.football_results fr "
-                    "left join sql7618393.predictions_history ph "
+                    "FROM heroku_f8c05e23b7aa26a.football_results fr "
+                    "left join heroku_f8c05e23b7aa26a.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
-                    "left join sql7618393.flags fl "
+                    "left join heroku_f8c05e23b7aa26a.flags fl "
                     "on upper(fl.Country) = upper(fr.League) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
@@ -121,10 +123,10 @@ def show_results():
         query = ("SELECT fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
                     "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
                     "then 'Correct' else 'Incorrect' end as success, fl.flag_url "
-                    "FROM sql7618393.football_results fr "
-                    "left join sql7618393.predictions_history ph "
+                    "FROM heroku_f8c05e23b7aa26a.football_results fr "
+                    "left join heroku_f8c05e23b7aa26a.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
-                    "left join sql7618393.flags fl "
+                    "left join heroku_f8c05e23b7aa26a.flags fl "
                     "on upper(fl.Country) = upper(fr.League) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
@@ -160,11 +162,12 @@ def show_predictions():
     title = 'Predictions'
     # cnx = mysql.connector.connect(user='root', password='milanesa',
     #                               host='localhost', database='football')
+     ## heroku db
     cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
     port='3306'
     )
     cursor = cnx.cursor()
@@ -174,10 +177,10 @@ def show_predictions():
 
     # Query the database for the results for the current week
     query = ("SELECT pr.*, r.result, r.goalslocal, r.goalsvisitor, fl.flag_url "
-                "FROM sql7618393.predictions pr "
-                "left join sql7618393.football_results r "
+                "FROM heroku_f8c05e23b7aa26a.predictions pr "
+                "left join heroku_f8c05e23b7aa26a.football_results r "
                 "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
-                "left join sql7618393.flags fl "
+                "left join heroku_f8c05e23b7aa26a.flags fl "
                 "on upper(fl.Country) = upper(pr.League) "
                 "WHERE pr.date >= %s AND pr.date <= %s "
                 "ORDER BY pr.max_prob desc"
@@ -202,11 +205,12 @@ def show_invest():
     selected_leagues =()
     # cnx = mysql.connector.connect(user='root', password='milanesa',
     #                               host='localhost', database='football')
+     ## heroku db
     cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
     port='3306'
     )
     cursor = cnx.cursor()
@@ -215,7 +219,7 @@ def show_invest():
 
     # Query the database for the results for the current week
     query = ("SELECT distinct League "
-                "FROM sql7618393.predictions "
+                "FROM heroku_f8c05e23b7aa26a.predictions "
                 "WHERE date >= %s "
                 "ORDER BY League"
                 )
@@ -245,19 +249,20 @@ def show_invest():
             current_week_end = current_week_start + datetime.timedelta(days=6)
             # cnx = mysql.connector.connect(user='root', password='milanesa',
             #                             host='localhost', database='football')
+            ## heroku db
             cnx = mysql.connector.connect(
-                host='sql7.freemysqlhosting.net',
-                database='sql7618393',
-                user='sql7618393',
-                password='iYNUZFVcWQ',
-                port='3306'
+            host='eu-cdbr-west-03.cleardb.net',
+            database='heroku_f8c05e23b7aa26a',
+            user='b1bb4e88305bd5',
+            password='b6aa7ee8',
+            port='3306'
             )
             cursor = cnx.cursor()
 
     # Query the database for the results for the current week
             query = ("SELECT pr.*, r.result "
-                        "FROM sql7618393.predictions pr "
-                        "left join sql7618393.football_results r "
+                        "FROM heroku_f8c05e23b7aa26a.predictions pr "
+                        "left join heroku_f8c05e23b7aa26a.football_results r "
                         "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
                         "WHERE pr.date >= %s AND pr.date <= %s "
                         f"AND pr.league in ({selected_leagues_str}) "

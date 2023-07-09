@@ -18,8 +18,8 @@ def home():
 @app.route('/calendar')
 def show_matches():
     title = 'Next Matches'
-    cnx = mysql.connector.connect(user='root', password='milanesa',
-                                  host='localhost', database='football')
+    # cnx = mysql.connector.connect(user='root', password='milanesa',
+    #                               host='localhost', database='football')
     # cnx = mysql.connector.connect(
     # host='sql7.freemysqlhosting.net',
     # database='sql7618393',
@@ -27,6 +27,16 @@ def show_matches():
     # password='iYNUZFVcWQ',
     # port='3306'
     # )
+
+    ## heroku db
+    cnx = mysql.connector.connect(
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
+    port='3306'
+    )
+
     cursor = cnx.cursor()
     current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
     current_week_end = current_week_start + datetime.timedelta(days=6)
@@ -170,8 +180,8 @@ def show_results():
 @app.route('/predictions')
 def show_predictions():
     title = 'Predictions'
-    cnx = mysql.connector.connect(user='root', password='milanesa',
-                                  host='localhost', database='football')
+    # cnx = mysql.connector.connect(user='root', password='milanesa',
+    #                               host='localhost', database='football')
     # cnx = mysql.connector.connect(
     # host='sql7.freemysqlhosting.net',
     # database='sql7618393',
@@ -179,6 +189,16 @@ def show_predictions():
     # password='iYNUZFVcWQ',
     # port='3306'
     # )
+
+    ## heroku db
+    cnx = mysql.connector.connect(
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
+    port='3306'
+    )
+
     cursor = cnx.cursor()
     previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=7)
     current_week_start = previous_week_start + datetime.timedelta(days=7)
@@ -212,8 +232,8 @@ def show_predictions():
 def show_invest():
     title = 'Investing'
     selected_leagues =()
-    cnx = mysql.connector.connect(user='root', password='milanesa',
-                                  host='localhost', database='football')
+    # cnx = mysql.connector.connect(user='root', password='milanesa',
+    #                               host='localhost', database='football')
     # cnx = mysql.connector.connect(
     # host='sql7.freemysqlhosting.net',
     # database='sql7618393',
@@ -221,6 +241,16 @@ def show_invest():
     # password='iYNUZFVcWQ',
     # port='3306'
     # )
+
+     ## heroku db
+    cnx = mysql.connector.connect(
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
+    port='3306'
+    )
+
     cursor = cnx.cursor()
     current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
     current_week_end = current_week_start + datetime.timedelta(days=6)

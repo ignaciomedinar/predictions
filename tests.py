@@ -9,13 +9,22 @@ import datetime
 import mysql.connector
 import pandas as pd
 
+# cnx = mysql.connector.connect(
+#     host='sql7.freemysqlhosting.net',
+#     database='sql7618393',
+#     user='sql7618393',
+#     password='iYNUZFVcWQ',
+#     port='3306'
+# )
+
+    ## heroku db
 cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
     port='3306'
-)
+    )
 
 cursor = cnx.cursor()
 
@@ -31,18 +40,17 @@ cursor = cnx.cursor()
 # )
 # """
 
-query = ("SELECT DISTINCT * "
-            "FROM sql7618393.flags "
-            )
-
-cal_df=pd.read_sql(query,cnx)
-print(cal_df)
-
-
 # # Insert the DataFrame data into the table
 # insert_query = "INSERT INTO flags (Country, alpha2code, alpha3code, numeric_code, flag_url) VALUES (%s, %s, %s, %s, %s)"
 # data = empdata.values.tolist()
 # cursor.executemany(insert_query, data)
+
+query = ("SELECT DISTINCT * "
+            "FROM heroku_f8c05e23b7aa26a.flags "
+            )
+
+cal_df=pd.read_sql(query,cnx)
+print(cal_df)
 
 # cnx.commit()
 cursor.close()

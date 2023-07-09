@@ -67,9 +67,9 @@ def tabla():
 df=pd.DataFrame(columns=['id','Pos','Team','GP','W','D','L','GF','GA','GD','Pts','HA','Season','League'])
 df_tabla=tabla()
 
-# Connect to the MySQL database
-cnx = mysql.connector.connect(user='root', password='milanesa',
-                                host='localhost', database='football')
+# # Connect to the MySQL database
+# cnx = mysql.connector.connect(user='root', password='milanesa',
+#                                 host='localhost', database='football')
 
 # cnx = mysql.connector.connect(
 #     host='sql7.freemysqlhosting.net',
@@ -78,6 +78,14 @@ cnx = mysql.connector.connect(user='root', password='milanesa',
 #     password='iYNUZFVcWQ',
 #     port='3306'
 # )
+# heroku con
+cnx =mysql.connector.connect(
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
+    port='3306'
+)
 
 cursor = cnx.cursor()
 
@@ -90,7 +98,7 @@ current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=da
 current_week_end = current_week_start + datetime.timedelta(days=6)
 next_week_end=current_week_start + datetime.timedelta(days=13)
 query = ("SELECT DISTINCT * "
-            "FROM football.football_results "
+            "FROM heroku_f8c05e23b7aa26a.football_results " # football
             "ORDER BY Date ASC"
             )
 
@@ -178,12 +186,12 @@ df_final=df_week[['League', 'Round', 'Week', 'Year', 'Date', 'Local', 'Visitor',
 df_final=df_final.round({'phg': 0, 'pag': 0})
 df_final['Created']=datetime.datetime.now()
 
-# Define the connection parameters
-# These parameters are local
-user = 'root'
-password = 'milanesa'
-host = 'localhost'
-database = 'football'
+# # Define the connection parameters
+# # These parameters are local
+# user = 'root'
+# password = 'milanesa'
+# host = 'localhost'
+# database = 'football'
 
 # Theses parameters are from https://www.freemysqlhosting.net/account/
 # Server = 'sql7.freemysqlhosting.net'
@@ -198,8 +206,14 @@ database = 'football'
 # Create the engine
 # engine = create_engine(connection_url)
 
-# Create a SQLAlchemy engine to connect to the database
-engine = create_engine(f'mysql://{user}:{password}@{host}/{database}')
+# Define the connection URL
+connection_url = 'mysql://b1bb4e88305bd5:b6aa7ee8@eu-cdbr-west-03.cleardb.net/heroku_f8c05e23b7aa26a' #?reconnect=true
+
+# Create the engine
+engine = create_engine(connection_url) 
+
+# # Create a SQLAlchemy engine to connect to the database
+# engine = create_engine(f'mysql://{user}:{password}@{host}/{database}')
 
 # Insert data from the DataFrame to MySQL
 table_name = 'predictions'

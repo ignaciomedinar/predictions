@@ -4,15 +4,17 @@ import pandas as pd
 import numpy as np
 import datetime
 import math
+import statsmodels.formula.api as smf
 import mysql.connector
 from sqlalchemy import create_engine
 
-url='https://www.soccerstats.com/'
+url='https://www.soccerstats.com'
 leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal')
 actualyear = datetime.date.today().strftime("%Y")
 
 '''Función de scrapping'''
 def tabla():
+    c=0
     df=pd.DataFrame()
     yr=int(actualyear)-1
     while yr<=int(actualyear):
@@ -30,44 +32,58 @@ def tabla():
             divTag = soup.find_all('div',id="h2h-team1")
             divTaga = soup.find_all('div',id="h2h-team2")
 
-            for tag in divTag:
-                table = tag.find_all('table')
-                df_h=pd.read_html(str(table))[0]
-            df_h.columns=df_h.iloc[0]
-            df_h.drop(index=df_h.index[0],axis=0,inplace=True)
-            df_h.rename(columns = {np.nan:'Team'}, inplace=True)
-            df_h.columns = df_h.columns.fillna('Pos')
-            df_h['HA']='Home'
-            df_h['Season']=str(yr) + "-" + str(yr+1)
-            df_h['League']=country
-            df = pd.concat([df, df_h], ignore_index=True)
+            try:
+                for tag in divTag:
+                    table = tag.find_all('table')
+                    df_h=pd.read_html(str(table))[0]
+                c=c+1
+                df_h.columns=df_h.iloc[0]
+                df_h.drop(index=df_h.index[0],axis=0,inplace=True)
+                df_h.rename(columns = {np.nan:'Team'}, inplace=True)
+                df_h.columns = df_h.columns.fillna('Pos')
+                df_h['HA']='Home'
+                df_h['Season']=str(yr) + "-" + str(yr+1)
+                df_h['League']=country
+                df = pd.concat([df, df_h], ignore_index=True)
 
-            for tag in divTaga:
-                table = tag.find_all('table')
-                df_a=pd.read_html(str(table))[0]
-            df_a.columns=df_a.iloc[0]
-            df_a.drop(index=df_a.index[0],axis=0,inplace=True)
-            df_a.rename(columns = {np.nan:'Team'}, inplace=True)
-            df_a.columns = df_a.columns.fillna('Pos')
-            df_a['HA']='Away'
-            df_a['Season']=str(yr) + "-" + str(yr+1)
-            df_a['League']=country
-            df = pd.concat([df, df_a], ignore_index=True)
+                for tag in divTaga:
+                    table = tag.find_all('table')
+                    df_a=pd.read_html(str(table))[0]
+                df_a.columns=df_a.iloc[0]
+                df_a.drop(index=df_a.index[0],axis=0,inplace=True)
+                df_a.rename(columns = {np.nan:'Team'}, inplace=True)
+                df_a.columns = df_a.columns.fillna('Pos')
+                df_a['HA']='Away'
+                df_a['Season']=str(yr) + "-" + str(yr+1)
+                df_a['League']=country
+                df = pd.concat([df, df_a], ignore_index=True)
+                df_h.drop(df_h.index , inplace=True)
+                df_a.drop(df_a.index , inplace=True)
+            except:
+                print("Missed: "+country+" - "+str(yr))
         yr=yr+1
     return(df)
 
 df=pd.DataFrame(columns=['id','Pos','Team','GP','W','D','L','GF','GA','GD','Pts','HA','Season','League'])
 df_tabla=tabla()
 
-# Connect to the MySQL database
+# # Connect to the MySQL database
 # cnx = mysql.connector.connect(user='root', password='milanesa',
 #                                 host='localhost', database='football')
 
-cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
+# cnx = mysql.connector.connect(
+#     host='sql7.freemysqlhosting.net',
+#     database='sql7618393',
+#     user='sql7618393',
+#     password='iYNUZFVcWQ',
+#     port='3306'
+# )
+# heroku con
+cnx =mysql.connector.connect(
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
     port='3306'
 )
 
@@ -82,7 +98,7 @@ current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=da
 current_week_end = current_week_start + datetime.timedelta(days=6)
 next_week_end=current_week_start + datetime.timedelta(days=13)
 query = ("SELECT DISTINCT * "
-            "FROM sql7618393.football_results "
+            "FROM heroku_f8c05e23b7aa26a.football_results " # football
             "ORDER BY Date ASC"
             )
 
@@ -170,8 +186,8 @@ df_final=df_week[['League', 'Round', 'Week', 'Year', 'Date', 'Local', 'Visitor',
 df_final=df_final.round({'phg': 0, 'pag': 0})
 df_final['Created']=datetime.datetime.now()
 
-# Define the connection parameters
-# These parameters are local
+# # Define the connection parameters
+# # These parameters are local
 # user = 'root'
 # password = 'milanesa'
 # host = 'localhost'
@@ -185,12 +201,18 @@ df_final['Created']=datetime.datetime.now()
 # Port = 3306
 
 # Define the connection URL
-connection_url = 'mysql+mysqlconnector://sql7618393:iYNUZFVcWQ@sql7.freemysqlhosting.net:3306/sql7618393'
+# connection_url = 'mysql+mysqlconnector://sql7618393:iYNUZFVcWQ@sql7.freemysqlhosting.net:3306/sql7618393'
 
 # Create the engine
-engine = create_engine(connection_url)
+# engine = create_engine(connection_url)
 
-# Create a SQLAlchemy engine to connect to the database
+# Define the connection URL
+connection_url = 'mysql://b1bb4e88305bd5:b6aa7ee8@eu-cdbr-west-03.cleardb.net/heroku_f8c05e23b7aa26a' #?reconnect=true
+
+# Create the engine
+engine = create_engine(connection_url) 
+
+# # Create a SQLAlchemy engine to connect to the database
 # engine = create_engine(f'mysql://{user}:{password}@{host}/{database}')
 
 # Insert data from the DataFrame to MySQL

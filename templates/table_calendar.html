@@ -3,10 +3,10 @@
 <div class="search-container">
     <input type="text" placeholder="Search team..." id="search-input">
 </div>
-<table>
+<table class="table table-hover">
     <thead>
         <tr>
-            <th data-sort-by="league">League <br>
+            <th scope="col" data-sort-by="league">League <br>
                 <select class="filter-header" data-col-index="0">
                     <option value="">All</option>
                 </select>
@@ -58,4 +58,37 @@
         {% endfor %}
     </tbody>
 </table>
+<div class="card mobile-card">
+    {% set grouped_matches = matches | sort(attribute='League') | groupby('Date') %}
+    {% for date_group, matches_by_date in grouped_matches %}
+      {% set matches_by_league = matches_by_date | groupby('League') %}
+      {% for league_group, matches in matches_by_league %}
+        <div class="p-4 m-2 rounded-lg shadow">
+          <div class="d-flex justify-content-around">
+            {% for match in matches %}
+            {% if loop.first %}
+              <div>
+                <img class="w-7 h-7 rounded-full mx-2" src="{{ match.flag_url }}" alt="{{ match.League }}">
+            </div>
+            {% endif %}
+            {% endfor %}
+            <div class="">{{ league_group }}</div>
+            <div>{{ date_group }}</div>
+          </div>
+          <div class="d-flex justify-content-around m-2 p-2">
+            <div>Local</div>
+            <div>Visitor</div>
+          </div>
+          {% for match in matches %}
+          <div class="m-2 d-flex justify-content-around px-2">
+            <span class="justify-content-start">{{ match.Local }}</span> 
+            <span class="text-center">-</span>
+            <span class="justify-content-end">{{ match.Visitor }}</span>
+          </div>
+          
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div> 
 {% endblock %}

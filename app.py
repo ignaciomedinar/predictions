@@ -9,10 +9,10 @@ app = Flask(__name__)
 def home():
     title = 'Welcome'
     message='Goal Genius is a platform that offers football result predictions on football matches from \
-        the most significant Leagues. It also provides Dates, Results, and the Next Matches that will \
+        the most significant Leagues. It also provides Dates, Results, and the Matches that will \
         take place in the next 4 months.<br><br> \
         The predictions are based \
-        on a statistic model considering goals scored and received by teams in the last two years.'
+        on a statistic model considering goals scored and goals received by teams in the last two years.'
     return render_template('base.html', title=title, message=message)
 
 @app.route('/calendar')

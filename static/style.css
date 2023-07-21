@@ -1,6 +1,6 @@
 /* General */
 
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&family=Roboto:wght@100;300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Roboto:wght@100;300;400;500;700&display=swap');
 
 :root{
   --blue:rgb(33, 158, 188);
@@ -9,7 +9,7 @@
 }
 
 *{
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open+Sans', sans-serif;
 }
 
 a {

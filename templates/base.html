@@ -11,6 +11,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WRCQ41KVM8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WRCQ41KVM8');
+</script>
 <body>
     <header class="shadow-sm header">
         <div class="container">
@@ -44,7 +53,7 @@
 
     <main class="main">
         <div class="container">
-            <h1 class="title">{{ title }}</h1>
+            <h1 class="title m-4">{{ title }}</h1>
             {% block main %}
             <p class="message">{{ message | safe }}</p>
             <div class="btn btn-primary"><a href="predictions">Go to week's predictions</a></div>

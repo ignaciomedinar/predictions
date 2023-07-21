@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block main %}
 <form method="POST" action="/invest">
-    <div class="cont">
-        <label for="amount">Amount:</label>
+    <div class="cont d-flex">
         <input type="text" id="amount" name="amount"><br>
+        <label for="amount">Amount ($,€,£,¥)</label>
     </div>
-    <div class="cont">
-        <label for="num_matches">Number of Matches:</label>
+    <div class="cont d-flex">
         <input type="number" id="num_matches" name="num_matches" min="1" max="20">
+        <label for="num_matches">Number of Matches to invest</label>
     </div>
     <div class="row">
         <div class="col-sm-4">

@@ -4,7 +4,7 @@
 <h3>Week Start: {{ selected_week_start.strftime('%Y-%m-%d') }}</h3>
 {% endif %}
 <div class="search-container">
-    <input type="text" placeholder="Search team..." id="search-input">
+    <input class="form-control" type="text" placeholder="Search team..." id="search-input">
 </div>
 <div class="cont">
     <form action="{{ url_for('show_results') }}" method="get">
@@ -23,7 +23,7 @@
 {% if correct == 0 %}
     <div>Effectiveness: N/A</div>
 {% else %}
-    <div class="cont">Effectiveness: <b>{{ '%.2f' % ((incorrect/correct)*100) }} %</b></div>
+    <div class="cont">Effectiveness: <b>{{ '%.2f' % ((correct/(correct+incorrect))*100) }} %</b></div>
 {% endif %}
 
 <table>

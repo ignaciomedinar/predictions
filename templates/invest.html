@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 {% block main %}
-<form method="POST" action="/invest">
-    <div class="cont d-flex">
-        <input type="text" id="amount" name="amount"><br>
-        <label for="amount">Amount ($,€,£,¥)</label>
+<form method="POST" action="/invest" class="mb-2">
+    <div class="cont col-4">
+        <div class="form-floating">
+            <input class="form-control" type="text" id="amount" name="amount" placeholder="Amount">
+            <label for="amount" class="form-text">Any currency ($,€,£,¥)</label>
+        </div>
     </div>
-    <div class="cont d-flex">
-        <input type="number" id="num_matches" name="num_matches" min="1" max="20">
-        <label for="num_matches">Number of Matches to invest</label>
+    <div class="cont col-4">
+        <div class="form-floating">
+            <input class="form-control" type="text" id="num_matches" name="num_matches" min="1" max="20" placeholder="Games">
+            <label class="form-text" for="num_matches">Number of Matches to invest</label>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
-    <div class="form-check">
+    <div class="form-check m-2">
         <input class="form-check-input" type="checkbox" id="check-all" checked>
         <label class="form-check-label" for="check-all">
             Check/Uncheck All
@@ -40,7 +44,7 @@
       </div>
     </div>
     
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="m-2">
 
 </form>
 
@@ -49,7 +53,7 @@
     <div>Amount desired to bet: <b>{{ inputs[0] }}</b></div>
     <div>Matches to bet: <b>{{ inputs[1] }}</b></div>
     <div>Leagues selected: <b>{% for selected_league in selected_leagues %} {{ selected_league }}, {% endfor %}</b></div>
-    <table>
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>League <br>

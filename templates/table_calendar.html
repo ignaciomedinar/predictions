@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block main %}
-<div class="search-container">
-    <input class="form-control" type="text" placeholder="Search team..." id="search-input">
+<!-- <div class="d-flex justify-content-center"> -->
+<div class="search-container col-6">
+    <input class="form-control " type="text" placeholder="Search team..." id="search-input">
 </div>
+<!-- </div> -->
 <table class="table table-hover">
     <thead>
         <tr>
@@ -46,7 +48,7 @@
     </thead>
     <tbody id="table-body">
         {% for match in matches %}
-        <tr>
+        <tr class="search-teams">
             <td><img src="{{ match.flag_url }}" alt="{{ match.League }}"><br/>{{ match.League }}</td>
             <td>{{ match.Week }}</td>
             <td>{{ match.Date }}</td>
@@ -80,7 +82,7 @@
             <div>Visitor</div>
           </div>
           {% for match in matches %}
-          <div class="m-2 d-flex justify-content-around px-2">
+          <div class="m-2 d-flex justify-content-around px-2 search-teams" id="card-teams">
             <span class="col-5 text-center">{{ match.Local }}</span> 
             <span class="col text-center">-</span>
             <span class="col-5 text-center">{{ match.Visitor }}</span>

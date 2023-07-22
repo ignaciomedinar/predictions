@@ -10,6 +10,7 @@
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/png" href="static/logo-test2.jpg"/>
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WRCQ41KVM8"></script>
@@ -24,7 +25,7 @@
     <header class="shadow-sm header">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand" href="/"><img src="static/goal_genius.png" alt="Goal Genius"></a>
+                <a class="navbar-brand" href="/"><img class="shadow-sm" src="static/logo-test.jpg" alt="Goal Genius"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -56,8 +57,10 @@
             <h1 class="title m-4">{{ title }}</h1>
             {% block main %}
             <p class="message">{{ message | safe }}</p>
-            <div class="btn btn-primary"><a href="predictions">Go to week's predictions</a></div>
-            <div class="btn btn-primary"><a href="results">Go to previous week's results</a></div>
+            <div class="buttons d-flex justify-content-center m-4">
+                <div class="btn btn-primary p-4 m-2"><i class="fa-solid fa-wand-magic-sparkles"></i><br><a href="predictions">Go to week's predictions</a></div>
+                <div class="btn btn-primary p-4 m-2"><i class="fa-regular fa-calendar"></i><br>Go to previous week's results</a></div>
+            </div>
             {% endblock %}
         </div>
     </main>

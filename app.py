@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import mysql.connector
 import datetime
 from dateutil.relativedelta import relativedelta
+import calendar
 
 app = Flask(__name__)
 
@@ -88,7 +89,11 @@ def show_results():
     last_dates_week=[first + datetime.timedelta(days=6) for first in first_dates_week]
 
     selected_week_start = request.args.get('week')
-    
+    di=[x.day for x in first_dates_week]
+    df=[x.day for x in last_dates_week]
+    mi = [x.strftime("%b") for x in first_dates_week]  # Get the month abbreviation
+    mf = [x.strftime("%b") for x in last_dates_week]   # Get the month abbreviation
+    yf=[x.year for x in last_dates_week]
 
     # Get all the teams from the database
     query = ("SELECT DISTINCT Local "
@@ -155,7 +160,7 @@ def show_results():
     cnx.close()
 
     # Pass the results and weeks to the HTML template
-    return render_template("table_results.html", title=title, results=results, first_dates_week=first_dates_week, last_dates_week=last_dates_week,correct=correct,incorrect=incorrect, selected_week_start=selected_week_start) #,predict=predict*/
+    return render_template("table_results.html", title=title, results=results, first_dates_week=first_dates_week, last_dates_week=last_dates_week,correct=correct,incorrect=incorrect, selected_week_start=selected_week_start,di=di,df=df,mi=mi,mf=mf,yf=yf) #,predict=predict*/
 
 @app.route('/predictions')
 def show_predictions():
@@ -174,6 +179,11 @@ def show_predictions():
     previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=7)
     current_week_start = previous_week_start + datetime.timedelta(days=7)
     current_week_end = previous_week_start + datetime.timedelta(days=13)
+    di=current_week_start.day
+    df=current_week_end.day
+    mi = calendar.month_abbr[current_week_start.month]  # Access month abbreviation using the month number
+    mf = calendar.month_abbr[current_week_end.month]  # Access month abbreviation using the month number
+    yf=current_week_end.year
 
     # Query the database for the results for the current week
     query = ("SELECT pr.*, r.result, r.goalslocal, r.goalsvisitor, fl.flag_url "
@@ -197,7 +207,7 @@ def show_predictions():
     cnx.close()
 
     # Pass the results and weeks to the HTML template
-    return render_template("table_predictions.html", title=title, predictions=predictions, current_week_end=current_week_end)
+    return render_template("table_predictions.html", title=title, predictions=predictions, current_week_end=current_week_end,di=di,df=df,mi=mi,mf=mf,yf=yf)
 
 @app.route('/invest', methods=['GET', 'POST'])
 def show_invest():

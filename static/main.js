@@ -1,11 +1,13 @@
 // Search bar
 const searchInput = document.querySelector('#search-input');
-const tableRows = document.querySelectorAll('tbody tr');
+// const tableRows = document.querySelectorAll('tbody tr');
+// const cardTeams = document.querySelectorAll('#card-teams');
+const searchTeams = document.querySelectorAll('.search-teams');
 
 if (searchInput){
 searchInput.addEventListener('input', function(event) {
   const inputValue = event.target.value.toLowerCase();
-  tableRows.forEach(function(row) {
+  searchTeams.forEach(function(row) {
     const rowText = row.textContent.toLowerCase();
     if (rowText.includes(inputValue)) {
       row.style.display = '';
@@ -15,6 +17,7 @@ searchInput.addEventListener('input', function(event) {
   });
 });
 }
+
 // // Score colors
 // function highlightMaxValues() {
 //     const rows = document.querySelectorAll('tbody tr');

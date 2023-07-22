@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block main %}
 <div class="container">
-<h3>Final day of week: {{ current_week_end }}</h3>
+<h4 class="m-2">{{ mi }} {{ di }} - {{ mf }} {{ df }}, {{ yf }}</h3>
 
-<div class="search-container">
-    <input class="form-control" type="text" placeholder="Search team..." id="search-input">
+<div class="search-container col-6">
+    <input class="form-control " type="text" placeholder="Search team..." id="search-input">
 </div>
-<table>
+<table class="table table-hover">
     <thead>
         <tr>
             <th>League<br>

@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block main %}
 {% if selected_week_start is not none %}
-<h3>Week Start: {{ selected_week_start.strftime('%Y-%m-%d') }}</h3>
+<h4 class="m-2">Week Start: {{ selected_week_start.strftime('%Y-%m-%d') }}</h3>
 {% endif %}
-<div class="search-container">
-    <input class="form-control" type="text" placeholder="Search team..." id="search-input">
+<div class="search-container col-6 m-2">
+    <input class="form-control " type="text" placeholder="Search team..." id="search-input">
 </div>
 <div class="cont">
     <form action="{{ url_for('show_results') }}" method="get">
@@ -14,6 +14,7 @@
             {% for first_date_week in first_dates_week %}
             <option value="{{ first_date_week }}" {% if selected_week == first_date_week %}selected{% endif %}}>
                 Week Start: {{ first_date_week.strftime('%Y-%m-%d') }}
+                <!-- {{ mi }} {{ di }} - {{ mf }} {{ df }}, {{ yf }} -->
             </option>
             {% endfor %}
         </select> 
@@ -26,7 +27,7 @@
     <div class="cont">Effectiveness: <b>{{ '%.2f' % ((correct/(correct+incorrect))*100) }} %</b></div>
 {% endif %}
 
-<table>
+<table class="table table-hover">
     <thead>
         <tr>
             <th>League<br>

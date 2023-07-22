@@ -143,7 +143,7 @@ footer p {
 
 nav a img{
   width: 150px;
-  height: 70px;
+  /* height: 70px; */
 }
 
 /*Other*/
@@ -159,12 +159,12 @@ input{
   width: 80px;
 }
 
-form {
+/* form {
   margin-bottom: 10px;
   border: 1px solid #343a40;
   border-radius: 5px;
   padding: 10px;
-}
+} */
 
 
 /* @media (min-width: 768px) {

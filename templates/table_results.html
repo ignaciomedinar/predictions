@@ -13,7 +13,7 @@
             <option value="">Select a week</option>
             {% for first_date_week in first_dates_week %}
             <option value="{{ first_date_week }}" {% if selected_week == first_date_week %}selected{% endif %}}>
-                Week Start: {{ first_date_week.strftime('%Y-%m-%d') }}
+                {{ first_date_week.strftime('%b %d') }} - {{ (first_date_week | add_days(6)).strftime('%b %d, %Y') }}
                 <!-- {{ mi }} {{ di }} - {{ mf }} {{ df }}, {{ yf }} -->
             </option>
             {% endfor %}

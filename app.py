@@ -6,6 +6,11 @@ import calendar
 
 app = Flask(__name__)
 
+def add_days(date, days):
+    return date + datetime.timedelta(days=days)
+# Register the custom filter
+app.jinja_env.filters['add_days'] = add_days
+
 @app.route('/')
 def home():
     title = 'Welcome'
@@ -89,11 +94,6 @@ def show_results():
     last_dates_week=[first + datetime.timedelta(days=6) for first in first_dates_week]
 
     selected_week_start = request.args.get('week')
-    di=[x.day for x in first_dates_week]
-    df=[x.day for x in last_dates_week]
-    mi = [x.strftime("%b") for x in first_dates_week]  # Get the month abbreviation
-    mf = [x.strftime("%b") for x in last_dates_week]   # Get the month abbreviation
-    yf=[x.year for x in last_dates_week]
 
     # Get all the teams from the database
     query = ("SELECT DISTINCT Local "
@@ -160,7 +160,7 @@ def show_results():
     cnx.close()
 
     # Pass the results and weeks to the HTML template
-    return render_template("table_results.html", title=title, results=results, first_dates_week=first_dates_week, last_dates_week=last_dates_week,correct=correct,incorrect=incorrect, selected_week_start=selected_week_start,di=di,df=df,mi=mi,mf=mf,yf=yf) #,predict=predict*/
+    return render_template("table_results.html", title=title, results=results, first_dates_week=first_dates_week, last_dates_week=last_dates_week,correct=correct,incorrect=incorrect, selected_week_start=selected_week_start) #,predict=predict*/
 
 @app.route('/predictions')
 def show_predictions():

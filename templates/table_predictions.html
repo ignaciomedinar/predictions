@@ -38,6 +38,7 @@
         </tr>
     </thead>
     <tbody>
+        {% if predictions %}
         {% for prediction in predictions %}
         <tr>
             <td><img src="{{ prediction.flag_url }}" alt="{{ prediction.League }}"><br/>{{ prediction.League }}</td>
@@ -59,6 +60,10 @@
             <td>{{ prediction.result }}</td>
         </tr>
         {% endfor %}
+        {% else %}
+        <p class="mx-2 my-4">No predictions available for this week.  <br><br>
+            There may not be matches in the countries first division leages for the current week.</p>
+        {% endif %}
     </tbody>
 </table>
 

@@ -54,9 +54,9 @@
 
     <main class="main">
         <div class="container">
-            <h1 class="title m-4">{{ title }}</h1>
+            <h1 class="title mx-2 my-4">{{ title }}</h1>
             {% block main %}
-            <p class="message">{{ message | safe }}</p>
+            <p class="message m-2">{{ message | safe }}</p>
             <div class="buttons d-flex justify-content-center m-4">
                 <!-- <div class="btn btn-primary p-4 m-2"><i class="fa-solid fa-wand-magic-sparkles"></i><br><a href="predictions">Go to week's predictions</a></div> -->
                 <a class="btn btn-primary p-4 m-2" href="predictions" role="button"><i class="fa-solid fa-wand-magic-sparkles"></i><br>Go to week's predictions</a>

@@ -3,13 +3,13 @@
 {% if selected_week_start is not none %}
 <h4 class="m-2">Week Start: {{ selected_week_start.strftime('%Y-%m-%d') }}</h3>
 {% endif %}
-<div class="search-container col-6 m-2">
+<div class="search-container col-md-4 m-2">
     <input class="form-control " type="text" placeholder="Search team..." id="search-input">
 </div>
-<div class="cont">
+<div class="cont col-md-4">
     <form action="{{ url_for('show_results') }}" method="get">
         <!-- <label for="week">Select a week:</label> -->
-        <select name="week" class="form-select" onchange="this.form.submit()">
+        <select name="week" class="form-select " onchange="this.form.submit()">
             <option value="">Select a week</option>
             {% for first_date_week in first_dates_week %}
             <option value="{{ first_date_week }}" {% if selected_week == first_date_week %}selected{% endif %}}>
@@ -66,7 +66,7 @@
     <tbody>
         {% for result in results %}
         <tr>
-            <td><img src="{{ result.flag_url }}" alt="{{ result.League }}"></img> <br/>{{ result.League }}</td>
+            <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ result.flag_url }}" alt="{{ result.League }}"><br/><div class="mx-2">{{ result.League }}</div></td>
             <td>{{ result.Week }}</td>
             <td>{{ result.Date }}</td>
             <td>{{ result.Local }}</td>
@@ -80,4 +80,41 @@
         {% endfor %}
     </tbody>
 </table>
+<div class="card mobile-card">
+    {% set grouped_results = results | sort(attribute='League') | groupby('Date') %}
+    {% for date_group, results_by_date in grouped_results %}
+      {% set results_by_league = results_by_date | groupby('League') %}
+      {% for league_group, results in results_by_league %}
+        <div class="p-4 m-2 rounded-lg shadow">
+          <div class="d-flex justify-content-around">
+            {% for result in results %}
+            {% if loop.first %}
+              <div>
+                <img class="w-7 h-7 rounded-full mx-2" src="{{ result.flag_url }}" alt="{{ result.League }}">
+            </div>
+            {% endif %}
+            {% endfor %}
+            <div class="">{{ league_group }}</div>
+            <div>{{ date_group.strftime('%b %d, %Y') }}</div>
+          </div>
+          <div class="d-flex justify-content-around m-2 p-2">
+            <div>Local</div>
+            <div>Visitor</div>
+          </div>
+          {% for result in results %}
+          <div class="m-2 d-flex justify-content-around px-2 search-teams align-middle" id="card-teams">
+            <span class="col-4 text-center my-auto">{{ result.Local }}</span> 
+            <div class="scores border border-2 rounded p-2 my-auto">
+                <span class="col-1 text-center ">{{ result.Goalslocal }}</span> 
+                <span class="col-1 text-center ">-</span>
+                <span class="col-1 text-center ">{{ result.Goalsvisitor }}</span> 
+            </div>
+            <span class="col-4 text-center my-auto">{{ result.Visitor }}</span>
+          </div>
+          
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div> 
 {% endblock %}

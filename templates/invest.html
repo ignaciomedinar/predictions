@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
 {% block main %}
+{% if leagues %}
 <form method="POST" action="/invest" class="mb-2">
-    <div class="cont col-4">
+    <div class="cont col-md-4">
         <div class="form-floating">
             <input class="form-control" type="text" id="amount" name="amount" placeholder="Amount">
             <label for="amount" class="form-text">Any currency ($,€,£,¥)</label>
         </div>
     </div>
-    <div class="cont col-4">
+    <div class="cont col-md-4">
         <div class="form-floating">
             <input class="form-control" type="text" id="num_matches" name="num_matches" min="1" max="20" placeholder="Games">
-            <label class="form-text" for="num_matches">Number of Matches to invest</label>
+            <label class="form-text" for="num_matches">Number of Matches</label>
         </div>
     </div>
     <div class="row">
@@ -43,11 +44,14 @@
         {% endfor %}
       </div>
     </div>
-    
-    <input type="submit" value="Submit" class="m-2">
-
+    <input type="submit" value="Submit" class="m-2 btn btn-primary">
 </form>
+{% else %}
+    <p class="mx-2 my-4">No predictions available for the current week.<br><br>
+        There may not be matches in the countries first division leages for the current week.</p>
+{% endif %}
 
+{% if leagues %}
 <div>
     {% if predictions %}
     <div>Amount desired to bet: <b>{{ inputs[0] }}</b></div>
@@ -113,4 +117,5 @@
    {% endif %}
 </div>  
 
+{% endif %}
 {% endblock %}

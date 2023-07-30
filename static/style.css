@@ -266,3 +266,22 @@ input{
     opacity: 1;
   }
 } */
+
+/* Define a CSS class for the bold and green style */
+.bold-green {
+  font-weight: bold;
+  color: green;
+}
+
+/* Define a CSS class for the bold and green style */
+.bold-red {
+  font-weight: bold;
+  color: red;
+}
+
+.bg-green {
+  background-color: green;
+}
+.bg-red{
+  background-color: red;
+}

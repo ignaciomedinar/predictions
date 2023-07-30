@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% block main %}
 <div class="container">
-<h4 class="m-2">{{ mi }} {{ di }} - {{ mf }} {{ df }}, {{ yf }}</h3>
+<h4 class="m-2">{{ mi }} {{ di }} - {{ mf }} {{ df }}, {{ yf }}</h4>
 
 <div class="search-container col-6">
     <input class="form-control " type="text" placeholder="Search team..." id="search-input">
 </div>
+<!-- {% if predictions %} -->
 <table class="table table-hover">
-    <thead>
+    <thead class="align-top">
         <tr>
             <th>League<br>
                 <select class="filter-header" data-col-index="0">
@@ -38,14 +39,13 @@
         </tr>
     </thead>
     <tbody>
-        {% if predictions %}
         {% for prediction in predictions %}
         <tr>
-            <td><img src="{{ prediction.flag_url }}" alt="{{ prediction.League }}"><br/>{{ prediction.League }}</td>
+            <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ predictioin.flag_url }}" alt="{{ predictioin.League }}"><br/><div class="mx-2">{{ predictioin.League }}</div></td>
             <!-- <td>{{ prediction.Round }}</td> -->
             <!-- <td>{{ prediction.Week }}</td> -->
             <!-- <td>{{ prediction.Year }}</td> -->
-            <td>{{ prediction.Date }}</td>
+            <td>{{ prediction.Date.strftime('%b %d, %Y') }}</td>
             <td>{{ prediction.Local }}</td>
             <td class="local">{{ prediction.phg | int }} <br> {{ prediction.goalslocal }} </td>
             <td class="visitor">{{ prediction.pag | int }} <br> {{ prediction.goalsvisitor }} </td>
@@ -60,10 +60,10 @@
             <td>{{ prediction.result }}</td>
         </tr>
         {% endfor %}
-        {% else %}
+        <!-- {% else %}
         <p class="mx-2 my-4">No predictions available for this week.  <br><br>
             There may not be matches in the countries first division leages for the current week.</p>
-        {% endif %}
+        {% endif %} -->
     </tbody>
 </table>
 

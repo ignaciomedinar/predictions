@@ -123,7 +123,7 @@ $(document).ready(function() {
     // Add the distinct values to the corresponding select element
     var select = $('.filter-header[data-col-index="' + colIndex + '"]');
     select.empty(); // clear the select element
-    select.append('<option value="">All</option>');
+    select.append('<option selected value="">All</option>');
     $.each(distinctValues[colIndex], function(i, value) {
       select.append('<option value="' + value + '">' + value + '</option>');
     });
@@ -190,3 +190,39 @@ $(document).ready(function() {
         $('input[type=checkbox]').prop('checked', $(this).prop('checked'));
     });
 });
+
+// /* Date Picker*/
+//   $(document).ready(function() {
+//     // Attach datepicker to the "Date" select option
+//     $('.filter-header[data-col-index="2"]').datepicker({
+//       format: 'M d, yyyy', // Date format to display in the select option
+//       autoclose: true,
+//       todayHighlight: true,
+//       clearBtn: true,
+//     });
+
+//     // Filter the table when a date is selected
+//     $('.filter-header[data-col-index="2"]').on('changeDate', function() {
+//       const selectedDate = $(this).datepicker('getDate'); // Get the selected date
+//       filterTableByDate(selectedDate);
+//     });
+
+//     // Function to filter the table by date
+//     function filterTableByDate(selectedDate) {
+//       if (selectedDate) {
+//         const formattedDate = selectedDate.toISOString().split('T')[0];
+//         $('tbody tr').each(function() {
+//           const tableDate = $(this).find('td:eq(2)').text().trim();
+//           if (tableDate === formattedDate) {
+//             $(this).show();
+//           } else {
+//             $(this).hide();
+//           }
+//         });
+//       } else {
+//         // Show all rows if no date is selected
+//         $('tbody tr').show();
+//       }
+//     }
+//   });
+

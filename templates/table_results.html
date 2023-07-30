@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block main %}
 {% if selected_week_start is not none %}
-<h4 class="m-2">Week Start: {{ selected_week_start.strftime('%Y-%m-%d') }}</h3>
+<h4 class="m-2">{{ selected_week_start.strftime('%b %d') }} - {{ (selected_week_start | add_days(6)).strftime('%b %d, %Y') }}</h4>
 {% endif %}
 <div class="search-container col-md-4 m-2">
     <input class="form-control " type="text" placeholder="Search team..." id="search-input">
@@ -27,29 +27,41 @@
     <div class="cont">Effectiveness: <b>{{ '%.2f' % ((correct/(correct+incorrect))*100) }} %</b></div>
 {% endif %}
 
+<div class="d-flex justify-content-end">
+    <span class="bold-green mx-2">Predicted Winner Successful</span>
+    <span class="bold-red mx-2">Predicted Winner Not Successful</span>
+</div>
 <table class="table table-hover">
-    <thead>
+    <thead class="align-top">
         <tr>
-            <th>League<br>
+            <th>League 
                 <select class="filter-header" data-col-index="0">
                     <option value="">All</option>
-                </select></th>
-            <th>Week</th>
-            <th>Date<br>
-                <select class="filter-header" data-col-index="2">
+                </select>
+                <i class="fa-solid fa-sort"></i>
+            </th>
+            <!-- <th>Week <i class="fa-solid fa-sort"></i></th> -->
+            <th>Date 
+                <select class="filter-header" data-col-index="1">
                     <option value="">All</option>
-                </select></th>
-            <th>Local<br>
-                <select class="filter-header" data-col-index="3">
+                </select>
+                <i class="fa-solid fa-sort"></i>
+            </th>
+            <th>Local 
+                <!-- <select class="filter-header" data-col-index="2">
                     <option value="">All</option>
-                </select></th>
-            <th>Goals Local</th>
-            <th>Goals Visitor</th>
-            <th>Visitor<br>
-                <select class="filter-header" data-col-index="6">
+                </select> -->
+                <i class="fa-solid fa-sort"></i>
+            </th>
+            <th>Goals Local <i class="fa-solid fa-sort"></i></th>
+            <th>Goals Visitor <i class="fa-solid fa-sort"></i></th>
+            <th>Visitor 
+                <!-- <select class="filter-header" data-col-index="5">
                     <option value="">All</option>
-                </select></th>
-            <th>Result<br>
+                </select> -->
+                <i class="fa-solid fa-sort"></i>
+            </th>
+            <!-- <th>Result<br>
                 <select class="filter-header" data-col-index="7">
                     <option value="">All</option>
                 </select></th>
@@ -60,22 +72,34 @@
             <th>Successful<br>
                 <select class="filter-header" data-col-index="9">
                     <option value="">All</option>
-                </select></th>
+                </select></th> -->
         </tr>
     </thead>
     <tbody>
         {% for result in results %}
         <tr>
             <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ result.flag_url }}" alt="{{ result.League }}"><br/><div class="mx-2">{{ result.League }}</div></td>
-            <td>{{ result.Week }}</td>
-            <td>{{ result.Date }}</td>
-            <td>{{ result.Local }}</td>
-            <td class="local">{{ result.Goalslocal }}</td>
-            <td class="visitor">{{ result.Goalsvisitor }}</td>
-            <td>{{ result.Visitor }}</td>
-            <td class="result">{{ result.Result }}</td>
+            <!-- <td>{{ result.Week }}</td> -->
+            <td>{{ result.Date.strftime('%b %d, %Y') }}</td>
+            {% if result.success == "Correct" and result.bet =="Local" %}
+                <td class="bold-green">{{ result.Local }}</td>
+            {% elif result.success == "Incorrect" and result.bet =="Local" %}
+                <td class="bold-red">{{ result.Local }}</td>
+            {% else %}
+                <td>{{ result.Local }}</td>
+            {% endif %}
+                <td class="local"><b>{{ result.Goalslocal }}</b></td>
+                <td class="visitor"><b>{{ result.Goalsvisitor }}</b></td>
+            {% if result.success == "Correct" and result.bet =="Visitor" %}
+                <td class="bold-green">{{ result.Visitor }}</td>
+            {% elif result.success == "Incorrect" and result.bet =="Visitor" %}
+                <td class="bold-red">{{ result.Visitor }}</td>
+            {% else %}
+                <td>{{ result.Visitor }}</td>
+            {% endif %}
+            <!-- <td class="result">{{ result.Result }}</td>
             <td>{{ result.bet }}</td>
-            <td>{{ result.success }}</td>
+            <td>{{ result.success }}</td> -->
         </tr>
         {% endfor %}
     </tbody>
@@ -103,13 +127,25 @@
           </div>
           {% for result in results %}
           <div class="m-2 d-flex justify-content-around px-2 search-teams align-middle" id="card-teams">
+            {% if result.success == "Correct" and result.bet =="Local" %}
+                <span class="col-4 text-center my-auto bold-green">{{ result.Local }}</span> 
+            {% elif result.success == "Incorrect" and result.bet =="Local" %}
+                <span class="col-4 text-center my-auto bold-red">{{ result.Local }}</span> 
+            {% else %}
             <span class="col-4 text-center my-auto">{{ result.Local }}</span> 
+            {% endif %}
             <div class="scores border border-2 rounded p-2 my-auto">
                 <span class="col-1 text-center ">{{ result.Goalslocal }}</span> 
                 <span class="col-1 text-center ">-</span>
                 <span class="col-1 text-center ">{{ result.Goalsvisitor }}</span> 
             </div>
-            <span class="col-4 text-center my-auto">{{ result.Visitor }}</span>
+            {% if result.success == "Correct" and result.bet =="Visitor" %}
+                <span class="col-4 text-center my-auto bold-green">{{ result.Visitor }}</span>
+            {% elif result.success == "Incorrect" and result.bet =="Visitor" %}
+                <span class="col-4 text-center my-auto bold-red">{{ result.Visitor }}</span>
+            {% else %}
+                <span class="col-4 text-center my-auto">{{ result.Visitor }}</span>
+            {% endif %}
           </div>
           
           {% endfor %}

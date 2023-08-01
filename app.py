@@ -176,7 +176,7 @@ def show_predictions():
     port='3306'
     )
     cursor = cnx.cursor()
-    previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=21)
+    previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=7)
     current_week_start = previous_week_start + datetime.timedelta(days=7)
     current_week_end = previous_week_start + datetime.timedelta(days=13)
     di=current_week_start.day

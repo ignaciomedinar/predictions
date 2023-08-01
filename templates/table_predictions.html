@@ -6,7 +6,7 @@
 <div class="search-container col-6">
     <input class="form-control " type="text" placeholder="Search team..." id="search-input">
 </div>
-<!-- {% if predictions %} -->
+{% if predictions %}
 <table class="table table-hover">
     <thead class="align-top">
         <tr>
@@ -60,10 +60,10 @@
             <td>{{ prediction.result }}</td>
         </tr>
         {% endfor %}
-        <!-- {% else %}
+        {% else %}
         <p class="mx-2 my-4">No predictions available for this week.  <br><br>
             There may not be matches in the countries first division leages for the current week.</p>
-        {% endif %} -->
+        {% endif %}
     </tbody>
 </table>
 

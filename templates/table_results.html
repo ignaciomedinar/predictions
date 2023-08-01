@@ -78,7 +78,7 @@
     <tbody>
         {% for result in results %}
         <tr>
-            <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ result.flag_url }}" alt="{{ result.League }}"><br/><div class="mx-2">{{ result.League }}</div></td>
+            <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ result.flag_url }}" alt="{{ result.League }}"><br/><div class="mx-2">{{ result.League[0]|upper}}{{result.League[1:]}}</div></td>
             <!-- <td>{{ result.Week }}</td> -->
             <td>{{ result.Date.strftime('%b %d, %Y') }}</td>
             {% if result.success == "Correct" and result.bet =="Local" %}
@@ -88,8 +88,8 @@
             {% else %}
                 <td>{{ result.Local }}</td>
             {% endif %}
-                <td class="local"><b>{{ result.Goalslocal }}</b></td>
-                <td class="visitor"><b>{{ result.Goalsvisitor }}</b></td>
+                <td class="local">{{ result.Goalslocal }}</td>
+                <td class="visitor">{{ result.Goalsvisitor }}</td>
             {% if result.success == "Correct" and result.bet =="Visitor" %}
                 <td class="bold-green">{{ result.Visitor }}</td>
             {% elif result.success == "Incorrect" and result.bet =="Visitor" %}
@@ -118,7 +118,7 @@
             </div>
             {% endif %}
             {% endfor %}
-            <div class="">{{ league_group }}</div>
+            <div class="">{{ league_group[0]|upper}}{{league_group[1:]}}</div>
             <div>{{ date_group.strftime('%b %d, %Y') }}</div>
           </div>
           <div class="d-flex justify-content-around m-2 p-2">

@@ -9,14 +9,20 @@ import datetime
 import mysql.connector
 import pandas as pd
 
+# cnx = mysql.connector.connect(
+#     host='sql7.freemysqlhosting.net',
+#     database='sql7618393',
+#     user='sql7618393',
+#     password='iYNUZFVcWQ',
+#     port='3306'
+# )
 cnx = mysql.connector.connect(
-    host='sql7.freemysqlhosting.net',
-    database='sql7618393',
-    user='sql7618393',
-    password='iYNUZFVcWQ',
+    host='eu-cdbr-west-03.cleardb.net',
+    database='heroku_f8c05e23b7aa26a',
+    user='b1bb4e88305bd5',
+    password='b6aa7ee8',
     port='3306'
-)
-
+    )
 cursor = cnx.cursor()
 
 # empdata = pd.read_csv("C:/Users/ignac/OneDrive/Documentos/Prueba Chat GPT/Football v2/flags.csv", index_col=False, delimiter = ',', encoding='latin-1')
@@ -31,8 +37,18 @@ cursor = cnx.cursor()
 # )
 # """
 
-query = ("SELECT DISTINCT * "
-            "FROM sql7618393.flags "
+query = ("SELECT distinct fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
+                    "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
+                    "then 'Correct' else 'Incorrect' end as success "
+                    "FROM heroku_f8c05e23b7aa26a.football_results fr "
+                    "left join heroku_f8c05e23b7aa26a.predictions_history ph "
+                    "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
+                    "left join heroku_f8c05e23b7aa26a.flags fl "
+                    "on upper(fl.Country) = upper(fr.League) "
+                    # "WHERE fr.date >= %s AND fr.date <= %s "
+                    "WHERE fr.visitor='Vitesse Arnhem' AND fr.Date='2023-08-11' "
+                    "AND fr.goalslocal <>'' "
+                    "ORDER BY fr.date desc, fr.League"
             )
 
 cal_df=pd.read_sql(query,cnx)

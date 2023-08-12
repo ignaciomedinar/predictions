@@ -109,7 +109,7 @@ def show_results():
         # print(selected_week_start)
         selected_week_end = selected_week_start + datetime.timedelta(days=6)
         # Query the database for the results for the current week
-        query = ("SELECT fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
+        query = ("SELECT distinct fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
                     "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
                     "then 'Correct' else 'Incorrect' end as success, fl.flag_url "
                     "FROM heroku_f8c05e23b7aa26a.football_results fr "
@@ -125,7 +125,7 @@ def show_results():
         # print("selección: " + selected_week_start)
     else:
         # Query the database for the results for the current week
-        query = ("SELECT fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
+        query = ("SELECT distinct fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
                     "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
                     "then 'Correct' else 'Incorrect' end as success, fl.flag_url "
                     "FROM heroku_f8c05e23b7aa26a.football_results fr "
@@ -186,7 +186,7 @@ def show_predictions():
     yf=current_week_end.year
 
     # Query the database for the results for the current week
-    query = ("SELECT pr.*, r.result, r.goalslocal, r.goalsvisitor, fl.flag_url "
+    query = ("SELECT distinct pr.*, r.result, r.goalslocal, r.goalsvisitor, fl.flag_url "
                 "FROM heroku_f8c05e23b7aa26a.predictions pr "
                 "left join heroku_f8c05e23b7aa26a.football_results r "
                 "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
@@ -270,7 +270,7 @@ def show_invest():
             cursor = cnx.cursor()
 
     # Query the database for the results for the current week
-            query = ("SELECT pr.*, r.result, fl.flag_url "
+            query = ("SELECT distinct pr.*, r.result, fl.flag_url "
                         "FROM heroku_f8c05e23b7aa26a.predictions pr "
                         "left join heroku_f8c05e23b7aa26a.football_results r "
                         "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "

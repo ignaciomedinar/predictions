@@ -41,7 +41,7 @@
     <tbody>
         {% for prediction in predictions %}
         <tr>
-            <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ predictioin.flag_url }}" alt="{{ predictioin.League }}"><br/><div class="mx-2">{{ predictioin.League }}</div></td>
+            <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}"><br/><div class="mx-2">{{ prediction.League[0]|upper}}{{prediction.League[1:]}}</div></td>
             <!-- <td>{{ prediction.Round }}</td> -->
             <!-- <td>{{ prediction.Week }}</td> -->
             <!-- <td>{{ prediction.Year }}</td> -->

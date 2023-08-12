@@ -270,10 +270,12 @@ def show_invest():
             cursor = cnx.cursor()
 
     # Query the database for the results for the current week
-            query = ("SELECT pr.*, r.result "
+            query = ("SELECT pr.*, r.result, fl.flag_url "
                         "FROM heroku_f8c05e23b7aa26a.predictions pr "
                         "left join heroku_f8c05e23b7aa26a.football_results r "
                         "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
+                        "left join heroku_f8c05e23b7aa26a.flags fl "
+                        "on upper(fl.Country) = upper(pr.League) "
                         "WHERE pr.date >= %s AND pr.date <= %s "
                         f"AND pr.league in ({selected_leagues_str}) "
                         "ORDER BY pr.max_prob desc "

@@ -56,7 +56,7 @@
     {% if predictions %}
     <div>Amount desired to bet: <b>{{ inputs[0] }}</b></div>
     <div>Matches to bet: <b>{{ inputs[1] }}</b></div>
-    <div>Leagues selected: <b>{% for selected_league in selected_leagues %} {{ selected_league }}, {% endfor %}</b></div>
+    <div>Leagues selected: <b>{% for selected_league in selected_leagues %} {{ selected_league[0]|upper}}{{selected_league[1:]}}, {% endfor %}</b></div>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -64,41 +64,42 @@
                     <select class="filter-header" data-col-index="0">
                         <option value="">All</option></th>
                 <!-- <th>Round</th> -->
-                <th>Week</th>
+                <!-- <th>Week</th> -->
                 <!-- <th>Year</th> -->
                 <th>Date <br>
-                    <select class="filter-header" data-col-index="2">
+                    <select class="filter-header" data-col-index="1">
                         <option value="">All</option></th>
                 <th>Local <br>
-                    <select class="filter-header" data-col-index="3">
+                    <select class="filter-header" data-col-index="2">
                         <option value="">All</option></th>
                 <th>Goals Local </th>
                 <th>Goals Visitor </th>
                 <th>Visitor <br>
-                    <select class="filter-header" data-col-index="6">
+                    <select class="filter-header" data-col-index="5">
                         <option value="">All</option></th>
                 <th>Victor <br>
-                    <select class="filter-header" data-col-index="7">
+                    <select class="filter-header" data-col-index="6">
                         <option value="">All</option></th>
                 <th>Probability <br>
-                    <select class="filter-header" data-col-index="8">
-                        <option value="">All</option></th>
+                    <!-- <select class="filter-header" data-col-index="7">
+                        <option value="">All</option></th> -->
                 <!-- <th>Real Result <br>
                     <select class="filter-header" data-col-index="9">
                         <option value="">All</option></th> -->
                 <th>Bet Amount <br>
-                    <select class="filter-header" data-col-index="10">
-                        <option value="">All</option></th>
+                    <!-- <select class="filter-header" data-col-index="9">
+                        <option value="">All</option></th> -->
             </tr>
         </thead>
         <tbody>
             {% for prediction in predictions %}
             <tr>
-                <td>{{ prediction.League }}</td>
+                <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}"><br/><div class="mx-2">{{ prediction.League[0]|upper}}{{prediction.League[1:]}}</div></td>
+                <!-- <td>{{ prediction.League[0]|upper}}{{prediction.League[1:]}}</td> -->
                 <!-- <td>{{ prediction.Round }}</td> -->
-                <td>{{ prediction.Week }}</td>
+                <!-- <td>{{ prediction.Week }}</td> -->
                 <!-- <td>{{ prediction.Year }}</td> -->
-                <td>{{ prediction.Date }}</td>
+                <td>{{ prediction.Date.strftime('%b %d, %Y') }}</td>
                 <td>{{ prediction.Local }}</td>
                 <td class="local">{{ prediction.phg | int }}</td>
                 <td class="visitor">{{ prediction.pag | int }}</td>

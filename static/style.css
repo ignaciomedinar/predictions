@@ -285,3 +285,19 @@ input{
 .bg-red{
   background-color: red;
 }
+
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  text-align: center;
+}
+
+.realgoals{
+  font-size: .7rem;
+  color: gray;
+}

@@ -47,8 +47,8 @@
             <!-- <td>{{ prediction.Year }}</td> -->
             <td>{{ prediction.Date.strftime('%b %d, %Y') }}</td>
             <td>{{ prediction.Local }}</td>
-            <td class="local">{{ prediction.phg | int }} <br> {{ prediction.goalslocal }} </td>
-            <td class="visitor">{{ prediction.pag | int }} <br> {{ prediction.goalsvisitor }} </td>
+            <td class="local">{{ prediction.phg | int }} <br><span class="realgoals">{{ prediction.goalslocal }}</span> </td>
+            <td class="visitor">{{ prediction.pag | int }} <br> <span class="realgoals">{{ prediction.goalsvisitor }}</span> </td>
             <td>{{ prediction.Visitor }}</td>
             <td>{{ prediction.bet }}</td>
             <!-- <td>{{ "%.2f" % prediction.max_prob }}</td> -->

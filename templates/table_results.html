@@ -21,11 +21,15 @@
     </form>
 </div>
 
-{% if correct == 0 %}
+<!-- {% if correct == 0 %}
     <div>Effectiveness: N/A</div>
 {% else %}
     <div class="cont">Effectiveness: <b>{{ '%.2f' % ((correct/(correct+incorrect))*100) }} %</b></div>
-{% endif %}
+{% endif %} -->
+
+{% if ((correct/(correct+incorrect))*100)>=60 %}
+    <div class="cont">Effectiveness: <b>{{ '%.2f' % ((correct/(correct+incorrect))*100) }} %</b></div>
+{% endif %}    
 
 <div class="d-flex justify-content-end">
     <span class="bold-green mx-2">Predicted Winner Successful</span>

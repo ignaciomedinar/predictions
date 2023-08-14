@@ -226,3 +226,49 @@ $(document).ready(function() {
 //     }
 //   });
 
+
+/* Cookies */
+document.addEventListener("DOMContentLoaded", function () {
+  const cookieBanner = document.getElementById("cookie-banner");
+  const acceptCookiesButton = document.getElementById("accept-cookies");
+  const declineCookiesButton = document.getElementById("decline-cookies");
+
+  // Check if the user has already accepted or declined cookies in the current session
+  const cookiesPreference = sessionStorage.getItem("cookiesPreference");
+
+  console.log("Main")
+
+  if (!cookiesPreference) {
+    cookieBanner.style.display = "block";
+  }
+
+  acceptCookiesButton.addEventListener("click", function () {
+    sessionStorage.setItem("cookiesPreference", "accepted");
+    cookieBanner.style.display = "none";
+    
+    // Initialize Google Analytics when cookies are accepted
+    if (typeof gtag !== "undefined") {
+      gtag('js', new Date());
+      gtag('config', 'G-WRCQ41KVM8');
+    }
+
+    // Handle any other cookie storage or other actions on acceptance
+    console.log("Accepting cookies")
+  });
+
+  declineCookiesButton.addEventListener("click", function () {
+    sessionStorage.setItem("cookiesPreference", "declined");
+    cookieBanner.style.display = "none";
+    
+    // Handle cookie deletion or any other action on decline
+    // Clear any stored cookies here if needed
+    
+    console.log("Declining cookies")
+
+    // Clear Google Analytics cookies
+    if (typeof gtag !== "undefined") {
+      // Send an event to disable Google Analytics tracking
+      gtag('config', 'G-WRCQ41KVM8', { 'send_page_view': false });
+    }
+  });
+});

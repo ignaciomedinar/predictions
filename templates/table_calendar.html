@@ -27,9 +27,6 @@
                 <i class="fa-solid fa-sort"></i>
             </th>
             <th >Local 
-                <select class="filter-header custom-select" data-col-index="3">
-                    <option value="">All</option>
-                </select>
                 <i class="fa-solid fa-sort"></i>
             </th>
             <!-- <th>Goals Local
@@ -43,9 +40,6 @@
                 </select>
             </th> -->
             <th >Visitor 
-                <select class="filter-header custom-select" data-col-index="4">
-                    <option value="">All</option>
-                </select>
                 <i class="fa-solid fa-sort"></i>
             </th>
         </tr>
@@ -69,7 +63,7 @@
     {% for date_group, matches_by_date in grouped_matches %}
       {% set matches_by_league = matches_by_date | groupby('League') %}
       {% for league_group, matches in matches_by_league %}
-        <div class="p-4 m-2 rounded-lg shadow">
+        <div class="p-4 m-2 rounded-lg shadow search-teams">
           <div class="d-flex justify-content-around">
             {% for match in matches %}
             {% if loop.first %}
@@ -86,7 +80,7 @@
             <div>Visitor</div>
           </div>
           {% for match in matches %}
-          <div class="m-2 d-flex justify-content-around px-2 search-teams" id="card-teams">
+          <div class="m-2 d-flex justify-content-around px-2" id="card-teams">
             <span class="col-5 text-center">{{ match.Local }}</span> 
             <span class="col text-center">-</span>
             <span class="col-5 text-center">{{ match.Visitor }}</span>

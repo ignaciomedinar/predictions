@@ -81,7 +81,7 @@
     </thead>
     <tbody>
         {% for result in results %}
-        <tr>
+        <tr class="search-teams">
             <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ result.flag_url }}" alt="{{ result.League }}"><br/><div class="mx-2">{{ result.League[0]|upper}}{{result.League[1:]}}</div></td>
             <!-- <td>{{ result.Week }}</td> -->
             <td>{{ result.Date.strftime('%b %d, %Y') }}</td>
@@ -113,7 +113,7 @@
     {% for date_group, results_by_date in grouped_results %}
       {% set results_by_league = results_by_date | groupby('League') %}
       {% for league_group, results in results_by_league %}
-        <div class="p-4 m-2 rounded-lg shadow">
+        <div class="p-4 m-2 rounded-lg shadow search-teams">
           <div class="d-flex justify-content-around">
             {% for result in results %}
             {% if loop.first %}
@@ -130,7 +130,7 @@
             <div>Visitor</div>
           </div>
           {% for result in results %}
-          <div class="m-2 d-flex justify-content-around px-2 search-teams align-middle" id="card-teams">
+          <div class="m-2 d-flex justify-content-around px-2 align-middle" id="card-teams">
             {% if result.success == "Correct" and result.bet =="Local" %}
                 <span class="col-4 text-center my-auto bold-green">{{ result.Local }}</span> 
             {% elif result.success == "Incorrect" and result.bet =="Local" %}

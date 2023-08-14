@@ -10,37 +10,33 @@
 <table class="table table-hover">
     <thead class="align-top">
         <tr>
-            <th>League<br>
-                <select class="filter-header" data-col-index="0">
+            <th scope="col"><span>League</span>
+                <select class="filter-header custom-select" data-col-index="0">
                     <option value="">All</option></th>
             <!-- <th>Round</th> -->
             <!-- <th>Week</th> -->
             <!-- <th>Year</th> -->
             <th>Date<br>
-                <select class="filter-header" data-col-index="1">
+                <select class="filter-header custom-select" data-col-index="1">
                     <option value="">All</option></th>
             <th>Local<br>
-                <select class="filter-header" data-col-index="2">
-                    <option value="">All</option></th>
             <th>Goals Local</th>
             <th>Goals Visitor</th>
             <th>Visitor<br>
-                <select class="filter-header" data-col-index="5">
-                    <option value="">All</option></th>
             <th>Victor <br>
-                <select class="filter-header" data-col-index="6">
+                <select class="filter-header custom-select" data-col-index="6">
                     <option value="">All</option></th>
             <th>Probability<br>
                 <!-- <select class="filter-header" data-col-index="7">
                     <option value="">All</option></th> -->
-            <th>Real Result<br>
+            <!-- <th>Real Result<br>
                 <select class="filter-header" data-col-index="8">
-                    <option value="">All</option></th>
+                    <option value="">All</option></th> -->
         </tr>
     </thead>
-    <tbody>
+    <tbody id="table-body">
         {% for prediction in predictions %}
-        <tr>
+        <tr class="search-teams">
             <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}"><br/><div class="mx-2">{{ prediction.League[0]|upper}}{{prediction.League[1:]}}</div></td>
             <!-- <td>{{ prediction.Round }}</td> -->
             <!-- <td>{{ prediction.Week }}</td> -->
@@ -66,6 +62,43 @@
         {% endif %}
     </tbody>
 </table>
-
+<div class="card mobile-card">
+          <div class="d-flex justify-content-around m-2 px-2">
+            <div class="col-1 text-center my-auto"></div>
+            <div class="col-3 text-center my-auto">Local</div>
+            <div class="col-3 text-center my-auto">Pred.</div>
+            <div class="col-3 text-center my-auto">Visitor</div>
+            <div class="col-2 text-center my-auto">Prob.</div>
+          </div>
+          {% for prediction in predictions %}
+          <div class="search-teams">
+              <div class="m-2 d-flex justify-content-around px-2 align-middle" id="card-teams">
+                <img class="w-7 h-7 rounded-full col-1 text-center my-auto" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}">
+                {% if prediction.success == "Correct" and prediction.bet =="Local" %}
+                    <span class="col-3 text-center my-auto bold-green">{{ prediction.Local }}</span> 
+                {% elif prediction.success == "Incorrect" and prediction.bet =="Local" %}
+                    <span class="col-3 text-center my-auto bold-red">{{ prediction.Local }}</span> 
+                {% else %}
+                <span class="col-3 text-center my-auto">{{ prediction.Local }}</span> 
+                {% endif %}
+                <div class="scores border border-2 rounded p-2 my-auto">
+                    <span class="col-1 text-center ">{{ prediction.phg | int }} </span> 
+                    <span class="col-1 text-center ">-</span>
+                    <span class="col-1 text-center ">{{ prediction.pag | int }} </span> 
+                </div>
+                {% if prediction.success == "Correct" and prediction.bet =="Visitor" %}
+                    <span class="col-3 text-center my-auto bold-green">{{ prediction.Visitor }}</span>
+                {% elif prediction.success == "Incorrect" and prediction.bet =="Visitor" %}
+                    <span class="col-3 text-center my-auto bold-red">{{ prediction.Visitor }}</span>
+                {% else %}
+                    <span class="col-3 text-center my-auto">{{ prediction.Visitor }}</span>
+                {% endif %}
+                <span class="col-2 text-center my-auto">{% if prediction.max_prob is not none %}
+                    {{ '%.1f' % (prediction.max_prob * 100) }} %
+                  {% endif %}
+                </span>
+              </div>
+          </div>
+          {% endfor %}
 </div>
 {% endblock %}

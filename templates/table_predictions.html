@@ -12,21 +12,30 @@
         <tr>
             <th scope="col"><span>League</span>
                 <select class="filter-header custom-select" data-col-index="0">
-                    <option value="">All</option></th>
+                    <option value="">All</option>
+                </select>
+                <i class="fa-solid fa-sort"></i>
+            </th>
             <!-- <th>Round</th> -->
             <!-- <th>Week</th> -->
             <!-- <th>Year</th> -->
-            <th>Date<br>
+            <th>Date
                 <select class="filter-header custom-select" data-col-index="1">
-                    <option value="">All</option></th>
-            <th>Local<br>
-            <th>Goals Local</th>
-            <th>Goals Visitor</th>
-            <th>Visitor<br>
-            <th>Victor <br>
+                    <option value="">All</option>
+                </select>
+                <i class="fa-solid fa-sort"></i>
+                </th>
+            <th>Local <i class="fa-solid fa-sort"></i></th>
+            <th>Goals Local <i class="fa-solid fa-sort"></i></th>
+            <th>Goals Visitor <i class="fa-solid fa-sort"></i></th>
+            <th>Visitor <i class="fa-solid fa-sort"></i></th>
+            <th>Victor
                 <select class="filter-header custom-select" data-col-index="6">
-                    <option value="">All</option></th>
-            <th>Probability<br>
+                    <option value="">All</option>
+                </select>
+                <i class="fa-solid fa-sort"></i>
+                </th>
+            <th>Probability <i class="fa-solid fa-sort"></i></th>
                 <!-- <select class="filter-header" data-col-index="7">
                     <option value="">All</option></th> -->
             <!-- <th>Real Result<br>
@@ -42,10 +51,22 @@
             <!-- <td>{{ prediction.Week }}</td> -->
             <!-- <td>{{ prediction.Year }}</td> -->
             <td>{{ prediction.Date.strftime('%b %d, %Y') }}</td>
-            <td>{{ prediction.Local }}</td>
+            {% if prediction.bet == "Local" and prediction.result =="l" %}
+                <td class="bold-green">{{ prediction.Local }}</td>
+            {% elif prediction.bet == "Local" and prediction.result =="v" %}
+                <td class="bold-red">{{ prediction.Local }}</td>
+            {% else %}
+                <td>{{ prediction.Local }}</td>
+            {% endif %}
             <td class="local">{{ prediction.phg | int }} <br><span class="realgoals">{{ prediction.goalslocal }}</span> </td>
             <td class="visitor">{{ prediction.pag | int }} <br> <span class="realgoals">{{ prediction.goalsvisitor }}</span> </td>
-            <td>{{ prediction.Visitor }}</td>
+            {% if prediction.bet == "Visitor" and prediction.result =="v" %}
+                <td class="bold-green">{{ prediction.Visitor }}</td>
+            {% elif prediction.bet == "Visitor" and prediction.result =="l" %}
+                <td class="bold-red">{{ prediction.Visitor }}</td>
+            {% else %}
+                <td>{{ prediction.Visitor }}</td>
+            {% endif %}
             <td>{{ prediction.bet }}</td>
             <!-- <td>{{ "%.2f" % prediction.max_prob }}</td> -->
             <td>
@@ -53,7 +74,7 @@
                   {{ '%.1f' % (prediction.max_prob * 100) }} %
                 {% endif %}
             </td>
-            <td>{{ prediction.result }}</td>
+            <!-- <td>{{ prediction.result }}</td> -->
         </tr>
         {% endfor %}
         {% else %}
@@ -74,21 +95,30 @@
           <div class="search-teams">
               <div class="m-2 d-flex justify-content-around px-2 align-middle" id="card-teams">
                 <img class="w-7 h-7 rounded-full col-1 text-center my-auto" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}">
-                {% if prediction.success == "Correct" and prediction.bet =="Local" %}
+                {% if prediction.bet == "Local" and prediction.result =="l" %}
                     <span class="col-3 text-center my-auto bold-green">{{ prediction.Local }}</span> 
-                {% elif prediction.success == "Incorrect" and prediction.bet =="Local" %}
+                {% elif prediction.bet == "Local" and prediction.result =="v" %}
                     <span class="col-3 text-center my-auto bold-red">{{ prediction.Local }}</span> 
                 {% else %}
                 <span class="col-3 text-center my-auto">{{ prediction.Local }}</span> 
                 {% endif %}
                 <div class="scores border border-2 rounded p-2 my-auto">
-                    <span class="col-1 text-center ">{{ prediction.phg | int }} </span> 
-                    <span class="col-1 text-center ">-</span>
-                    <span class="col-1 text-center ">{{ prediction.pag | int }} </span> 
-                </div>
-                {% if prediction.success == "Correct" and prediction.bet =="Visitor" %}
+                    <div>
+                        <span class="col-1 text-center ">{{ prediction.phg | int }} </span>
+                        <span class="col-1 text-center ">-</span>
+                        <span class="col-1 text-center ">{{ prediction.pag | int }} </span>
+                    </div>
+                    {% if prediction.goalslocal %}
+                    <div class="justify-content-center">
+                        <span class="col-1 text-center realgoals">{{ prediction.goalslocal }}</span>
+                        <span class="col-1 text-center realgoals">-</span>
+                        <span class="col-1 text-center realgoals">{{ prediction.goalsvisitor }}</span> 
+                    </div>
+                    {% endif %}
+                    </div>
+                {% if prediction.bet == "Visitor" and prediction.result =="v" %}
                     <span class="col-3 text-center my-auto bold-green">{{ prediction.Visitor }}</span>
-                {% elif prediction.success == "Incorrect" and prediction.bet =="Visitor" %}
+                {% elif prediction.bet == "Visitor" and prediction.result =="l" %}
                     <span class="col-3 text-center my-auto bold-red">{{ prediction.Visitor }}</span>
                 {% else %}
                     <span class="col-3 text-center my-auto">{{ prediction.Visitor }}</span>

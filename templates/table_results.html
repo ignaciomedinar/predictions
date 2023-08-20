@@ -82,7 +82,11 @@
     <tbody>
         {% for result in results %}
         <tr class="search-teams">
-            <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ result.flag_url }}" alt="{{ result.League }}"><br/><div class="mx-2">{{ result.League[0]|upper}}{{result.League[1:]}}</div></td>
+            <td >
+            <div class="d-flex flex-row align-items-center">
+                <img class="mx-2" src="{{ result.flag_url }}" alt="{{ result.League }}"><br/><div class="mx-2">{{ result.League[0]|upper}}{{result.League[1:]}}</div>
+            </div>
+            </td>
             <!-- <td>{{ result.Week }}</td> -->
             <td>{{ result.Date.strftime('%b %d, %Y') }}</td>
             {% if result.success == "Correct" and result.bet =="Local" %}

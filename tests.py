@@ -37,18 +37,15 @@ cursor = cnx.cursor()
 # )
 # """
 
-query = ("SELECT distinct fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
-                    "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
-                    "then 'Correct' else 'Incorrect' end as success "
-                    "FROM heroku_f8c05e23b7aa26a.football_results fr "
-                    "left join heroku_f8c05e23b7aa26a.predictions_history ph "
-                    "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
-                    "left join heroku_f8c05e23b7aa26a.flags fl "
-                    "on upper(fl.Country) = upper(fr.League) "
-                    # "WHERE fr.date >= %s AND fr.date <= %s "
-                    "WHERE fr.visitor='Vitesse Arnhem' AND fr.Date='2023-08-11' "
-                    "AND fr.goalslocal <>'' "
-                    "ORDER BY fr.date desc, fr.League"
+query = ("SELECT distinct pr.*, r.result, r.goalslocal, r.goalsvisitor "
+                "FROM heroku_f8c05e23b7aa26a.predictions pr "
+                "left join heroku_f8c05e23b7aa26a.football_results r "
+                "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
+                "left join heroku_f8c05e23b7aa26a.flags fl "
+                "on upper(fl.Country) = upper(pr.League) "
+                "WHERE pr.date >= '2023-08-19' AND pr.date <= '2023-08-20' "
+                "AND pr.Visitor like '%Ajax%' "
+                "ORDER BY pr.max_prob desc"
             )
 
 cal_df=pd.read_sql(query,cnx)

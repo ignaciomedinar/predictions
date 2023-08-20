@@ -193,7 +193,7 @@ input{
   border-radius: 50%;
   margin-right: 10px;
 }
-@media (min-width: 640px) {
+@media (min-width: 820px) {
   .table {
     /* visibility: visible; */
     display: table;

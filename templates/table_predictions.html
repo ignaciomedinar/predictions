@@ -11,35 +11,35 @@
 <table class="table table-hover">
     <thead class="align-top">
         <tr>
-            <th scope="col"><span>League</span>
+            <th class="text-center" scope="col"><span>League</span>
                 <select class="filter-header custom-select" data-col-index="0">
                     <option value="">All</option>
                 </select>
                 <i class="fa-solid fa-sort"></i>
             </th>
-            <!-- <th>Round</th> -->
-            <!-- <th>Week</th> -->
-            <!-- <th>Year</th> -->
-            <th>Date
+            <!-- <th class="text-center">Round</th> -->
+            <!-- <th class="text-center">Week</th> -->
+            <!-- <th class="text-center">Year</th> -->
+            <th class="text-center">Date
                 <select class="filter-header custom-select" data-col-index="1">
                     <option value="">All</option>
                 </select>
                 <i class="fa-solid fa-sort"></i>
                 </th>
-            <th>Local <i class="fa-solid fa-sort"></i></th>
-            <th>Goals Local <i class="fa-solid fa-sort"></i></th>
-            <th>Goals Visitor <i class="fa-solid fa-sort"></i></th>
-            <th>Visitor <i class="fa-solid fa-sort"></i></th>
-            <th>Victor
+            <th class="text-center">Local <i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">Goals Local <i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">Goals Visitor <i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">Visitor <i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">Victor
                 <select class="filter-header custom-select" data-col-index="6">
                     <option value="">All</option>
                 </select>
                 <i class="fa-solid fa-sort"></i>
                 </th>
-            <th>Probability <i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">Probability <i class="fa-solid fa-sort"></i></th>
                 <!-- <select class="filter-header" data-col-index="7">
                     <option value="">All</option></th> -->
-            <!-- <th>Real Result<br>
+            <!-- <th class="text-center">Real Result<br>
                 <select class="filter-header" data-col-index="8">
                     <option value="">All</option></th> -->
         </tr>
@@ -47,35 +47,39 @@
     <tbody id="table-body">
         {% for prediction in predictions %}
         <tr class="search-teams">
-            <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}"><br/><div class="mx-2">{{ prediction.League[0]|upper}}{{prediction.League[1:]}}</div></td>
-            <!-- <td>{{ prediction.Round }}</td> -->
-            <!-- <td>{{ prediction.Week }}</td> -->
-            <!-- <td>{{ prediction.Year }}</td> -->
-            <td>{{ prediction.Date.strftime('%b %d, %Y') }}</td>
+            <td class="text-center">
+            <div class="d-flex flex-row align-items-center">
+                <img class="mx-2" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}"><br/><div class="mx-2">{{ prediction.League[0]|upper}}{{prediction.League[1:]}}</div>
+            </div>
+            </td>
+            <!-- <td class="text-center">{{ prediction.Round }}</td> -->
+            <!-- <td class="text-center">{{ prediction.Week }}</td> -->
+            <!-- <td class="text-center">{{ prediction.Year }}</td> -->
+            <td class="text-center">{{ prediction.Date.strftime('%b %d, %Y') }}</td>
             {% if prediction.bet == "Local" and prediction.result =="l" %}
-                <td class="bold-green">{{ prediction.Local }}</td>
-            {% elif prediction.bet == "Local" and prediction.result =="v" %}
-                <td class="bold-red">{{ prediction.Local }}</td>
+                <td class="text-center bold-green">{{ prediction.Local }}</td>
+            {% elif prediction.bet == "Local" and (prediction.result =="v" or prediction.result=="t") %}
+                <td class="text-center bold-red">{{ prediction.Local }}</td>
             {% else %}
-                <td>{{ prediction.Local }}</td>
+                <td class="text-center">{{ prediction.Local }}</td>
             {% endif %}
-            <td class="local">{{ prediction.phg | int }} <br><span class="realgoals">{{ prediction.goalslocal }}</span> </td>
-            <td class="visitor">{{ prediction.pag | int }} <br> <span class="realgoals">{{ prediction.goalsvisitor }}</span> </td>
+            <td class="text-center local">{{ prediction.phg | int }} <br><span class="realgoals">{{ prediction.goalslocal }}</span> </td>
+            <td class="text-center visitor">{{ prediction.pag | int }} <br> <span class="realgoals">{{ prediction.goalsvisitor }}</span> </td>
             {% if prediction.bet == "Visitor" and prediction.result =="v" %}
-                <td class="bold-green">{{ prediction.Visitor }}</td>
-            {% elif prediction.bet == "Visitor" and prediction.result =="l" %}
-                <td class="bold-red">{{ prediction.Visitor }}</td>
+                <td class="text-center bold-green">{{ prediction.Visitor }}</td>
+            {% elif prediction.bet == "Visitor" and (prediction.result =="l" or prediction.result=="t") %}
+                <td class="text-center bold-red">{{ prediction.Visitor }}</td>
             {% else %}
-                <td>{{ prediction.Visitor }}</td>
+                <td class="text-center">{{ prediction.Visitor }}</td>
             {% endif %}
-            <td>{{ prediction.bet }}</td>
-            <!-- <td>{{ "%.2f" % prediction.max_prob }}</td> -->
-            <td>
+            <td class="text-center">{{ prediction.bet }}</td>
+            <!-- <td class="text-center">{{ "%.2f" % prediction.max_prob }}</td> -->
+            <td class="text-center">
                 {% if prediction.max_prob is not none %}
                   {{ '%.1f' % (prediction.max_prob * 100) }} %
                 {% endif %}
             </td>
-            <!-- <td>{{ prediction.result }}</td> -->
+            <!-- <td class="text-center">{{ prediction.result }}</td> -->
         </tr>
         {% endfor %}
         {% else %}
@@ -98,7 +102,7 @@
                 <img class="w-7 h-7 rounded-full col-1 text-center my-auto" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}">
                 {% if prediction.bet == "Local" and prediction.result =="l" %}
                     <span class="col-3 text-center my-auto bold-green">{{ prediction.Local }}</span> 
-                {% elif prediction.bet == "Local" and prediction.result =="v" %}
+                {% elif prediction.bet == "Local" and (prediction.result =="v" or prediction.result=="t") %}
                     <span class="col-3 text-center my-auto bold-red">{{ prediction.Local }}</span> 
                 {% else %}
                 <span class="col-3 text-center my-auto">{{ prediction.Local }}</span> 
@@ -119,7 +123,7 @@
                     </div>
                 {% if prediction.bet == "Visitor" and prediction.result =="v" %}
                     <span class="col-3 text-center my-auto bold-green">{{ prediction.Visitor }}</span>
-                {% elif prediction.bet == "Visitor" and prediction.result =="l" %}
+                {% elif prediction.bet == "Visitor" and (prediction.result =="l" or prediction.result=="t") %}
                     <span class="col-3 text-center my-auto bold-red">{{ prediction.Visitor }}</span>
                 {% else %}
                     <span class="col-3 text-center my-auto">{{ prediction.Visitor }}</span>

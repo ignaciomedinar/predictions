@@ -47,7 +47,11 @@
     <tbody id="table-body">
         {% for match in matches %}
         <tr class="search-teams">
-            <td class="d-flex flex-row align-items-center"><img class="mx-2" src="{{ match.flag_url }}" alt="{{ match.League }}"><br/><div class="mx-2">{{ match.League[0]|upper}}{{match.League[1:]}}</div></td>
+            <td >
+            <div class="d-flex flex-row align-items-center">
+                <img class="mx-2" src="{{ match.flag_url }}" alt="{{ match.League }}"><br/><div class="mx-2">{{ match.League[0]|upper}}{{match.League[1:]}}</div>
+            </div>
+            </td>
             <td>{{ match.Week }}</td>
             <td>{{ match.Date.strftime('%b %d, %Y') }}</td>
             <td>{{ match.Local }}</td>

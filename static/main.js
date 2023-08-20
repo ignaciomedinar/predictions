@@ -173,6 +173,7 @@ $(document).ready(function() {
       // Sort the rows based on the column values
       rows.sort(function(a, b) {
         var aVal = $(a).children('td').eq(colIndex).text();
+        console.log('prueba: ', colIndex);
         var bVal = $(b).children('td').eq(colIndex).text();
         return aVal.localeCompare(bVal) * sortDirection;
       });

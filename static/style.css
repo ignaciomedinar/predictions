@@ -56,9 +56,9 @@ header .nav-item {
   margin-right: 20px;
 }
 
-header .nav-item:last-child {
+/* header .nav-item:last-child {
   margin-right: 0;
-}
+} */
 
 header .nav-link {
   color: #fff;
@@ -301,4 +301,8 @@ input{
 .realgoals{
   font-size: .7rem;
   color: gray;
+}
+
+.navbar-nav{
+  text-align:right;
 }

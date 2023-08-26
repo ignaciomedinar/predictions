@@ -31,7 +31,8 @@ a {
 /* Header */
 header {
   /* background-color: #343a40; */
-  background-color: rgb(33, 158, 188);
+  /* background-color: rgb(33, 158, 188); */
+  background-color: rgb(2, 48, 71);
 }
 
 header .logo {
@@ -75,7 +76,10 @@ header .nav-link {
 
 header .nav-link:hover {
   /* background-color: #fff; */
-  color: rgb(2, 48, 71);
+  /* color: rgb(2, 48, 71); */
+  /* color: rgb(251, 133, 0);*/
+  color: rgb(33, 158, 188); 
+  /* font-weight: bold; */
 }
 
 /* Main */
@@ -135,7 +139,8 @@ td img {
 
 /* Footer */
 footer {
-  background-color: rgb(2, 48, 71);
+  /* background-color: rgb(2, 48, 71); */
+  background-color: black;
   color: #fff;
   text-align: center;
   padding: 20px 0;
@@ -208,69 +213,6 @@ input{
 }
 }
 /* ________ */
-
-/* 
-@media (min-width: 640px) {
-  .sm\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 768px) {
-  .md\:visible {
-    visibility: visible;
-  }
-
-  .md\:static {
-    position: static;
-  }
-
-  .md\:z-auto {
-    z-index: auto;
-  }
-
-  .md\:my-0 {
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-
-  .md\:block {
-    display: block;
-  }
-
-  .md\:flex {
-    display: flex;
-  }
-
-  .md\:hidden {
-    display: none;
-  }
-
-  .md\:w-auto {
-    width: auto;
-  }
-
-  .md\:items-center {
-    align-items: center;
-  }
-
-  .md\:justify-between {
-    justify-content: space-between;
-  }
-
-  .md\:py-0 {
-    padding-top: 0px;
-    padding-bottom: 0px;
-  }
-
-  .md\:pl-0 {
-    padding-left: 0px;
-  }
-
-  .md\:opacity-100 {
-    opacity: 1;
-  }
-} */
 
 /* Define a CSS class for the bold and green style */
 .bold-green {

@@ -236,11 +236,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Check if the user has already accepted or declined cookies in the current session
   const cookiesPreference = sessionStorage.getItem("cookiesPreference");
+  // Remove inline CSS to reveal the content
+  document.body.style.display = "block";
 
-  console.log("Main")
-
-  if (!cookiesPreference) {
-    cookieBanner.style.display = "block";
+  console.log("DOM load: ",cookiesPreference);
+  if (cookiesPreference) {
+  // if (!cookiesPreference) {
+    cookieBanner.style.display = "none";
+    // cookieBanner.style.display = "block";
+    console.log("Aquí debe entrar");
   }
 
   acceptCookiesButton.addEventListener("click", function () {
@@ -254,7 +258,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Handle any other cookie storage or other actions on acceptance
-    console.log("Accepting cookies")
+    console.log("Accepting cookies");
+    console.log(sessionStorage.getItem("cookiesPreference"));
+    console.log(cookiesPreference);
   });
 
   declineCookiesButton.addEventListener("click", function () {
@@ -265,6 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Clear any stored cookies here if needed
     
     console.log("Declining cookies")
+    console.log(cookiesPreference);
 
     // Clear Google Analytics cookies
     if (typeof gtag !== "undefined") {

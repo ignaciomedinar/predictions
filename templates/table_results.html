@@ -27,9 +27,12 @@
     <div class="cont">Effectiveness: <b>{{ '%.2f' % ((correct/(correct+incorrect))*100) }} %</b></div>
 {% endif %} -->
 
+{% if correct == 0 %}
+{% else %}
 {% if ((correct/(correct+incorrect))*100)>=60 %}
     <div class="cont">Effectiveness: <b>{{ '%.2f' % ((correct/(correct+incorrect))*100) }} %</b></div>
-{% endif %}    
+{% endif %}
+{% endif %}  
 
 <div class="d-flex justify-content-end">
     <span class="bold-green mx-2">Predicted Winner Successful</span>
@@ -117,7 +120,7 @@
     {% for date_group, results_by_date in grouped_results %}
       {% set results_by_league = results_by_date | groupby('League') %}
       {% for league_group, results in results_by_league %}
-        <div class="p-4 m-2 rounded-lg shadow search-teams">
+        <div class="p-2 m-2 border rounded-lg shadow-sm search-teams">
           <div class="d-flex justify-content-around">
             {% for result in results %}
             {% if loop.first %}

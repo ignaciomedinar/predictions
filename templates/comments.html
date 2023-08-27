@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block main %}
+<!-- <main class="main"> -->
+    <div class="container">
+        <h1 class="title mx-2 my-4">{{ title }}</h1>
+        <!-- Existing content here -->
+        <form action="{{ contact_submit }}" method="POST">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+<!-- </main> -->
+{% endblock %}

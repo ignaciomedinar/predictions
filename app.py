@@ -3,6 +3,7 @@ import mysql.connector
 import datetime
 from dateutil.relativedelta import relativedelta
 import calendar
+import smtplib
 
 app = Flask(__name__)
 
@@ -104,6 +105,7 @@ def show_results():
     teams = [team[0] for team in cursor.fetchall()]
 
     if selected_week_start:
+        # selected_week_start = selected_week_start.strftime('%Y-%m-%d %H:%M:%S')
         selected_week_start=datetime.datetime.strptime(selected_week_start,'%Y-%m-%d %H:%M:%S')
         # print(type(selected_week_start))
         # print(selected_week_start)
@@ -305,6 +307,36 @@ def show_invest():
 @app.route('/details')
 def show_details():
     pass
+
+# @app.route('/contact_submit',methods=['POST'])
+# def contact_submit():
+#     if request.method == 'POST':
+#         name = request.form['name']
+#         email = request.form['email']
+#         message = request.form['message']
+
+#         # Set up your email server and credentials
+#         smtp_server = "smtp.gmail.com"
+#         smtp_port = 465
+#         sender_email = "ignaciomedinar@gmail.com"
+#         sender_password = ""
+
+#         subject = f"New contact form submission from {name}"
+#         body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+
+#         try:
+#             # Connect to the SMTP server and send the email
+#             with smtplib.SMTP(smtp_server, smtp_port) as server:
+#                 server.starttls()
+#                 server.login(sender_email, sender_password)
+#                 server.sendmail(sender_email, sender_email, f'Subject: {subject}\n\n{body}')
+
+#             # Return a success message
+#             return "Message sent successfully!"
+#         except Exception as e:
+#             return f"An error occurred: {str(e)}"
+#     return render_template("comments.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)  #, port=5000

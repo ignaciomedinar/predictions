@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
     <div class="form-check m-2">
         <input class="form-check-input" type="checkbox" id="check-all" checked>
         <label class="form-check-label" for="check-all">
@@ -23,7 +23,7 @@
         </label>
     </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         {% for league in leagues[0:3] %}
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="{{ league }}" name="leagues[]" id="league-{{ league }}" checked>
@@ -33,7 +33,7 @@
         </div>
         {% endfor %}
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-3">
         {% for league in leagues[3:6] %}
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="{{ league }}" name="leagues[]" id="league-{{ league }}" checked>
@@ -43,8 +43,17 @@
         </div>
         {% endfor %}
       </div>
+      <div class="col-sm-3">
+        {% for league in leagues[6:9] %}
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{ league }}" name="leagues[]" id="league-{{ league }}" checked>
+          <label class="form-check-label" for="league-{{ league }}">
+            {{ league[0]|upper}}{{league[1:]}}
+          </label>
+        </div>
+        {% endfor %}
     </div>
-    <input type="submit" value="Submit" class="m-2 btn btn-primary">
+    <input type="submit" value="Submit" class="m-2 btn btn-primary col-sm-2">
 </form>
 {% else %}
     <p class="mx-2 my-4">No predictions available for the current week.<br><br>
@@ -104,10 +113,22 @@
                 <!-- <td>{{ prediction.Week }}</td> -->
                 <!-- <td>{{ prediction.Year }}</td> -->
                 <td>{{ prediction.Date.strftime('%b %d, %Y') }}</td>
-                <td>{{ prediction.Local }}</td>
-                <td class="local">{{ prediction.phg | int }}</td>
+                {% if prediction.bet == "Local" and prediction.result =="l" %}
+                    <td class="bold-green">{{ prediction.Local }}</td>
+                {% elif prediction.bet == "Local" and (prediction.result =="v" or prediction.result=="t") %}
+                    <td class="bold-red">{{ prediction.Local }}</td>
+                {% else %}
+                    <td class="">{{ prediction.Local }}</td>
+                {% endif %}
+                    <td class="local">{{ prediction.phg | int }}</td>
                 <td class="visitor">{{ prediction.pag | int }}</td>
-                <td>{{ prediction.Visitor }}</td>
+                {% if prediction.bet == "Visitor" and prediction.result =="v" %}
+                    <td class="bold-green">{{ prediction.Visitor }}</td>
+                {% elif prediction.bet == "Visitor" and (prediction.result =="l" or prediction.result=="t") %}
+                    <td class="bold-red">{{ prediction.Visitor }}</td>
+                {% else %}
+                    <td>{{ prediction.Visitor }}</td>
+                {% endif %}
                 <td>{{ prediction.bet }}</td>
                 <td>{{ '%.1f' %  (prediction.max_prob * 100) }} %</td>
                 <!-- <td>{{ prediction.result }}</td> -->

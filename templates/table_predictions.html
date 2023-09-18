@@ -73,7 +73,7 @@
                 <td class="text-center">{{ prediction.Visitor }}</td>
             {% endif %}
             <td class="text-center">{{ prediction.bet }}</td>
-            <!-- <td class="text-center">{{ "%.2f" % prediction.max_prob }}</td> -->
+
             <td class="text-center">
                 {% if prediction.max_prob is not none %}
                   {{ '%.1f' % (prediction.max_prob * 100) }} %

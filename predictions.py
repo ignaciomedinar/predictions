@@ -9,7 +9,7 @@ import mysql.connector
 from sqlalchemy import create_engine
 
 url='https://www.soccerstats.com'
-leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal')
+leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece')
 actualyear = datetime.date.today().strftime("%Y")
 
 '''Función de scrapping'''

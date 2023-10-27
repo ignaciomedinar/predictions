@@ -195,6 +195,7 @@ def tabla():
                                     'Result': result}
                             
                             df.loc[len(df)] = new_row
+                    print(country+str(yr)+" - "+str(mt)+": Check!")
                 except:
                     print(country+str(yr)+" - "+str(mt)+": No record")
         if mexico_mt ==True:

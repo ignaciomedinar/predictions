@@ -99,7 +99,11 @@
           {% for prediction in predictions %}
           <div class="search-teams">
               <div class="m-2 d-flex justify-content-around px-2 align-middle" id="card-teams">
-                <img class="w-7 h-7 rounded-full col-1 text-center my-auto" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}">
+                <div class="">
+                    <img class="w-7 h-7 rounded-full col-1 text-center my-auto" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}">
+                    <div class="realgoals text-center">{{ prediction.Date.strftime('%b %d, %Y') }}</div>
+                </div>
+                    
                 {% if prediction.bet == "Local" and prediction.result =="l" %}
                     <span class="col-3 text-center my-auto bold-green">{{ prediction.Local }}</span> 
                 {% elif prediction.bet == "Local" and (prediction.result =="v" or prediction.result=="t") %}

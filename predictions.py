@@ -7,6 +7,7 @@ import math
 import statsmodels.formula.api as smf
 import mysql.connector
 from sqlalchemy import create_engine
+import sys
 
 url='https://www.soccerstats.com'
 leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece')
@@ -60,7 +61,8 @@ def tabla():
                 df_h.drop(df_h.index , inplace=True)
                 df_a.drop(df_a.index , inplace=True)
             except:
-                print("Missed: "+country+" - "+str(yr))
+                print("Missed: "+country+" - "+str(yr)+" Try again later")
+                sys.exit()
         yr=yr+1
     return(df)
 

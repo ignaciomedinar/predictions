@@ -99,7 +99,7 @@
           {% for prediction in predictions %}
           <div class="search-teams">
               <div class="m-2 d-flex justify-content-around px-2 align-middle" id="card-teams">
-                <div class="">
+                <div class="col-1">
                     <img class="w-7 h-7 rounded-full col-1 text-center my-auto" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}">
                     <div class="realgoals text-center">{{ prediction.Date.strftime('%b %d, %Y') }}</div>
                 </div>
@@ -111,7 +111,7 @@
                 {% else %}
                 <span class="col-3 text-center my-auto">{{ prediction.Local }}</span> 
                 {% endif %}
-                <div class="scores border border-2 rounded p-2 my-auto">
+                <div class="scores col-3 border border-2 rounded p-2 my-auto">
                     <div class="container text-center">
                         <span class="col-1 text-center ">{{ prediction.phg | int }} </span>
                         <span class="col-1 text-center ">-</span>

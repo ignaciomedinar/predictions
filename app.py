@@ -113,7 +113,8 @@ def show_results():
         # Query the database for the results for the current week
         query = ("SELECT distinct fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
                     "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
-                    "then 'Correct' else 'Incorrect' end as success, fl.flag_url "
+                    "then 'Correct' else 'Incorrect' end as success, fl.flag_url, "
+                    "ph.phg, ph.pag "
                     "FROM heroku_f8c05e23b7aa26a.football_results fr "
                     "left join heroku_f8c05e23b7aa26a.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
@@ -129,7 +130,8 @@ def show_results():
         # Query the database for the results for the current week
         query = ("SELECT distinct fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
                     "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
-                    "then 'Correct' else 'Incorrect' end as success, fl.flag_url "
+                    "then 'Correct' else 'Incorrect' end as success, fl.flag_url, "
+                    "ph.phg, ph.pag "
                     "FROM heroku_f8c05e23b7aa26a.football_results fr "
                     "left join heroku_f8c05e23b7aa26a.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "

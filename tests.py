@@ -37,15 +37,14 @@ cursor = cnx.cursor()
 # )
 # """
 
-query = ("SELECT distinct pr.*, r.result, r.goalslocal, r.goalsvisitor "
-                "FROM heroku_f8c05e23b7aa26a.predictions pr "
-                "left join heroku_f8c05e23b7aa26a.football_results r "
+query = ("SELECT distinct r.league, r.local, r.visitor, r.goalslocal, r.goalsvisitor, pr.phg, pr.pag "
+                "FROM heroku_f8c05e23b7aa26a.football_results r "
+                "left join heroku_f8c05e23b7aa26a.predictions pr "
                 "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
                 "left join heroku_f8c05e23b7aa26a.flags fl "
-                "on upper(fl.Country) = upper(pr.League) "
-                "WHERE pr.date >= '2023-08-19' AND pr.date <= '2023-08-20' "
-                "AND pr.Visitor like '%Ajax%' "
-                "ORDER BY pr.max_prob desc"
+                "on upper(fl.Country) = upper(r.League) "
+                "WHERE pr.date >= '2023-10-01' "
+                "ORDER BY pr.max_prob desc "
             )
 
 cal_df=pd.read_sql(query,cnx)

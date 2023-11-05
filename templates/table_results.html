@@ -42,6 +42,7 @@
     <span class="bold-green mx-2">Predicted Winner Successful</span>
     <span class="bold-red mx-2">Predicted Winner Not Successful</span>
 </div>
+<span class="text-center realgoals d-flex justify-content-end mb-2">Predictions</span> 
 <table class="table table-hover">
     <thead class="align-top">
         <tr>
@@ -103,8 +104,14 @@
             {% else %}
                 <td>{{ result.Local }}</td>
             {% endif %}
-                <td class="local">{{ result.Goalslocal }}</td>
-                <td class="visitor">{{ result.Goalsvisitor }}</td>
+                <td class="local">
+                    <div class="text-center">{{ result.Goalslocal }}</div>
+                    <div class="text-center realgoals">{{ result.phg | int }}</div>
+                </td>
+                <td class="visitor">
+                    <div class="text-center">{{ result.Goalsvisitor }}</div>
+                    <div class="text-center realgoals">{{ result.pag | int}}</div>
+                </td>
             {% if result.success == "Correct" and result.bet =="Visitor" %}
                 <td class="bold-green">{{ result.Visitor }}</td>
             {% elif result.success == "Incorrect" and result.bet =="Visitor" %}
@@ -150,9 +157,16 @@
             <span class="col-4 text-center my-auto">{{ result.Local }}</span> 
             {% endif %}
             <div class="scores border border-2 rounded p-2 my-auto">
-                <span class="col-1 text-center ">{{ result.Goalslocal }}</span> 
-                <span class="col-1 text-center ">-</span>
-                <span class="col-1 text-center ">{{ result.Goalsvisitor }}</span> 
+                <div class="container text-center">
+                    <span class="col-1 text-center ">{{ result.Goalslocal }}</span> 
+                    <span class="col-1 text-center ">-</span>
+                    <span class="col-1 text-center ">{{ result.Goalsvisitor }}</span>
+                </div>
+                <div class="container text-center">
+                    <span class="col-1 text-center realgoals">{{ result.phg | int }} </span>
+                    <span class="col-1 text-center realgoals">-</span>
+                    <span class="col-1 text-center realgoals">{{ result.pag | int }} </span>
+                </div>
             </div>
             {% if result.success == "Correct" and result.bet =="Visitor" %}
                 <span class="col-4 text-center my-auto bold-green">{{ result.Visitor }}</span>

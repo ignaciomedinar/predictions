@@ -25,17 +25,10 @@
     </form>
 </div>
 
-<!-- {% if correct == 0 %}
-    <div>Effectiveness: N/A</div>
+{% if correct == 0 or correct_w == 0 %}
 {% else %}
-    <div class="cont">Effectiveness: <b>{{ '%.2f' % ((correct/(correct+incorrect))*100) }} %</b></div>
-{% endif %} -->
-
-{% if correct == 0 %}
-{% else %}
-{% if ((correct/(correct+incorrect))*100)>=60 %}
-    <div class="cont">Effectiveness: <b>{{ '%.2f' % ((correct/(correct+incorrect))*100) }} %</b></div>
-{% endif %}
+    <div class="cont">Top 10 Effectiveness: <b>{{ '%.2f' % ((top_correct_w/(top_correct_w+top_incorrect_w))*100) }} %</b></div>
+    <div class="cont">Overall Effectiveness: <b>{{ '%.2f' % ((correct_w/(correct_w+incorrect_w))*100) }} %</b></div>
 {% endif %}  
 
 <div class="d-flex justify-content-end">

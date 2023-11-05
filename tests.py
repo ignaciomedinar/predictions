@@ -37,7 +37,7 @@ cursor = cnx.cursor()
 # )
 # """
 
-query = ("SELECT distinct r.league, r.local, r.visitor, r.goalslocal, r.goalsvisitor, pr.phg, pr.pag "
+query = ("SELECT distinct r.league, r.local, r.visitor, r.goalslocal, r.goalsvisitor, pr.phg, pr.pag, pr.max_prob "
                 "FROM heroku_f8c05e23b7aa26a.football_results r "
                 "left join heroku_f8c05e23b7aa26a.predictions pr "
                 "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
@@ -48,7 +48,8 @@ query = ("SELECT distinct r.league, r.local, r.visitor, r.goalslocal, r.goalsvis
             )
 
 cal_df=pd.read_sql(query,cnx)
-print(cal_df)
+df=cal_df.nlargest(5, ['max_prob']) 
+print(df)
 
 
 # # Insert the DataFrame data into the table

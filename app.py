@@ -114,7 +114,7 @@ def show_results():
         query = ("SELECT distinct fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
                     "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
                     "then 'Correct' else 'Incorrect' end as success, fl.flag_url, "
-                    "ph.phg, ph.pag "
+                    "ph.phg, ph.pag, ph.max_prob "
                     "FROM heroku_f8c05e23b7aa26a.football_results fr "
                     "left join heroku_f8c05e23b7aa26a.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
@@ -131,7 +131,7 @@ def show_results():
         query = ("SELECT distinct fr.*, ph.bet, case when ph.bet is null or fr.goalslocal ='' "
                     "then 'NA' when upper(fr.Result)=upper(left(ph.bet,1)) "
                     "then 'Correct' else 'Incorrect' end as success, fl.flag_url, "
-                    "ph.phg, ph.pag "
+                    "ph.phg, ph.pag, ph.max_prob "
                     "FROM heroku_f8c05e23b7aa26a.football_results fr "
                     "left join heroku_f8c05e23b7aa26a.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
@@ -150,21 +150,46 @@ def show_results():
     results = [dict(zip(columns, row)) for row in cursor.fetchall()]
     # predict=[results['success'].count('Correct'),results['success'].count('Incorrect')]
     # correct = results[0]['success'].count('Correct')
+    for i in range(len(results)):
+        if results[i] is None:
+            results[i] = 0.0
+
     correct=0
     incorrect=0
+    correct_w=0
+    incorrect_w=0
     for x in range(len(results)):
         if results[x]['success']=='Correct':
             correct+=1
+            if results[x]['max_prob'] is not None:
+                correct_w=correct_w+results[x]['max_prob']
         if results[x]['success']=='Incorrect':
             incorrect+=1
-    
-    
+            if results[x]['max_prob'] is not None:
+                incorrect_w=incorrect_w+results[x]['max_prob']
+
+    # Top 10
+    # top = sorted(results, key = lambda x: x['max_prob'], reverse = True)[:10]
+    top = sorted(results, key=lambda x: x['max_prob'] if x['max_prob'] is not None else 0.0, reverse=True)[:10]
+
+    # df=results.nlargest(5, ['max_prob']) 
+    top_correct_w=0
+    top_incorrect_w=0
+    for x in range(len(top)):
+        if top[x]['success']=='Correct':
+            if top[x]['max_prob'] is not None:
+                top_correct_w=top_correct_w+top[x]['max_prob']
+        if top[x]['success']=='Incorrect':
+            incorrect+=1
+            if top[x]['max_prob'] is not None:
+                top_incorrect_w=top_incorrect_w+top[x]['max_prob']
+
     # Close the database connection
     cursor.close()
     cnx.close()
 
     # Pass the results and weeks to the HTML template
-    return render_template("table_results.html", title=title, results=results, first_dates_week=first_dates_week, last_dates_week=last_dates_week,correct=correct,incorrect=incorrect, selected_week_start=selected_week_start) #,predict=predict*/
+    return render_template("table_results.html", title=title, results=results, first_dates_week=first_dates_week, last_dates_week=last_dates_week,correct=correct,incorrect=incorrect, selected_week_start=selected_week_start,correct_w=correct_w,incorrect_w=incorrect_w,top_correct_w=top_correct_w,top_incorrect_w=top_incorrect_w) #,predict=predict*/
 
 @app.route('/predictions')
 def show_predictions():

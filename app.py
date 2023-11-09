@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 import mysql.connector
 import datetime
 from dateutil.relativedelta import relativedelta
@@ -330,6 +330,11 @@ def show_invest():
         else:
             predictions=''
     return render_template("invest.html", title=title, predictions=predictions,inputs=inputs,leagues=leagues,selected_leagues=selected_leagues)
+
+@app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
+
 
 @app.route('/details')
 def show_details():

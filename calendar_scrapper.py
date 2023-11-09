@@ -4,6 +4,7 @@ import mysql.connector
 from sqlalchemy import create_engine
 import pandas as pd
 import datetime
+import time
 
 # Fetch the website data
 url='https://www.soccerstats.com/'
@@ -152,52 +153,59 @@ def tabla():
                          urlleague=url+'results.asp?league='+country+'&pmtype=month'+str(mt)+''
                     else:
                         urlleague=url+'results.asp?league='+country+'_'+str(yr)+'&pmtype=month'+str(mt)+''
-                page = requests.get(urlleague)
-                soup = BeautifulSoup(page.content, 'html.parser')
+                attempt=0
+                while attempt<10:
+                    page = requests.get(urlleague)
+                    soup = BeautifulSoup(page.content, 'html.parser')
 
-                # Scrape dates and teams with scores
-                table = soup.find('table', id='btable')
-                # Check if tbody exists within the table with id 'btable'
-                tbody = table.find('tbody') if table else None
-                if not tbody and country=='mexico':
-                    mexico_mt =True
-                try:
-                    rows = table.find_all('tr')
-                    for row in range(0,len(rows)):
-                        if len(rows[row].find_all('td')[0].get_text(strip=True))>3:
-                            dt = rows[row].find_all('td')[0].get_text(strip=True)
-                            if len(dt) == 8:
-                                dat =  datetime.date(int(yr), datenumber(dt[5:8].upper()), int(dt[3:4]))
-                            else:
-                                dat =  datetime.date(int(yr), datenumber(dt[6:9].upper()), int(dt[3:5]))
-                            local = rows[row].find_all('td')[1].get_text(strip=True)
-                            score =  rows[row].find_all('td')[2].get_text(strip=True)
-                            if score.find('-')>0 and dat<=datetime.date.today():
-                                goalslocal = int(score[:score.find('-')])
-                                goalsvisitor = int(score[score.find('-')+1:])
-                            else:
-                                goalslocal = ''
-                                goalsvisitor = ''
-                            visitor =  rows[row].find_all('td')[3].get_text(strip=True)
-                        
-                            # print(dat, local, goalslocal, visitor, goalsvisitor)
-                            week= int(dat.isocalendar().week)
-                            if goalslocal>goalsvisitor: 
-                                result = "l" 
-                            elif goalslocal<goalsvisitor: 
-                                result = "v" 
-                            elif goalslocal=='' or goalsvisitor=='': 
-                                result = ""
-                            else:
-                                result = 't'
-                            new_row={'League': country,'Round': '','Week': week,'Year': yr,'Date': dat, 
-                                    'Local': local,'Visitor': visitor,'Goalslocal': goalslocal,'Goalsvisitor': goalsvisitor,
-                                    'Result': result}
+                    # Scrape dates and teams with scores
+                    table = soup.find('table', id='btable')
+                    # Check if tbody exists within the table with id 'btable'
+                    tbody = table.find('tbody') if table else None
+                    if not tbody and country=='mexico':
+                        mexico_mt =True
+                    try:
+                        rows = table.find_all('tr')
+                        for row in range(0,len(rows)):
+                            if len(rows[row].find_all('td')[0].get_text(strip=True))>3:
+                                dt = rows[row].find_all('td')[0].get_text(strip=True)
+                                if len(dt) == 8:
+                                    dat =  datetime.date(int(yr), datenumber(dt[5:8].upper()), int(dt[3:4]))
+                                else:
+                                    dat =  datetime.date(int(yr), datenumber(dt[6:9].upper()), int(dt[3:5]))
+                                local = rows[row].find_all('td')[1].get_text(strip=True)
+                                score =  rows[row].find_all('td')[2].get_text(strip=True)
+                                if score.find('-')>0 and dat<=datetime.date.today():
+                                    goalslocal = int(score[:score.find('-')])
+                                    goalsvisitor = int(score[score.find('-')+1:])
+                                else:
+                                    goalslocal = ''
+                                    goalsvisitor = ''
+                                visitor =  rows[row].find_all('td')[3].get_text(strip=True)
                             
-                            df.loc[len(df)] = new_row
-                    print(country+str(yr)+" - "+str(mt)+": Check!")
-                except:
-                    print(country+str(yr)+" - "+str(mt)+": No record")
+                                # print(dat, local, goalslocal, visitor, goalsvisitor)
+                                week= int(dat.isocalendar().week)
+                                if goalslocal>goalsvisitor: 
+                                    result = "l" 
+                                elif goalslocal<goalsvisitor: 
+                                    result = "v" 
+                                elif goalslocal=='' or goalsvisitor=='': 
+                                    result = ""
+                                else:
+                                    result = 't'
+                                new_row={'League': country,'Round': '','Week': week,'Year': yr,'Date': dat, 
+                                        'Local': local,'Visitor': visitor,'Goalslocal': goalslocal,'Goalsvisitor': goalsvisitor,
+                                        'Result': result}
+                                
+                                df.loc[len(df)] = new_row
+                        print(country+str(yr)+" - "+str(mt)+": Check!")
+                        attempt=10
+                    except:
+                        print("Error: "+country+" - "+str(yr)+"-"+str(mt)+" Att: "+str(attempt))
+                        attempt = attempt + 1
+                        time.sleep(15)
+                        if attempt==10:
+                            print(country+str(yr)+" - "+str(mt)+": No record")
         if mexico_mt ==True:
             mexico_mediotiempo(yr)
         yr=yr+1

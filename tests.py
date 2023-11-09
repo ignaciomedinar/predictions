@@ -37,19 +37,23 @@ cursor = cnx.cursor()
 # )
 # """
 
-query = ("SELECT distinct r.league, r.local, r.visitor, r.goalslocal, r.goalsvisitor, pr.phg, pr.pag, pr.max_prob "
-                "FROM heroku_f8c05e23b7aa26a.football_results r "
-                "left join heroku_f8c05e23b7aa26a.predictions pr "
-                "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
-                "left join heroku_f8c05e23b7aa26a.flags fl "
-                "on upper(fl.Country) = upper(r.League) "
-                "WHERE pr.date >= '2023-10-01' "
-                "ORDER BY pr.max_prob desc "
+query = ("delete from heroku_f8c05e23b7aa26a.predictions where date <= '2023-11-06' "
             )
+
+# "SELECT distinct r.league, r.local, r.visitor, r.goalslocal, r.goalsvisitor, pr.phg, pr.pag, pr.max_prob "
+#                 "FROM heroku_f8c05e23b7aa26a.football_results r "
+#                 "left join heroku_f8c05e23b7aa26a.predictions pr "
+#                 "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
+#                 "left join heroku_f8c05e23b7aa26a.flags fl "
+#                 "on upper(fl.Country) = upper(r.League) "
+#                 "WHERE pr.date >= '2023-11-06' "
+#                 "AND r.league = 'england' "
+#                 "ORDER BY pr.max_prob desc "
+
 
 cal_df=pd.read_sql(query,cnx)
 df=cal_df.nlargest(5, ['max_prob']) 
-print(df)
+print(cal_df)
 
 
 # # Insert the DataFrame data into the table

@@ -8,6 +8,7 @@ import statsmodels.formula.api as smf
 import mysql.connector
 from sqlalchemy import create_engine
 import sys
+import time
 
 url='https://www.soccerstats.com'
 leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece')
@@ -28,43 +29,53 @@ def tabla():
                 urlleague=url+'/homeaway.asp?league='+country+''
             else:
                 urlleague=url+'/homeaway.asp?league='+country+'_'+str(yr)+''
-            page = requests.get(urlleague)
-            soup = BeautifulSoup(page.content, 'html.parser')
-            divTag = soup.find_all('div',id="h2h-team1")
-            divTaga = soup.find_all('div',id="h2h-team2")
+            attempt=0
+            while attempt<10:
+                page = requests.get(urlleague)
+                soup = BeautifulSoup(page.content, 'html.parser')
+                divTag = soup.find_all('div',id="h2h-team1")
+                divTaga = soup.find_all('div',id="h2h-team2")
+                try:
+                    for tag in divTag:
+                        table = tag.find_all('table')
+                        df_h=pd.read_html(str(table))[0]
+                    c=c+1
+                    df_h.columns=df_h.iloc[0]
+                    df_h.drop(index=df_h.index[0],axis=0,inplace=True)
+                    df_h.rename(columns = {np.nan:'Team'}, inplace=True)
+                    df_h.columns = df_h.columns.fillna('Pos')
+                    df_h['HA']='Home'
+                    df_h['Season']=str(yr) + "-" + str(yr+1)
+                    df_h['League']=country
+                    df = pd.concat([df, df_h], ignore_index=True)
 
-            try:
-                for tag in divTag:
-                    table = tag.find_all('table')
-                    df_h=pd.read_html(str(table))[0]
-                c=c+1
-                df_h.columns=df_h.iloc[0]
-                df_h.drop(index=df_h.index[0],axis=0,inplace=True)
-                df_h.rename(columns = {np.nan:'Team'}, inplace=True)
-                df_h.columns = df_h.columns.fillna('Pos')
-                df_h['HA']='Home'
-                df_h['Season']=str(yr) + "-" + str(yr+1)
-                df_h['League']=country
-                df = pd.concat([df, df_h], ignore_index=True)
-
-                for tag in divTaga:
-                    table = tag.find_all('table')
-                    df_a=pd.read_html(str(table))[0]
-                df_a.columns=df_a.iloc[0]
-                df_a.drop(index=df_a.index[0],axis=0,inplace=True)
-                df_a.rename(columns = {np.nan:'Team'}, inplace=True)
-                df_a.columns = df_a.columns.fillna('Pos')
-                df_a['HA']='Away'
-                df_a['Season']=str(yr) + "-" + str(yr+1)
-                df_a['League']=country
-                df = pd.concat([df, df_a], ignore_index=True)
-                df_h.drop(df_h.index , inplace=True)
-                df_a.drop(df_a.index , inplace=True)
-            except:
-                print("Missed: "+country+" - "+str(yr)+" Try again later")
-                sys.exit()
+                    for tag in divTaga:
+                        table = tag.find_all('table')
+                        df_a=pd.read_html(str(table))[0]
+                    df_a.columns=df_a.iloc[0]
+                    df_a.drop(index=df_a.index[0],axis=0,inplace=True)
+                    df_a.rename(columns = {np.nan:'Team'}, inplace=True)
+                    df_a.columns = df_a.columns.fillna('Pos')
+                    df_a['HA']='Away'
+                    df_a['Season']=str(yr) + "-" + str(yr+1)
+                    df_a['League']=country
+                    df = pd.concat([df, df_a], ignore_index=True)
+                    df_h.drop(df_h.index , inplace=True)
+                    df_a.drop(df_a.index , inplace=True)
+                    attempt=10
+                except:
+                    print("Error: "+country+" - "+str(yr)+" Att: "+str(attempt))
+                    attempt = attempt + 1
+                    time.sleep(15)
+                    if attempt==10:
+                        print("Missed: "+country+" - "+str(yr)+" Try again later")
+                        sys.exit()
         yr=yr+1
     return(df)
+
+# Check if today is Monday, otherwise exit
+if datetime.datetime.now().weekday() != 0:  # Monday is 0, Sunday is 6
+    sys.exit("predictions.py should only run on Mondays.")
 
 df=pd.DataFrame(columns=['id','Pos','Team','GP','W','D','L','GF','GA','GD','Pts','HA','Season','League'])
 df_tabla=tabla()

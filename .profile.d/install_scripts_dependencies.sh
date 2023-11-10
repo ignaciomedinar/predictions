@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
-# Activate virtual environment (if using one)
-# source ./.v/Scripts/activate
+# Create a virtual environment
+python -m venv venv
 
-# Install script dependencies
+# Activate the virtual environment
+source venv/bin/activate
+
+# Use python -m pip to install script dependencies
 python -m pip install -r requirements_scripts.txt
+
+# Deactivate the virtual environment
+deactivate

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory, redirect
 import mysql.connector
 import datetime
 from dateutil.relativedelta import relativedelta
@@ -11,6 +11,11 @@ def add_days(date, days):
     return date + datetime.timedelta(days=days)
 # Register the custom filter
 app.jinja_env.filters['add_days'] = add_days
+
+@app.before_request
+def https_redirect():
+    if not request.is_secure and request.headers.get('X-Forwarded-Proto') != 'https':
+        return redirect(request.url.replace('http://', 'https://'), code=301)
 
 @app.route('/')
 def home():

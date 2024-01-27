@@ -11,7 +11,7 @@ import sys
 import time
 
 url='https://www.soccerstats.com'
-leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece')
+leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece','brazil')
 actualyear = datetime.date.today().strftime("%Y")
 
 '''Función de scrapping'''
@@ -73,12 +73,15 @@ def tabla():
         yr=yr+1
     return(df)
 
-# Check if today is Monday, otherwise exit
-if datetime.datetime.now().weekday() != 0:  # Monday is 0, Sunday is 6
-    sys.exit("predictions.py should only run on Mondays.")
+# # Check if today is Monday, otherwise exit
+# if datetime.datetime.now().weekday() != 0:  # Monday is 0, Sunday is 6
+#     sys.exit("predictions.py should only run on Mondays.")
 
 df=pd.DataFrame(columns=['id','Pos','Team','GP','W','D','L','GF','GA','GD','Pts','HA','Season','League'])
 df_tabla=tabla()
+
+##### previous clearDB: #heroku_f8c05e23b7aa26a
+
 
 # # Connect to the MySQL database
 # cnx = mysql.connector.connect(user='root', password='milanesa',
@@ -92,11 +95,13 @@ df_tabla=tabla()
 #     port='3306'
 # )
 # heroku con
+
+#mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650
 cnx =mysql.connector.connect(
-    host='eu-cdbr-west-03.cleardb.net',
-    database='heroku_f8c05e23b7aa26a',
-    user='b1bb4e88305bd5',
-    password='b6aa7ee8',
+    host='eu-cluster-west-01.k8s.cleardb.net',
+    database='heroku_9f69e70d94a5650', #heroku_f8c05e23b7aa26a
+    user='b902878f5a41b4',
+    password='4acedb6a',
     port='3306'
 )
 
@@ -111,7 +116,7 @@ current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=da
 current_week_end = current_week_start + datetime.timedelta(days=6)
 next_week_end=current_week_start + datetime.timedelta(days=13)
 query = ("SELECT DISTINCT * "
-            "FROM heroku_f8c05e23b7aa26a.football_results " # football
+            "FROM heroku_9f69e70d94a5650.football_results " # football
             "ORDER BY Date ASC"
             )
 
@@ -220,7 +225,7 @@ df_final['Created']=datetime.datetime.now()
 # engine = create_engine(connection_url)
 
 # Define the connection URL
-connection_url = 'mysql://b1bb4e88305bd5:b6aa7ee8@eu-cdbr-west-03.cleardb.net/heroku_f8c05e23b7aa26a' #?reconnect=true
+connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650' #?reconnect=true
 
 # Create the engine
 engine = create_engine(connection_url) 

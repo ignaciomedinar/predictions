@@ -11,6 +11,7 @@ url='https://www.soccerstats.com/'
 leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece','brazil')
 # leagues=('mexico','other')
 actualyear = datetime.date.today().strftime("%Y")
+actualmonth = datetime.date.today().strftime("%m")
 
 # Extract relevant information from the parsed data
 # ... (code to extract and process data from the website)
@@ -138,11 +139,11 @@ def mexico_mediotiempo(yr,country='mexico'):
             df.loc[i, 'Visitor'] = teamsmex[team]
 
     
-def tabla():
-    yr=int(actualyear)-1
+def tabla(up_year,up_month):
+    yr=int(up_year)
     while yr<=int(actualyear):
         mexico_mt=False
-        for mt in range(1,13):
+        for mt in range(up_month,13):
             for country in leagues:
                 if country == 'mexico' and yr==int(actualyear):
                     urlleague=url+'results.asp?league=mexico2&pmtype=month'+str(mt)+''
@@ -213,19 +214,14 @@ def tabla():
     return(df)
 
 df=pd.DataFrame(columns=['League','Round','Week','Year','Date','Local','Visitor','Goalslocal','Goalsvisitor','Result'])
-calendar = tabla()
-# print(prueba)
-df.drop_duplicates()
 
-####### previous clearDB heroku_f8c05e23b7aa26a
-
-# # Connect to the MySQL database
-# conn = mysql.connector.connect(
-#     host="localhost",
-#     user="root",
-#     password="milanesa",
-#     # database="football"
-# )
+# Connect to the MySQL database
+conn = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="milanesa",
+    # database="football"
+)
 # Connection to freemysqlhosting
 # conn = mysql.connector.connect(
 #     host='sql7.freemysqlhosting.net',
@@ -235,24 +231,54 @@ df.drop_duplicates()
 #     port='3306'
 # )
 
+# # Connection to cleardb/heroku
+# conn = mysql.connector.connect(
+#     host='eu-cdbr-west-03.cleardb.net',
+#     database='heroku_f8c05e23b7aa26a',
+#     user='b1bb4e88305bd5',
+#     password='b6aa7ee8',
+#     port='3306'
+# )
 
-#mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650?reconnect=true
-# Connection to cleardb/heroku
-conn = mysql.connector.connect(
-    host='eu-cluster-west-01.k8s.cleardb.net',
-    database='heroku_9f69e70d94a5650',
-    user='b902878f5a41b4',  #previous user b1bb4e88305bd5
-    password='4acedb6a', #b6aa7ee8
-    port='3306'
-)
+cursor = conn.cursor()
+sql = 'CREATE DATABASE IF NOT EXISTS football;'
+cursor.execute(sql)
+sql='USE football;'
+cursor.execute(sql)
+# Check if the table exists
+table_check_query = "SHOW TABLES LIKE 'football_results'"
+cursor.execute(table_check_query)
 
-# cursor = conn.cursor()
-# sql = 'CREATE DATABASE IF NOT EXISTS football;'
-# cursor.execute(sql)
-# sql='USE football;'
-# cursor.execute(sql)
-# sql='DROP TABLE IF EXISTS football.football_results'
-# cursor.execute(sql)
+table_exists = cursor.fetchone() is not None
+
+if table_exists:
+    # If the table exists, execute your query
+    sql_query = "SELECT min(date) as date FROM football_results WHERE goalslocal IS NULL or goalslocal='' ORDER BY date ASC"
+    sql_all= "SELECT * FROM football_results"
+    cursor.execute(sql_query)
+    result = cursor.fetchone()
+
+    if result:
+        # Extract year and month from the retrieved date
+        try:
+            up_year = result[0].year
+            up_month = result[0].month
+        except:
+            up_year = actualyear
+            up_month = actualmonth
+        df_all=pd.read_sql(sql_all, conn)
+        df_all['Date'] = pd.to_datetime(df_all['Date'])
+        # Create comparison date for filtering
+        comparison_date = pd.to_datetime(f"{up_year}-{up_month}-01")
+
+        # Filter DataFrame based on the condition
+        filtered_df = df_all[df_all['Date'] < comparison_date]
+
+        # print(filtered_df)  # Print or do operations on the filtered DataFrame
+    else:
+        up_year = actualyear -1
+        up_month = 1
+        print("No data found matching the query.")
 
 # cursor = conn.cursor()
 # sql = 'CREATE DATABASE IF NOT EXISTS sql7618393;'
@@ -262,40 +288,79 @@ conn = mysql.connector.connect(
 # sql='DROP TABLE IF EXISTS sql7618393.football_results'
 # cursor.execute(sql)
 
-# Heroku clearmysql
-cursor = conn.cursor()
-sql = 'CREATE DATABASE IF NOT EXISTS heroku_9f69e70d94a5650;'
-cursor.execute(sql)
-sql='USE heroku_9f69e70d94a5650;'
-cursor.execute(sql)
-sql='DROP TABLE IF EXISTS heroku_9f69e70d94a5650.football_results'
-cursor.execute(sql)
+# # Heroku clearmysql
+# cursor = conn.cursor()
+# sql = 'CREATE DATABASE IF NOT EXISTS heroku_f8c05e23b7aa26a;'
+# cursor.execute(sql)
+# sql='USE heroku_f8c05e23b7aa26a;'
+# cursor.execute(sql)
+# sql='DROP TABLE IF EXISTS heroku_f8c05e23b7aa26a.football_results'
+# cursor.execute(sql)
 
 conn.close()
+# calendar = tabla(2022,1)
+calendar = tabla(up_year,up_month) 
+df_final=df_all._append(df,ignore_index=True)
 
-# # Define the connection parameters
-# user = 'root'
-# password = 'milanesa'
-# host = 'localhost'
-# database = 'football'
+# Select rows where 'Goalslocal', 'Goalsvisitor', and 'Result' columns are not null or empty
+not_null_or_empty = (
+    df_final['Goalslocal'].notnull() & 
+    df_final['Goalsvisitor'].notnull() & 
+    df_final['Result'].notnull() &
+    (df_final['Goalslocal'] != '') & 
+    (df_final['Goalsvisitor'] != '') & 
+    (df_final['Result'] != '')
+)
+df_complete_data = df_final[not_null_or_empty]
+
+# Define columns to check for duplicates except the specified columns
+columns_to_check_duplicates = df_complete_data.columns.difference(['Goalslocal', 'Goalsvisitor', 'Result'])
+
+# Drop duplicates based on columns except 'Goalslocal', 'Goalsvisitor', and 'Result'
+unique_r = df_complete_data.drop_duplicates(subset=columns_to_check_duplicates, keep='first')
+unique_rows = unique_r.drop_duplicates()
+
+# Keep only the rows where 'Goalslocal', 'Goalsvisitor', and 'Result' columns are populated
+not_null_or_empty_rows = (
+    df_final[['Goalslocal', 'Goalsvisitor', 'Result']].notnull().all(axis=1) & 
+    (df_final['Goalslocal'] != '') & 
+    (df_final['Goalsvisitor'] != '') & 
+    (df_final['Result'] != '')
+)
+non_empty_rows = df_final[not_null_or_empty_rows]
+
+# Concatenate both unique rows and non-empty rows to get all required rows
+all_required_rows = pd.concat([unique_rows, non_empty_rows], ignore_index=True)
+
+# Drop duplicates after concatenation
+all_required_rows = all_required_rows.drop_duplicates(keep='first')
 
 
-# # Create a SQLAlchemy engine to connect to the database
-# engine = create_engine(f'mysql://{user}:{password}@{host}/{database}')
+# Define the connection parameters
+user = 'root'
+password = 'milanesa'
+host = 'localhost'
+database = 'football'
+
+
+# Create a SQLAlchemy engine to connect to the database
+engine = create_engine(f'mysql://{user}:{password}@{host}/{database}')
 
 # Define the connection URL
 # connection_url = 'mysql+mysqlconnector://sql7618393:iYNUZFVcWQ@sql7.freemysqlhosting.net:3306/sql7618393'
 
-# Define the connection URL
-connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650' #?reconnect=true
+# # Define the connection URL
+# connection_url = 'mysql://b1bb4e88305bd5:b6aa7ee8@eu-cdbr-west-03.cleardb.net/heroku_f8c05e23b7aa26a' #?reconnect=true
 
 
-# Create the engine
-engine = create_engine(connection_url) #, pool_recycle=3600
+# # Create the engine
+# engine = create_engine(connection_url) #, pool_recycle=3600
 
 # Insert data from the DataFrame to MySQL
 table_name = 'football_results'
-calendar.to_sql(table_name, con=engine, if_exists='replace', index=False)
+# calendar.to_sql(table_name, con=engine, if_exists='replace', index=False)
+all_required_rows.to_sql(table_name, con=engine, if_exists='replace', index=False)
+print(all_required_rows)
 
 # Close the connection to MySQL
 engine.dispose()

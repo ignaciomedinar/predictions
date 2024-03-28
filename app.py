@@ -12,10 +12,10 @@ def add_days(date, days):
 # Register the custom filter
 app.jinja_env.filters['add_days'] = add_days
 
-@app.before_request
-def https_redirect():
-    if not request.is_secure and request.headers.get('X-Forwarded-Proto') != 'https':
-        return redirect(request.url.replace('http://', 'https://'), code=301)
+# @app.before_request
+# def https_redirect():
+#     if not request.is_secure and request.headers.get('X-Forwarded-Proto') != 'https':
+#         return redirect(request.url.replace('http://', 'https://'), code=301)
 
 @app.route('/')
 def home():

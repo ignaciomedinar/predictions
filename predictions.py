@@ -11,7 +11,7 @@ import sys
 import time
 
 url='https://www.soccerstats.com'
-leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece','brazil')
+leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece','brazil','turkey')
 actualyear = datetime.date.today().strftime("%Y")
 
 '''Función de scrapping'''
@@ -63,6 +63,7 @@ def tabla():
                     df_h.drop(df_h.index , inplace=True)
                     df_a.drop(df_a.index , inplace=True)
                     attempt=10
+                    print(country, attempt)
                 except:
                     print("Error: "+country+" - "+str(yr)+" Att: "+str(attempt))
                     attempt = attempt + 1

@@ -8,7 +8,7 @@ import time
 
 # Fetch the website data
 url='https://www.soccerstats.com/'
-leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece','brazil')
+leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece','brazil','turkey')
 # leagues=('mexico','other')
 actualyear = datetime.date.today().strftime("%Y")
 

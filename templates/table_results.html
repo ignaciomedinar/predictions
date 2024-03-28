@@ -79,6 +79,7 @@
                     <option value="">All</option>
                 </select></th> -->
         </tr>
+        <th>Prediction</th>
     </thead>
     <tbody>
         {% for result in results %}
@@ -112,6 +113,7 @@
             {% else %}
                 <td>{{ result.Visitor }}</td>
             {% endif %}
+                <td>{{ result.bet }} - {{ '%.1f' % (prediction.max_prob * 100) }}</td>
             <!-- <td class="result">{{ result.Result }}</td>
             <td>{{ result.bet }}</td>
             <td>{{ result.success }}</td> -->

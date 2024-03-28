@@ -128,7 +128,7 @@ def show_results():
                     "on upper(fl.Country) = upper(fr.League) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
-                    "ORDER BY fr.date desc, fr.League"
+                    "ORDER BY ph.max_prob DESC"
                     )
         cursor.execute(query, (selected_week_start, selected_week_end))
         # print("selección: " + selected_week_start)
@@ -145,7 +145,7 @@ def show_results():
                     "on upper(fl.Country) = upper(fr.League) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
-                    "ORDER BY fr.date desc, fr.League"
+                    "ORDER BY ph.max_prob DESC"
                     )
         cursor.execute(query, (previous_week_start, current_week_end))
         # print("selección: " + previous_week_start)

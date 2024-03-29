@@ -169,11 +169,11 @@
                 </div>
             </div>
             {% if result.success == "Correct" and result.bet =="Visitor" %}
-                <span class="col-4 text-center my-auto bold-green">{{ result.Visitor }}</span>
+                <span class="col-3 text-center my-auto bold-green">{{ result.Visitor }}</span>
             {% elif result.success == "Incorrect" and result.bet =="Visitor" %}
-                <span class="col-4 text-center my-auto bold-red">{{ result.Visitor }}</span>
+                <span class="col-3 text-center my-auto bold-red">{{ result.Visitor }}</span>
             {% else %}
-                <span class="col-4 text-center my-auto">{{ result.Visitor }}</span>
+                <span class="col-3 text-center my-auto">{{ result.Visitor }}</span>
             {% endif %}
             <span class="col-3 text-center my-auto">{{ result.bet }}  {% if result.max_prob is not none %}
                 - {{ '%.1f' % (result.max_prob * 100) }}%

@@ -11,7 +11,7 @@ import sys
 import time
 
 url='https://www.soccerstats.com'
-leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece','brazil','turkey')
+leagues=('england','italy','spain','france','germany','mexico','netherlands','portugal','greece','turkey') #,'belgium','brazil'
 actualyear = datetime.date.today().strftime("%Y")
 
 '''Función de scrapping'''
@@ -21,10 +21,11 @@ def tabla():
     yr=int(actualyear)-1
     while yr<=int(actualyear):
         for country in leagues:
-            if country == 'mexico' and yr==int(actualyear):
+            # Temporary fix for Mexico as Apertura is not working properly
+            if country == 'mexico': # and yr==int(actualyear):
                 urlleague=url+'/homeaway.asp?league='+country+'2'
-            elif country == 'mexico' and yr==int(actualyear)-1:
-                urlleague=url+'/homeaway.asp?league='+country+''
+            # elif country == 'mexico' and yr==int(actualyear)-1:
+            #     urlleague=url+'/homeaway.asp?league='+country+''
             elif yr==int(actualyear):
                 urlleague=url+'/homeaway.asp?league='+country+''
             else:

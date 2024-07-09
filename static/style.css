@@ -252,3 +252,19 @@ input{
 .navbar-nav{
   text-align:right;
 }
+
+.table th {
+  max-width: 150px; /* Adjust the maximum width as needed */
+  white-space: normal;
+}
+.filter-header {
+  width: 100%;
+  word-wrap: break-word;
+  white-space: normal;
+}
+.text-center {
+  text-align: center;
+}
+.align-top {
+  vertical-align: top;
+}

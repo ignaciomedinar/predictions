@@ -25,7 +25,7 @@ Belize,BZ,BLZ,84,https://www.worldometers.info/img/flags/bz-flag.gif
 Benin,BJ,BEN,204,https://www.worldometers.info/img/flags/bj-flag.gif
 Bermuda,BM,BMU,60,https://www.worldometers.info/img/flags/bm-flag.gif
 Bhutan,BT,BTN,64,https://www.worldometers.info/img/flags/bt-flag.gif
-Bolivia (Plurinational State of),BO,BOL,68,https://www.worldometers.info/img/flags/bo-flag.gif
+Bolivia,BO,BOL,68,https://upload.wikimedia.org/wikipedia/commons/d/de/Flag_of_Bolivia_%28state%29.svg
 "Bonaire, Sint Eustatius and Saba",BQ,BES,535,https://www.worldometers.info/img/flags/bq-flag.gif
 Bosnia and Herzegovina,BA,BIH,70,https://www.worldometers.info/img/flags/ba-flag.gif
 Botswana,BW,BWA,72,https://www.worldometers.info/img/flags/bw-flag.gif
@@ -44,7 +44,7 @@ Cayman Islands (the),KY,CYM,136,https://www.worldometers.info/img/flags/ky-flag.
 Central African Republic (the),CF,CAF,140,https://www.worldometers.info/img/flags/cf-flag.gif
 Chad,TD,TCD,148,https://www.worldometers.info/img/flags/td-flag.gif
 Chile,CL,CHL,152,https://www.worldometers.info/img/flags/cl-flag.gif
-China,CN,CHN,156,https://www.worldometers.info/img/flags/cn-flag.gif
+China,CN,CHN,156,https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg
 Christmas Island,CX,CXR,162,https://www.worldometers.info/img/flags/cx-flag.gif
 Cocos (Keeling) Islands (the),CC,CCK,166,https://www.worldometers.info/img/flags/cc-flag.gif
 Colombia,CO,COL,170,https://www.worldometers.info/img/flags/co-flag.gif
@@ -112,7 +112,7 @@ Isle of Man,IM,IMN,833,https://www.worldometers.info/img/flags/im-flag.gif
 Israel,IL,ISR,376,https://www.worldometers.info/img/flags/il-flag.gif
 Italy,IT,ITA,380,https://www.crwflags.com/fotw/images/i/it.gif
 Jamaica,JM,JAM,388,https://www.worldometers.info/img/flags/jm-flag.gif
-Japan,JP,JPN,392,https://www.worldometers.info/img/flags/jp-flag.gif
+Japan,JP,JPN,392,https://upload.wikimedia.org/wikipedia/commons/9/9e/Flag_of_Japan.svg
 Jersey,JE,JEY,832,https://www.worldometers.info/img/flags/je-flag.gif
 Jordan,JO,JOR,400,https://www.worldometers.info/img/flags/jo-flag.gif
 Kazakhstan,KZ,KAZ,398,https://www.worldometers.info/img/flags/kz-flag.gif
@@ -153,7 +153,7 @@ Montserrat,MS,MSR,500,https://www.worldometers.info/img/flags/ms-flag.gif
 Morocco,MA,MAR,504,https://www.worldometers.info/img/flags/ma-flag.gif
 Mozambique,MZ,MOZ,508,https://www.worldometers.info/img/flags/mz-flag.gif
 Myanmar,MM,MMR,104,https://www.worldometers.info/img/flags/mm-flag.gif
-Namibia,NA,NAM,516,https://www.worldometers.info/img/flags/na-flag.gif
+Namibia,,NAM,516,https://www.worldometers.info/img/flags/na-flag.gif
 Nauru,NR,NRU,520,https://www.worldometers.info/img/flags/nr-flag.gif
 Nepal,NP,NPL,524,https://www.worldometers.info/img/flags/np-flag.gif
 Netherlands,NL,NLD,528,https://www.worldometers.info/img/flags/nl-flag.gif
@@ -183,7 +183,7 @@ Qatar,QA,QAT,634,https://www.worldometers.info/img/flags/qa-flag.gif
 Republic of North Macedonia,MK,MKD,807,https://www.worldometers.info/img/flags/mk-flag.gif
 Rï¿½union,RE,REU,638,https://www.worldometers.info/img/flags/re-flag.gif
 Romania,RO,ROU,642,https://www.worldometers.info/img/flags/ro-flag.gif
-Russian Federation (the),RU,RUS,643,https://www.worldometers.info/img/flags/ru-flag.gif
+Russia,RU,RUS,643,https://www.worldometers.info/img/flags/ru-flag.gif
 Rwanda,RW,RWA,646,https://www.worldometers.info/img/flags/rw-flag.gif
 Saint Barthï¿½lemy,BL,BLM,652,https://www.worldometers.info/img/flags/bl-flag.gif
 "Saint Helena, Ascension and Tristan da Cunha",SH,SHN,654,https://www.worldometers.info/img/flags/sh-flag.gif
@@ -236,11 +236,11 @@ Ukraine,UA,UKR,804,https://www.worldometers.info/img/flags/ua-flag.gif
 United Arab Emirates (the),AE,ARE,784,https://www.worldometers.info/img/flags/ae-flag.gif
 United Kingdom of Great Britain and Northern Ireland (the),GB,GBR,826,https://www.worldometers.info/img/flags/gb-flag.gif
 United States Minor Outlying Islands (the),UM,UMI,581,https://www.worldometers.info/img/flags/um-flag.gif
-United States of America (the),US,USA,840,https://www.worldometers.info/img/flags/us-flag.gif
+USA,US,USA,840,https://www.worldometers.info/img/flags/us-flag.gif
 Uruguay,UY,URY,858,https://www.worldometers.info/img/flags/uy-flag.gif
 Uzbekistan,UZ,UZB,860,https://www.worldometers.info/img/flags/uz-flag.gif
 Vanuatu,VU,VUT,548,https://www.worldometers.info/img/flags/vu-flag.gif
-Venezuela (Bolivarian Republic of),VE,VEN,862,https://www.worldometers.info/img/flags/ve-flag.gif
+Venezuela,VE,VEN,862,https://www.worldometers.info/img/flags/ve-flag.gif
 Viet Nam,VN,VNM,704,https://www.worldometers.info/img/flags/vn-flag.gif
 Virgin Islands (British),VG,VGB,92,https://www.worldometers.info/img/flags/vg-flag.gif
 Virgin Islands (U.S.),VI,VIR,850,https://www.worldometers.info/img/flags/vi-flag.gif
@@ -249,3 +249,11 @@ Western Sahara,EH,ESH,732,https://www.worldometers.info/img/flags/eh-flag.gif
 Yemen,YE,YEM,887,https://www.worldometers.info/img/flags/ye-flag.gif
 Zambia,ZM,ZMB,894,https://www.worldometers.info/img/flags/zm-flag.gif
 Zimbabwe,ZW,ZWE,716,https://www.worldometers.info/img/flags/zw-flag.gif
+World,,,,https://www.svgrepo.com/show/12661/earth.svg
+Asia,,,,https://es.wikipedia.org/wiki/Archivo:AFC_text_logo.png
+Europe,,,,https://cdn.worldvectorlogo.com/logos/uefa.svg
+Concacaf,,,,https://es.m.wikipedia.org/wiki/Archivo:Concacaf_logo.svg
+Conmebol,,,,https://cdn.conmebol.com/wp-content/uploads/2017/05/logo-nueva-conmebol-750px_0.jpg
+Africa,,,,https://en.wikipedia.org/wiki/File:Confederation_of_African_Football_logo.svg
+América,,,,https://es.wikipedia.org/wiki/Archivo:America_map.svg
+Scotland,,,,https://commons.wikimedia.org/wiki/File:Flag_of_Scotland.svg

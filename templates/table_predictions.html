@@ -11,8 +11,14 @@
 <table class="table table-hover">
     <thead class="align-top">
         <tr>
-            <th class="text-center" scope="col"><span>League</span>
+            <th class="text-center" scope="col"><span>Country</span>
                 <select class="filter-header custom-select" data-col-index="0">
+                    <option value="">All</option>
+                </select>
+                <i class="fa-solid fa-sort"></i>
+            </th>
+            <th class="text-center" scope="col"><span>League</span>
+                <select class="filter-header custom-select" data-col-index="1">
                     <option value="">All</option>
                 </select>
                 <i class="fa-solid fa-sort"></i>
@@ -21,7 +27,7 @@
             <!-- <th class="text-center">Week</th> -->
             <!-- <th class="text-center">Year</th> -->
             <th class="text-center">Date
-                <select class="filter-header custom-select" data-col-index="1">
+                <select class="filter-header custom-select" data-col-index="2">
                     <option value="">All</option>
                 </select>
                 <i class="fa-solid fa-sort"></i>
@@ -31,7 +37,7 @@
             <th class="text-center">Goals Visitor <i class="fa-solid fa-sort"></i></th>
             <th class="text-center">Visitor <i class="fa-solid fa-sort"></i></th>
             <th class="text-center">Victor
-                <select class="filter-header custom-select" data-col-index="6">
+                <select class="filter-header custom-select" data-col-index="7">
                     <option value="">All</option>
                 </select>
                 <i class="fa-solid fa-sort"></i>
@@ -48,9 +54,12 @@
         {% for prediction in predictions %}
         <tr class="search-teams">
             <td class="text-center">
-            <div class="d-flex flex-row align-items-center">
-                <img class="mx-2" src="{{ prediction.flag_url }}" alt="{{ prediction.League }}"><br/><div class="mx-2">{{ prediction.League[0]|upper}}{{prediction.League[1:]}}</div>
-            </div>
+                <div class="d-flex flex-row align-items-center">
+                    <img class="mx-2" src="{{ prediction.flag_url }}" alt="{{ prediction.country }}"><br/><div class="mx-2">{{ prediction.country[0]|upper}}{{prediction.country[1:]}}</div>
+                </div>
+            </td>
+            <td class="text-center">
+                {{ prediction.League[0]|upper}}{{prediction.League[1:]}}
             </td>
             <!-- <td class="text-center">{{ prediction.Round }}</td> -->
             <!-- <td class="text-center">{{ prediction.Week }}</td> -->

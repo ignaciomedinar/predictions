@@ -221,13 +221,19 @@ def show_predictions():
     yf=current_week_end.year
 
     # Query the database for the results for the current week
-    query = ("SELECT distinct pr.*, r.result, r.goalslocal, r.goalsvisitor, fl.flag_url "
-                "FROM heroku_9f69e70d94a5650.predictions pr "
-                "left join heroku_9f69e70d94a5650.football_results r "
+    query = ("SELECT distinct pr.*, r.result, "
+                "case when r.goalslocal is null then '' else r.goalslocal end as goalslocal, "
+                "case when r.goalsvisitor is null then '' else r.goalsvisitor end as goalsvisitor, "
+                "fl.flag_url, lg.country "
+                "FROM heroku_9f69e70d94a5650.predictions_espn pr "
+                "left join heroku_9f69e70d94a5650.football_results_espn r "
                 "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
+                "left join heroku_9f69e70d94a5650.leagues lg "
+                "on upper(lg.League) = upper(pr.League) "
                 "left join heroku_9f69e70d94a5650.flags fl "
-                "on upper(fl.Country) = upper(pr.League) "
+                "on upper(fl.Country) = upper(lg.Country) "
                 "WHERE pr.date >= %s AND pr.date <= %s "
+                "AND lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') "
                 "ORDER BY pr.max_prob desc"
                 )
     cursor.execute(query, (current_week_start, current_week_end))

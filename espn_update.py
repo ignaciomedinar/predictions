@@ -11,7 +11,7 @@ headers = {
 }
 
 def fetch(start_date, end_date):
-    df = pd.DataFrame(columns=['League', 'Week', 'Date', 'Local', 'Visitor', 'Goalslocal', 'Goalsvisitor', 'Result'])
+    df = pd.DataFrame(columns=['League', 'Week', 'Year', 'Date', 'Local', 'Visitor', 'Goalslocal', 'Goalsvisitor', 'Result'])
     current_date = start_date
     today = datetime.today()
     
@@ -27,12 +27,16 @@ def fetch(start_date, end_date):
         div_tags = soup.find_all('section', attrs={'class': 'Card gameModules'})
         
         for div in div_tags:
-            league_tag = div.find('h3', attrs={'class': 'Card__Header__Title Card__Header__Title--no-theme'}) # Card_HeaderTitle CardHeader_Title--no-theme
+            league_tag = div.find('h3', attrs={'class': 'Card__Header__Title Card__Header__Title--no-theme'}) 
             if not league_tag:
-                continue  # Skip this div if no league title is found
+                league_tag = div.find('h3', attrs={'class': 'Card_HeaderTitle CardHeader_Title--no-theme'})
+                if not league_tag:
+                    continue  # Skip this div if no league title is found
             league = league_tag.text
 
-            teams = div.find_all('div', attrs={'class': 'ScoreCell_TeamName ScoreCell_TeamName--shortDisplayName truncate db'})
+            teams = div.find_all('div', attrs={'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName truncate db'}) #ScoreCell_TeamName ScoreCell_TeamName--shortDisplayName truncate db
+            if not teams:
+                teams = div.find_all('div', attrs={'class': 'ScoreCell_TeamName ScoreCell_TeamName--shortDisplayName truncate db'})
             goals = div.find_all('div', attrs={'class': 'ScoreCell__Score h4 clr-gray-01 fw-heavy tar ScoreCell_Score--scoreboard pl2'})
             
             home = [team.text for index, team in enumerate(teams) if index % 2 == 0]
@@ -55,9 +59,16 @@ def fetch(start_date, end_date):
             else:
                 gaway = gaway[:min_length]
             
+            if isinstance(fecha, str):
+                try:
+                    fecha_dt = datetime.strptime(fecha, "%Y%m%d")  # Adjust the format to match your date string format
+                except ValueError as e:
+                    raise ValueError(f"Incorrect date format for fecha: {fecha}. Expected format: YYYY-MM-DD") from e
+
             data = {
                 'League': [league] * min_length,
-                'Week': int(fecha.isocalendar().week) * min_length,
+                'Week': int(fecha_dt.date().isocalendar().week),
+                'Year': fecha_dt.year,
                 'Date': [datetime.strptime(fecha, '%Y%m%d')] * min_length,
                 'Local': home,
                 'Visitor': away,

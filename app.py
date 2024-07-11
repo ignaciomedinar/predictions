@@ -48,12 +48,15 @@ def show_matches():
     # Query the database for the results for the current week
     query = ("SELECT fr.*, fl.flag_url "
                 "FROM football_results fr "
+                "left join heroku_9f69e70d94a5650.leagues lg "
+                "on fr.league=lg.league "
                 "left join heroku_9f69e70d94a5650.flags fl "
-                "on upper(fl.Country) = upper(fr.League) "
+                "on upper(fl.country) = upper(lg.country) "
                 "WHERE date >= %s "
                 "AND date <= %s "
-                "AND goalslocal ='' "
-                "ORDER BY date asc, League"
+                "AND (goalslocal ='' "
+                "or goalslocal is null) "
+                "ORDER BY date asc, fr.league"
                 )
     cursor.execute(query, (current_week_start, six_months,))
     # Get the column names
@@ -130,6 +133,8 @@ def show_results():
                     "on upper(fl.country) = coalesce(upper(lg.country),upper(fr.league)) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
+                    "AND lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') "
+                    "and lg.league not in ('Copa Do Brazil','U.S. Open Cup') "
                     "ORDER BY ph.max_prob DESC"
                     )
         cursor.execute(query, (selected_week_start, selected_week_end))
@@ -149,6 +154,8 @@ def show_results():
                     "on upper(fl.Country) = coalesce(upper(lg.country),upper(fr.league)) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
+                    "AND lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') "
+                    "and lg.league not in ('Copa Do Brazil','U.S. Open Cup') "
                     "ORDER BY ph.max_prob DESC"
                     )
         cursor.execute(query, (previous_week_start, current_week_end))
@@ -230,7 +237,7 @@ def show_predictions():
                 "case when r.goalsvisitor is null then '' else r.goalsvisitor end as goalsvisitor, "
                 "fl.flag_url, lg.country "
                 "FROM heroku_9f69e70d94a5650.predictions_espn pr "
-                "left join heroku_9f69e70d94a5650.football_results_espn r "
+                "left join heroku_9f69e70d94a5650.football_results r "
                 "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
                 "left join heroku_9f69e70d94a5650.leagues lg "
                 "on upper(lg.League) = upper(pr.League) "
@@ -238,6 +245,7 @@ def show_predictions():
                 "on upper(fl.Country) = upper(lg.Country) "
                 "WHERE pr.date >= %s AND pr.date <= %s "
                 "AND lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') "
+                "and lg.league not in ('Copa Do Brazil','U.S. Open Cup') "
                 "ORDER BY pr.max_prob desc"
                 )
     cursor.execute(query, (current_week_start, current_week_end))

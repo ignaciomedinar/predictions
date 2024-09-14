@@ -37,6 +37,9 @@ def fetch(start_date, end_date):
             teams = div.find_all('div', attrs={'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName truncate db'}) #ScoreCell_TeamName ScoreCell_TeamName--shortDisplayName truncate db
             if not teams:
                 teams = div.find_all('div', attrs={'class': 'ScoreCell_TeamName ScoreCell_TeamName--shortDisplayName truncate db'})
+            if not teams:
+                teams = div.find_all('div', attrs={'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName db'})                                                              
+            
             goals = div.find_all('div', attrs={'class': 'ScoreCell__Score h4 clr-gray-01 fw-heavy tar ScoreCell_Score--scoreboard pl2'})
             
             home = [team.text for index, team in enumerate(teams) if index % 2 == 0]

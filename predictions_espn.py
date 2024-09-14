@@ -34,7 +34,7 @@ current_week_end = current_week_start + datetime.timedelta(days=6)
 next_week_end=current_week_start + datetime.timedelta(days=13)
 date_548_days_ago = datetime.datetime.now().date() - datetime.timedelta(days=548)
 query = ("SELECT DISTINCT League, date(Date) as Date, Local, Visitor, Goalslocal, Goalsvisitor, Result, year(date) as Year "
-            "FROM heroku_9f69e70d94a5650.football_results_espn " # football
+            "FROM heroku_9f69e70d94a5650.football_results " # football
             "ORDER BY Date ASC"
             )
 cal_df=pd.read_sql(query,cnx)
@@ -45,12 +45,12 @@ current_week_start_str = current_week_start.strftime('%Y-%m-%d')
 date_548_days_ago_str = date_548_days_ago.strftime('%Y-%m-%d')
 
 query = (f"SELECT League, fre.Local as Team, COUNT(fre.Result) AS GP, SUM(fre.Goalslocal) AS GF, SUM(fre.Goalsvisitor) AS GA, 'Home' AS HA "
-         f"FROM football_results_espn fre "
+         f"FROM football_results fre "
          f"WHERE fre.Date BETWEEN '{date_548_days_ago_str}' AND '{current_week_start_str}' "
          f"GROUP BY League, fre.Local "
          f"UNION ALL "
          f"SELECT League, fre.Visitor as Team, COUNT(fre.Result) AS GP, SUM(fre.Goalsvisitor) AS GF, SUM(fre.Goalslocal) AS GA, 'Away' AS HA "
-         f"FROM football_results_espn fre "
+         f"FROM football_results fre "
          f"WHERE fre.Date BETWEEN '{date_548_days_ago_str}' AND '{current_week_start_str}' "
          f"GROUP BY League, fre.Visitor"
             )
@@ -102,8 +102,13 @@ df_ad=df_ad.reset_index()
 cal_df['Local_League'] = cal_df['Local'] + ' - ' + cal_df['League']
 cal_df['Visitor_League'] = cal_df['Visitor'] + ' - ' + cal_df['League']
 
+print(cal_df['Week'])
+print(cal_df['Year'])
 '''Genera tabla con partidos de la semana'''
 df_week=cal_df.loc[(cal_df['Week'] == current_week) & (cal_df['Year'] == int(actualyear)) ]
+
+print(df_week)
+
 df_week=pd.merge(df_week,df_ad[['_Team_League','Home_attack', 'Home_defense']],left_on='Local_League', right_on='_Team_League', how='left')
 df_week=df_week.drop(columns=['_Team_League'])
 df_week=pd.merge(df_week,df_ad[['_Team_League','Away_attack', 'Away_defense']],left_on='Visitor_League', right_on='_Team_League', how='left')

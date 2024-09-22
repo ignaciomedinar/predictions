@@ -130,7 +130,7 @@ def show_results():
                     "'U.S. Open Cup', "
                     "'Copa de la Liga de Inglaterra', "
                     "'Copa de Alemania', "
-                    "'Coppa Italia') then ph.max_prob else 'NA' end as max_prob "
+                    "'Coppa Italia') then ph.max_prob else 0 end as max_prob "
                     "FROM heroku_9f69e70d94a5650.football_results fr "
                     "left join heroku_9f69e70d94a5650.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
@@ -140,7 +140,7 @@ def show_results():
                     "on upper(fl.country) = coalesce(upper(lg.country),upper(fr.league)) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
-                    "ORDER BY ph.max_prob DESC"
+                    "ORDER BY max_prob DESC"
                     )
         cursor.execute(query, (selected_week_start, selected_week_end))
         # print("selección: " + selected_week_start)
@@ -156,7 +156,7 @@ def show_results():
                     "'U.S. Open Cup', "
                     "'Copa de la Liga de Inglaterra', "
                     "'Copa de Alemania', "
-                    "'Coppa Italia') then ph.max_prob else 'NA' end as max_prob "
+                    "'Coppa Italia') then ph.max_prob else 0 end as max_prob "
                     "FROM heroku_9f69e70d94a5650.football_results fr "
                     "left join heroku_9f69e70d94a5650.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
@@ -166,7 +166,7 @@ def show_results():
                     "on upper(fl.Country) = coalesce(upper(lg.country),upper(fr.league)) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
-                    "ORDER BY ph.max_prob DESC"
+                    "ORDER BY max_prob DESC"
                     )
         cursor.execute(query, (previous_week_start, current_week_end))
         # print("selección: " + previous_week_start)

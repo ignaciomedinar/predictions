@@ -86,19 +86,19 @@
                   {{ '%.1f' % (prediction.max_prob * 100) }} %
                 {% endif %}
                 <td class="text-center">
-                    <span>{prediction.top_homebookmaker}</span>
+                    <span>{{prediction.top_homebookmaker}}</span>
                     <br />
-                    <span>{prediction.top_homeodds}</span>
+                    <span>{{prediction.top_homeodds}}</span>
                   </td>
                   <td class="text-center">
-                    <span>{prediction.top_drawbookmaker}</span>
+                    <span>{{prediction.top_drawbookmaker}}</span>
                     <br />
-                    <span>{prediction.top_drawodds}</span>
+                    <span>{{prediction.top_drawodds}}</span>
                   </td>
                   <td class="text-center">
-                    <span>{prediction.top_awaybookmaker}</span>
+                    <span>{{prediction.top_awaybookmaker}}</span>
                     <br />
-                    <span>{prediction.top_awayodds}</span>
+                    <span>{{prediction.top_awayodds}}</span>
                   </td>
             <!-- <td class="text-center">{{ prediction.result }}</td> -->
         </tr>

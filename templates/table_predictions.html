@@ -86,19 +86,25 @@
                   {{ '%.1f' % (prediction.max_prob * 100) }} %
                 {% endif %}
                 <td class="text-center">
+                    {% if prediction.top_homebookmaker is not none %}
                     <span>{{prediction.top_homebookmaker}}</span>
                     <br />
                     <span>{{prediction.top_homeodds}}</span>
+                    {% endif %}
                   </td>
                   <td class="text-center">
+                    {% if prediction.top_drawbookmaker is not none %}
                     <span>{{prediction.top_drawbookmaker}}</span>
                     <br />
                     <span>{{prediction.top_drawodds}}</span>
+                    {% endif %}
                   </td>
                   <td class="text-center">
+                    {% if prediction.top_awaybookmaker is not none %}
                     <span>{{prediction.top_awaybookmaker}}</span>
                     <br />
                     <span>{{prediction.top_awayodds}}</span>
+                    {% endif %}
                   </td>
             <!-- <td class="text-center">{{ prediction.result }}</td> -->
         </tr>

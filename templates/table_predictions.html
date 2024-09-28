@@ -32,22 +32,20 @@
                 </select>
                 <i class="fa-solid fa-sort"></i>
                 </th>
-            <th class="text-center">Local <i class="fa-solid fa-sort"></i></th>
-            <th class="text-center">Goals Local <i class="fa-solid fa-sort"></i></th>
-            <th class="text-center">Goals Visitor <i class="fa-solid fa-sort"></i></th>
-            <th class="text-center">Visitor <i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">Home<i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">Goals Home<i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">Goals Away<i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">Away<i class="fa-solid fa-sort"></i></th>
             <th class="text-center">Victor
                 <select class="filter-header custom-select" data-col-index="7">
                     <option value="">All</option>
                 </select>
                 <i class="fa-solid fa-sort"></i>
                 </th>
-            <th class="text-center">Probability <i class="fa-solid fa-sort"></i></th>
-                <!-- <select class="filter-header" data-col-index="7">
-                    <option value="">All</option></th> -->
-            <!-- <th class="text-center">Real Result<br>
-                <select class="filter-header" data-col-index="8">
-                    <option value="">All</option></th> -->
+            <th class="text-center">Prob<i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">h<i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">x<i class="fa-solid fa-sort"></i></th>
+            <th class="text-center">a<i class="fa-solid fa-sort"></i></th>
         </tr>
     </thead>
     <tbody id="table-body">
@@ -87,7 +85,21 @@
                 {% if prediction.max_prob is not none %}
                   {{ '%.1f' % (prediction.max_prob * 100) }} %
                 {% endif %}
-            </td>
+                <td class="text-center">
+                    <span>{prediction.top_homebookmaker}</span>
+                    <br />
+                    <span>{prediction.top_homeodds}</span>
+                  </td>
+                  <td class="text-center">
+                    <span>{prediction.top_drawbookmaker}</span>
+                    <br />
+                    <span>{prediction.top_drawodds}</span>
+                  </td>
+                  <td class="text-center">
+                    <span>{prediction.top_awaybookmaker}</span>
+                    <br />
+                    <span>{prediction.top_awayodds}</span>
+                  </td>
             <!-- <td class="text-center">{{ prediction.result }}</td> -->
         </tr>
         {% endfor %}

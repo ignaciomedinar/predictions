@@ -242,27 +242,31 @@ def show_predictions():
     yf=current_week_end.year
 
     # Query the database for the results for the current week
-    query = ("SELECT distinct pr.*, r.result, "
-                "case when r.goalslocal is null then '' else r.goalslocal end as goalslocal, "
-                "case when r.goalsvisitor is null then '' else r.goalsvisitor end as goalsvisitor, "
-                "fl.flag_url, lg.country "
-                "FROM heroku_9f69e70d94a5650.predictions_espn pr "
-                "left join heroku_9f69e70d94a5650.football_results r "
-                "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
-                "left join heroku_9f69e70d94a5650.leagues lg "
-                "on upper(lg.League) = upper(pr.League) "
-                "left join heroku_9f69e70d94a5650.flags fl "
-                "on upper(fl.Country) = upper(lg.Country) "
-                "WHERE pr.date >= %s AND pr.date <= %s "
-                "AND lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') "
-                "and lg.league not in ( "
-                "'Copa Do Brazil', "
-                "'U.S. Open Cup', "
-                "'Copa de la Liga de Inglaterra', "
-                "'Copa de Alemania', "
-                "'Coppa Italia' "
-                ") "
-                "ORDER BY pr.max_prob desc"
+    query = ('''
+             SELECT DISTINCT pr.*, r.result, 
+             CASE WHEN r.goalslocal IS NULL THEN '' ELSE r.goalslocal END AS goalslocal, 
+             CASE WHEN r.goalsvisitor IS NULL THEN '' ELSE r.goalsvisitor END AS goalsvisitor, 
+             fl.flag_url, lg.country,
+             pr.top_homebookmaker, pr.top_homeodds,
+             pr.top_drawbookmaker, pr.top_drawodds,
+             pr.top_awaybookmaker, pr.top_awayodds
+             FROM heroku_9f69e70d94a5650.predictions_espn pr 
+             LEFT JOIN heroku_9f69e70d94a5650.football_results r 
+             ON pr.date = r.date AND pr.local = r.local AND pr.visitor = r.visitor 
+             LEFT JOIN heroku_9f69e70d94a5650.leagues lg 
+             ON UPPER(lg.League) = UPPER(pr.League) 
+             LEFT JOIN heroku_9f69e70d94a5650.flags fl 
+             ON UPPER(fl.Country) = UPPER(lg.Country) 
+             WHERE pr.date >= %s AND pr.date <= %s 
+             AND lg.Country NOT IN ('America', 'Europe', 'Africa', 'Asia', 'Concacaf', 'Conmebol', 'Europe', 'World') 
+             AND lg.league NOT IN (
+             'Copa Do Brazil', 
+             'U.S. Open Cup', 
+             'Copa de la Liga de Inglaterra', 
+             'Copa de Alemania', 
+             'Coppa Italia') 
+             ORDER BY pr.max_prob DESC
+             '''
                 )
     cursor.execute(query, (current_week_start, current_week_end))
     # Get the column names

@@ -161,6 +161,10 @@ df_week['Round']=None
 df_final=df_week[['League', 'Round', 'Week', 'Year', 'Date', 'Local', 'Visitor', 'max_prob', 'bet', 'phg', 'pag']]
 df_final=df_final.round({'phg': 0, 'pag': 0})
 df_final['Created']=datetime.datetime.now()
+df_final['bet']=np.where((df_final['phg'] == df_final['pag']) & (df_final['bet'] == 'Local'),'Tie->Local', \
+        np.where((df_final['phg'] == df_final['pag']) & (df_final['bet'] == 'Visitor'),'Tie->Visitor', \
+        np.where((df_final['phg'] == df_final['pag']) & (df_final['bet'] == 'Tie'),'Tie', \
+        df_final['bet'])))
 
 print(df_final)
 

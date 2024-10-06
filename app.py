@@ -46,18 +46,19 @@ def show_matches():
     six_months = datetime.date.today() + relativedelta(months=+4)
 
     # Query the database for the results for the current week
-    query = ("SELECT fr.*, fl.flag_url "
-                "FROM football_results fr "
-                "left join heroku_9f69e70d94a5650.leagues lg "
-                "on fr.league=lg.league "
-                "left join heroku_9f69e70d94a5650.flags fl "
-                "on upper(fl.country) = upper(lg.country) "
-                "WHERE date >= %s "
-                "AND date <= %s "
-                "AND (goalslocal ='' "
-                "or goalslocal is null) "
-                "ORDER BY date asc, fr.league"
-                )
+    query = ("SELECT fr.*, fl.flag_url, "
+            "lg.country "
+            "FROM football_results fr "
+            "left join heroku_9f69e70d94a5650.leagues lg "
+            "on fr.league=lg.league "
+            "left join heroku_9f69e70d94a5650.flags fl "
+            "on upper(fl.country) = upper(lg.country) "
+            "WHERE date >= %s "
+            "AND date <= %s "
+            "AND (goalslocal ='' "
+            "or goalslocal is null) "
+            "ORDER BY date asc, fr.league"
+            )
     cursor.execute(query, (current_week_start, six_months,))
     # Get the column names
     columns = [col[0] for col in cursor.description]
@@ -130,7 +131,8 @@ def show_results():
                     "'U.S. Open Cup', "
                     "'Copa de la Liga de Inglaterra', "
                     "'Copa de Alemania', "
-                    "'Coppa Italia') then ph.max_prob else 0 end as max_prob "
+                    "'Coppa Italia') then ph.max_prob else 0 end as max_prob, "
+                    "lg.country "
                     "FROM heroku_9f69e70d94a5650.football_results fr "
                     "left join heroku_9f69e70d94a5650.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
@@ -156,7 +158,8 @@ def show_results():
                     "'U.S. Open Cup', "
                     "'Copa de la Liga de Inglaterra', "
                     "'Copa de Alemania', "
-                    "'Coppa Italia') then ph.max_prob else 0 end as max_prob "
+                    "'Coppa Italia') then ph.max_prob else 0 end as max_prob, "
+                    "lg.country "
                     "FROM heroku_9f69e70d94a5650.football_results fr "
                     "left join heroku_9f69e70d94a5650.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "

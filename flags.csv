@@ -233,7 +233,7 @@ Turks and Caicos Islands (the),TC,TCA,796,https://www.worldometers.info/img/flag
 Tuvalu,TV,TUV,798,https://www.worldometers.info/img/flags/tv-flag.gif
 Uganda,UG,UGA,800,https://www.worldometers.info/img/flags/ug-flag.gif
 Ukraine,UA,UKR,804,https://www.worldometers.info/img/flags/ua-flag.gif
-United Arab Emirates (the),AE,ARE,784,https://www.worldometers.info/img/flags/ae-flag.gif
+United Arab Emirates,AE,ARE,784,https://www.worldometers.info/img/flags/ae-flag.gif
 United Kingdom of Great Britain and Northern Ireland (the),GB,GBR,826,https://www.worldometers.info/img/flags/gb-flag.gif
 United States Minor Outlying Islands (the),UM,UMI,581,https://www.worldometers.info/img/flags/um-flag.gif
 USA,US,USA,840,https://www.worldometers.info/img/flags/us-flag.gif
@@ -257,3 +257,6 @@ Conmebol,,,,https://cdn.conmebol.com/wp-content/uploads/2017/05/logo-nueva-conme
 Africa,,,,https://upload.wikimedia.org/wikipedia/en/7/72/Confederation_of_African_Football_logo.svg
 America,,,,https://upload.wikimedia.org/wikipedia/commons/c/c6/America_map.svg
 Scotland,,,,https://upload.wikimedia.org/wikipedia/commons/1/10/Flag_of_Scotland.svg
+Northern Ireland,,,,https://upload.wikimedia.org/wikipedia/commons/4/43/Flag_of_Northern_Ireland_%281953%E2%80%931972%29.svg
+Wales,,,,https://upload.wikimedia.org/wikipedia/commons/d/dc/Flag_of_Wales.svg
+Oceania,,,,https://upload.wikimedia.org/wikipedia/commons/9/93/Oceania_Football_Confederation_logo.svg

@@ -48,6 +48,7 @@ def fetch(start_date, end_date):
             data = {
                 'League': [league] * min_length,
                 'Week': int(fecha_dt.isocalendar().week) * min_length,
+                'Year': fecha_dt.year,
                 'Date': [datetime.strptime(fecha, '%Y%m%d')] * min_length,
                 'Local': home,
                 'Visitor': away,

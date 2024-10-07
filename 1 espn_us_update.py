@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 from datetime import datetime, timedelta, date
 from sqlalchemy import create_engine, text
+from sqlalchemy.exc import SQLAlchemyError
 
 # Define the connection URL
 connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650'
@@ -126,10 +127,18 @@ def update_mysql_table(connection_url):
     
     # Fetch new data from ESPN
     result_df = fetch(start_date, end_date)
+    print(result_df.head(10))
+    print(result_df.tail(10))
     
     # Insert data to MySQL
     table_name = 'football_results_espn_us'
-    result_df.to_sql(table_name, con=engine, if_exists='append', index=False)
+    try:
+        result_df.to_sql(table_name, con=engine, if_exists='append', index=False)
+        engine.commit()  
+    except SQLAlchemyError as e:
+        # Rollback the transaction in case of an error
+        # engine.rollback()
+        print(f"An error occurred: {e}")
     
     # Close the connection to MySQL
     engine.dispose()

@@ -85,7 +85,7 @@ query = ('''
             od.top_DrawOdds,
             od.top_AwayBookmaker,
             od.top_AwayOdds
-            from predictions_espn_us p
+            from predictions_espn p
             left join top_odds od 
             on p.local=od.local
             and p.Visitor =od.visitor

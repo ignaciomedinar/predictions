@@ -82,14 +82,14 @@ df_calc.loc[df_calc['GP']==0, 'attack']=df_calc['avefav']
 df_calc.fillna(1, inplace = True)
 
 # Concatenate Team and League to create a unique index
-df_calc['Team_League'] = df_calc['Team'] + ' - ' + df_calc['League']
+df_calc['Team_League'] = df_calc['Team'] + ' :- ' + df_calc['League']
 
 # Pivot the DataFrame using the new unique index
 df_ad = df_calc.pivot(index='Team_League', columns='HA', values=['attack', 'defense'])
 
 # If you want to split the concatenated column back into 'Team' and 'League' for readability
 df_ad.reset_index(inplace=True)
-df_ad[['Team', 'League']] = df_ad['Team_League'].str.split(' - ', expand=True)
+df_ad[['Team', 'League']] = df_ad['Team_League'].str.split(' :- ', expand=True)
 # df_ad.drop(columns=['Team_League'], inplace=True)
 
 
@@ -99,15 +99,15 @@ df_ad=df_ad.reset_index()
 # print(df_ad)
 
 
-cal_df['Local_League'] = cal_df['Local'] + ' - ' + cal_df['League']
-cal_df['Visitor_League'] = cal_df['Visitor'] + ' - ' + cal_df['League']
+cal_df['Local_League'] = cal_df['Local'] + ' :- ' + cal_df['League']
+cal_df['Visitor_League'] = cal_df['Visitor'] + ' :- ' + cal_df['League']
 
-print(cal_df['Week'])
-print(cal_df['Year'])
+# print(cal_df['Week'])
+# print(cal_df['Year'])
 '''Genera tabla con partidos de la semana'''
 df_week=cal_df.loc[(cal_df['Week'] == current_week) & (cal_df['Year'] == int(actualyear)) ]
 
-print(df_week)
+# print(df_week)
 
 df_week=pd.merge(df_week,df_ad[['_Team_League','Home_attack', 'Home_defense']],left_on='Local_League', right_on='_Team_League', how='left')
 df_week=df_week.drop(columns=['_Team_League'])
@@ -121,7 +121,7 @@ df_week=pd.merge(df_week,df_calc[df_calc['HA'] == 'Away'][['Team_League','avefav
 df_week.rename(columns = {'avefav':'avefav_away'}, inplace = True)
 df_week=df_week.drop(columns=['Team_League'])
 
-print(df_week)
+# print(df_week)
 
 df_week=df_week.assign(phg=df_week['Home_attack']*df_week['Away_defense']*df_week['avefav_home'])
 df_week=df_week.assign(pag=df_week['Away_attack']*df_week['Home_defense']*df_week['avefav_away'])
@@ -132,6 +132,7 @@ for i in range(8):
     hg="p_"+str(i)+"hg"
     df_week[str(ag)]=((df_week['pag']**i)*np.exp(-df_week['pag']))/(math.factorial(i))
     df_week[str(hg)]=((df_week['phg']**i)*np.exp(-df_week['phg']))/math.factorial(i)
+    # print(df_week[str(hg)])
 
 for i in range(8):
     for j in range(8):
@@ -141,6 +142,7 @@ for i in range(8):
             df_week["p"+str(i)+"-"+str(j)]=df_week["p_"+str(i)+"hg"]*df_week["p_"+str(j)+"ag"]
         elif i<j:
             df_week["p"+str(i)+"-"+str(j)]=df_week["p_"+str(i)+"hg"]*df_week["p_"+str(j)+"ag"]
+        # print(df_week["p"+str(i)+"-"+str(j)])
 
 df_week["home_win"]=df_week["p1-0"]+df_week["p2-0"]+df_week["p3-0"]+df_week["p4-0"]+df_week["p5-0"]+df_week["p6-0"]+df_week["p7-0"]+df_week["p2-1"]+df_week["p3-1"]+df_week["p4-1"]+df_week["p5-1"]+df_week["p6-1"]+df_week["p7-1"]+df_week["p3-2"]+df_week["p4-2"]+df_week["p5-2"]+df_week["p6-2"]+df_week["p7-2"]+df_week["p4-3"]+df_week["p5-3"]+df_week["p6-3"]+df_week["p7-3"]+df_week["p5-4"]+df_week["p6-4"]+df_week["p7-4"]+df_week["p6-5"]+df_week["p7-5"]+df_week["p7-6"]
 df_week["draw"]=df_week["p0-0"]+df_week["p1-1"]+df_week["p2-2"]+df_week["p3-3"]+df_week["p4-4"]+df_week["p5-5"]+df_week["p6-6"]+df_week["p7-7"]
@@ -166,7 +168,7 @@ df_final['bet']=np.where((df_final['phg'] == df_final['pag']) & (df_final['bet']
         np.where((df_final['phg'] == df_final['pag']) & (df_final['bet'] == 'Tie'),'Tie', \
         df_final['bet'])))
 
-print(df_final)
+# print(df_final['max_prob'])
 
 # Define the connection URL
 connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650' #?reconnect=true

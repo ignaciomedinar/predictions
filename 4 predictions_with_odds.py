@@ -85,7 +85,7 @@ query = ('''
             od.top_DrawOdds,
             od.top_AwayBookmaker,
             od.top_AwayOdds
-            from predictions_espn p
+            from predictions_espn_us p
             left join top_odds od 
             on p.local=od.local
             and p.Visitor =od.visitor
@@ -104,7 +104,7 @@ with engine.connect() as connection:
     # connection.execute(query)
 
     # Append to the SQL table
-    pred_df.to_sql('predictions_espn', con=engine, if_exists='replace', index=False)
+    pred_df.to_sql('predictions_espn_us', con=engine, if_exists='replace', index=False)
     print("Prediction and odds updated")
             
 engine.dispose()

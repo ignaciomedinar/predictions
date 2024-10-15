@@ -48,7 +48,7 @@ def show_matches():
     # Query the database for the results for the current week
     query = ("SELECT fr.*, fl.flag_url, "
             "lg.country "
-            "FROM football_results fr "
+            "FROM football_results_espn_us fr "
             "left join heroku_9f69e70d94a5650.leagues lg "
             "on fr.league=lg.league "
             "left join heroku_9f69e70d94a5650.flags fl "
@@ -95,7 +95,7 @@ def show_results():
 
     # Get all the weeks from the database
     query = ("SELECT DISTINCT concat(Year,'-W',lpad(Week,2,0)) "
-                "FROM heroku_9f69e70d94a5650.football_results "
+                "FROM heroku_9f69e70d94a5650.football_results_espn_us "
                 "WHERE concat(year,week)<=%s%s "
                 "ORDER by concat(Year,'-W',lpad(week,2,0)) DESC"
                 )
@@ -108,7 +108,7 @@ def show_results():
 
     # Get all the teams from the database
     query = ("SELECT DISTINCT Local "
-                "FROM heroku_9f69e70d94a5650.football_results "
+                "FROM heroku_9f69e70d94a5650.football_results_espn_us "
                 "ORDER BY Local ASC"
                 )
     cursor.execute(query)
@@ -133,7 +133,7 @@ def show_results():
                     "'Copa de Alemania', "
                     "'Coppa Italia') then ph.max_prob else 0 end as max_prob, "
                     "lg.country "
-                    "FROM heroku_9f69e70d94a5650.football_results fr "
+                    "FROM heroku_9f69e70d94a5650.football_results_espn_us fr "
                     "left join heroku_9f69e70d94a5650.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
                     "left join heroku_9f69e70d94a5650.leagues lg "
@@ -160,7 +160,7 @@ def show_results():
                     "'Copa de Alemania', "
                     "'Coppa Italia') then ph.max_prob else 0 end as max_prob, "
                     "lg.country "
-                    "FROM heroku_9f69e70d94a5650.football_results fr "
+                    "FROM heroku_9f69e70d94a5650.football_results_espn_us fr "
                     "left join heroku_9f69e70d94a5650.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
                     "left join heroku_9f69e70d94a5650.leagues lg "
@@ -246,29 +246,38 @@ def show_predictions():
 
     # Query the database for the results for the current week
     query = ('''
-             SELECT DISTINCT pr.*, r.result, 
+             SELECT DISTINCT 
+             pr.League, pr.Round, pr.Week, pr.Year, pr.Date, pr.Local, pr.Visitor,
+             pr.bet, pr.phg, pr.pag, pr.Created, 
+             case when lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') 
+            and lg.league not in ( 
+            'Copa Do Brazil', 
+            'U.S. Open Cup', 
+            'Copa de la Liga de Inglaterra', 
+            'Copa de Alemania', 
+            'Coppa Italia') then pr.max_prob else 0 end as max_prob, 
+             r.result, 
              CASE WHEN r.goalslocal IS NULL THEN '' ELSE r.goalslocal END AS goalslocal, 
              CASE WHEN r.goalsvisitor IS NULL THEN '' ELSE r.goalsvisitor END AS goalsvisitor, 
              fl.flag_url, lg.country,
              pr.top_homebookmaker, pr.top_homeodds,
              pr.top_drawbookmaker, pr.top_drawodds,
              pr.top_awaybookmaker, pr.top_awayodds
-             FROM heroku_9f69e70d94a5650.predictions_espn pr 
-             LEFT JOIN heroku_9f69e70d94a5650.football_results r 
+             FROM heroku_9f69e70d94a5650.predictions_espn_us pr 
+             LEFT JOIN heroku_9f69e70d94a5650.football_results_espn_us r 
              ON pr.date = r.date AND pr.local = r.local AND pr.visitor = r.visitor 
              LEFT JOIN heroku_9f69e70d94a5650.leagues lg 
              ON UPPER(lg.League) = UPPER(pr.League) 
              LEFT JOIN heroku_9f69e70d94a5650.flags fl 
              ON UPPER(fl.Country) = UPPER(lg.Country) 
              WHERE pr.date >= %s AND pr.date <= %s 
-             AND lg.Country NOT IN ('America', 'Europe', 'Africa', 'Asia', 'Concacaf', 'Conmebol', 'Europe', 'World') 
-             AND lg.league NOT IN (
-             'Copa Do Brazil', 
-             'U.S. Open Cup', 
-             'Copa de la Liga de Inglaterra', 
-             'Copa de Alemania', 
-             'Coppa Italia') 
-             ORDER BY pr.max_prob DESC
+             ORDER BY case when lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') 
+            and lg.league not in ( 
+            'Copa Do Brazil', 
+            'U.S. Open Cup', 
+            'Copa de la Liga de Inglaterra', 
+            'Copa de Alemania', 
+            'Coppa Italia') then pr.max_prob else 0 end DESC
              '''
                 )
     cursor.execute(query, (current_week_start, current_week_end))

@@ -132,14 +132,16 @@ def update_mysql_table(connection_url):
     
     # Insert data to MySQL
     table_name = 'football_results_espn_us'
-    try:
-        result_df.to_sql(table_name, con=engine, if_exists='append', index=False)
-        engine.commit()  
-    except SQLAlchemyError as e:
-        # Rollback the transaction in case of an error
-        # engine.rollback()
-        print(f"An error occurred: {e}")
     
+    # try:
+    #     result_df.to_sql(table_name, con=engine, if_exists='append', index=False)
+    #     engine.commit()  
+    # except SQLAlchemyError as e:
+    #     # Rollback the transaction in case of an error
+    #     # engine.rollback()
+    #     print(f"An error occurred: {e}")
+    
+    result_df.to_sql(table_name, con=engine, if_exists='append', index=False)
     # Close the connection to MySQL
     engine.dispose()
 

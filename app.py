@@ -94,10 +94,10 @@ def show_results():
     current_year=datetime.date.today().year
 
     # Get all the weeks from the database
-    query = ("SELECT DISTINCT concat(Year,'-W',lpad(Week,2,0)) "
+    query = ("SELECT DISTINCT concat(Year,'-W',week(date,3)), year, week(date,3) "
                 "FROM heroku_9f69e70d94a5650.football_results_espn_us "
                 "WHERE concat(year,week)<=%s%s "
-                "ORDER by concat(Year,'-W',lpad(week,2,0)) DESC"
+                "ORDER by year desc, week(date,3) DESC"
                 )
     cursor.execute(query, (current_year,current_week,))
     weeks = [week[0] for week in cursor.fetchall()]

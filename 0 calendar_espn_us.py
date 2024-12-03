@@ -24,8 +24,20 @@ def fetch(start_date, end_date):
         div_tags = soup.find_all('section', attrs={'class': 'Card gameModules'})
         
         for div in div_tags:
-            league = div.find('h3', attrs={'class': 'Card__Header__Title Card__Header__Title--no-theme'}).text
-            teams = div.find_all('div', attrs={'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName db'})
+            league_tag = div.find('h3', attrs={'class': 'Card__Header__Title Card__Header__Title--no-theme'})
+            if not league_tag:
+                league_tag = div.find('h3', attrs={'class': 'Card_HeaderTitle CardHeader_Title--no-theme'})
+            # if not league_tag:
+            #     league_tag = div.find('h3', attrs={'class': 'Card__Header__Title Card__Header__Title--no-theme'})
+                if not league_tag:
+                    continue  # Skip this div if no league title is found
+            league = league_tag.text
+
+            teams = div.find_all('div', attrs={'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName truncate db'}) #ScoreCell_TeamName ScoreCell_TeamName--shortDisplayName truncate db
+            if not teams:
+                teams = div.find_all('div', attrs={'class': 'ScoreCell_TeamName ScoreCell_TeamName--shortDisplayName truncate db'})
+            if not teams:
+                teams = div.find_all('div', attrs={'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName db'})                                                            
             goals = div.find_all('div', attrs={'class': 'ScoreCell__Score h4 clr-gray-01 fw-heavy tar ScoreCell_Score--scoreboard pl2'})
             
             home = [team.text for index, team in enumerate(teams) if index % 2 == 0]
@@ -69,34 +81,45 @@ start_date = '20230101'
 end_date = '20241031'
 result_df = fetch(start_date, end_date)
 
+# conn = mysql.connector.connect(
+#     host='eu-cluster-west-01.k8s.cleardb.net',
+#     database='heroku_9f69e70d94a5650',
+#     user='b902878f5a41b4',  #previous user b1bb4e88305bd5
+#     password='4acedb6a', #b6aa7ee8
+#     port='3306'
+# )
 conn = mysql.connector.connect(
-    host='eu-cluster-west-01.k8s.cleardb.net',
-    database='heroku_9f69e70d94a5650',
-    user='b902878f5a41b4',  #previous user b1bb4e88305bd5
-    password='4acedb6a', #b6aa7ee8
-    port='3306'
+    host='junction.proxy.rlwy.net',
+    database='Predictions',
+    user='root',
+    password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
+    port='27797',
+    allowPublicKeyRetrieval=True
+    # charset='utf8',  # Ensure the connection uses UTF-8
+    # use_unicode=True
 )
 
 # Heroku clearmysql
 cursor = conn.cursor()
-sql = 'CREATE DATABASE IF NOT EXISTS heroku_9f69e70d94a5650;'
+sql = 'CREATE DATABASE IF NOT EXISTS Predictions;' # heroku_9f69e70d94a5650
 cursor.execute(sql)
-sql='USE heroku_9f69e70d94a5650;'
+sql='USE Predictions;' #heroku_9f69e70d94a5650
 cursor.execute(sql)
-sql='DROP TABLE IF EXISTS heroku_9f69e70d94a5650.football_results_espn_us'
+sql='DROP TABLE IF EXISTS Predictions.results' # heroku_9f69e70d94a5650.football_results_espn_us
 cursor.execute(sql)
 conn.close()
 
 
 # Define the connection URL
-connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650' #?reconnect=true
+# connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650' #?reconnect=true
+connection_url = 'mysql://root:xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB@junction.proxy.rlwy.net:27797/Predictions'
 
 
 # Create the engine
 engine = create_engine(connection_url) #, pool_recycle=3600
 
 # Insert data from the DataFrame to MySQL
-table_name = 'football_results_espn_us'
+table_name = 'results' # football_results_espn_us
 result_df.to_sql(table_name, con=engine, if_exists='replace', index=False)
 
 # Close the connection to MySQL

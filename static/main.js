@@ -232,51 +232,29 @@ $(document).ready(function() {
 document.addEventListener("DOMContentLoaded", function () {
   const cookieBanner = document.getElementById("cookie-banner");
   const acceptCookiesButton = document.getElementById("accept-cookies");
-  const declineCookiesButton = document.getElementById("decline-cookies");
 
-  // Check if the user has already accepted or declined cookies in the current session
+  // Check if the user has already accepted cookies in the current session
   const cookiesPreference = sessionStorage.getItem("cookiesPreference");
+
   // Remove inline CSS to reveal the content
   document.body.style.display = "block";
 
-  console.log("DOM load: ",cookiesPreference);
-  if (cookiesPreference) {
-  // if (!cookiesPreference) {
+  // Hide the banner if cookies were already accepted
+  if (cookiesPreference === "accepted") {
     cookieBanner.style.display = "none";
-    // cookieBanner.style.display = "block";
-    console.log("Aquí debe entrar");
   }
 
   acceptCookiesButton.addEventListener("click", function () {
     sessionStorage.setItem("cookiesPreference", "accepted");
     cookieBanner.style.display = "none";
-    
-    // Initialize Google Analytics when cookies are accepted
-    if (typeof gtag !== "undefined") {
-      gtag('js', new Date());
-      gtag('config', 'G-WRCQ41KVM8');
-    }
 
-    // Handle any other cookie storage or other actions on acceptance
+    // Log for debugging
     console.log("Accepting cookies");
-    console.log(sessionStorage.getItem("cookiesPreference"));
-    console.log(cookiesPreference);
   });
 
-  declineCookiesButton.addEventListener("click", function () {
-    sessionStorage.setItem("cookiesPreference", "declined");
-    cookieBanner.style.display = "none";
-    
-    // Handle cookie deletion or any other action on decline
-    // Clear any stored cookies here if needed
-    
-    console.log("Declining cookies")
-    console.log(cookiesPreference);
-
-    // Clear Google Analytics cookies
-    if (typeof gtag !== "undefined") {
-      // Send an event to disable Google Analytics tracking
-      gtag('config', 'G-WRCQ41KVM8', { 'send_page_view': false });
-    }
-  });
+  // Initialize Google Analytics (this happens regardless of cookie acceptance)
+  if (typeof gtag !== "undefined") {
+    gtag('js', new Date());
+    gtag('config', 'G-WRCQ41KVM8');
+  }
 });

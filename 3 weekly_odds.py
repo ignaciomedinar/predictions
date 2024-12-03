@@ -34,7 +34,9 @@ leagues =['soccer_argentina_primera_division','soccer_australia_aleague',
           'soccer_uefa_europa_league','soccer_usa_mls']
 
 # Define the database connection URL
-connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650' #?reconnect=true
+# connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650' #?reconnect=true
+connection_url = 'mysql://root:xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB@junction.proxy.rlwy.net:27797/Predictions'
+
 engine = create_engine(connection_url)  
 
 # Drop the table if it exists at the beginning

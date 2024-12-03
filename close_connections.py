@@ -1,12 +1,22 @@
 import mysql.connector
 
 # Database credentials
+# heroku
+# db_config = {
+#     'host': 'eu-cluster-west-01.k8s.cleardb.net',
+#     'database': 'heroku_9f69e70d94a5650',
+#     'user': 'b902878f5a41b4',
+#     'password': '4acedb6a',
+#     'port': '3306'
+# }
+
+# railway
 db_config = {
-    'host': 'eu-cluster-west-01.k8s.cleardb.net',
-    'database': 'heroku_9f69e70d94a5650',
-    'user': 'b902878f5a41b4',
-    'password': '4acedb6a',
-    'port': '3306'
+    'host': 'junction.proxy.rlwy.net',
+    'database': 'Predictions',
+    'user': 'root',
+    'password': 'xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
+    'port': '27797'
 }
 
 # Establish connection

@@ -4,6 +4,8 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import calendar
 import smtplib
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
 
@@ -33,13 +35,32 @@ def show_matches():
     # cnx = mysql.connector.connect(user='root', password='milanesa',
                                 #   host='localhost', database='football')
      ## heroku db
+    # cnx = mysql.connector.connect(
+    # host='eu-cluster-west-01.k8s.cleardb.net',
+    # database='heroku_9f69e70d94a5650',
+    # user='b902878f5a41b4',
+    # password='4acedb6a',
+    # port='3306'
+    # )
+    # cnx=mysql.connector.connect(
+    # host='junction.proxy.rlwy.net',
+    # database='Predictions',
+    # user='root',
+    # password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
+    # port='27797',
+    # charset='utf8',  # Ensure the connection uses UTF-8
+    # use_unicode=True
+    # )
     cnx = mysql.connector.connect(
-    host='eu-cluster-west-01.k8s.cleardb.net',
-    database='heroku_9f69e70d94a5650',
-    user='b902878f5a41b4',
-    password='4acedb6a',
-    port='3306'
+    host=os.getenv('MYSQL_HOST'),
+    database=os.getenv('MYSQL_DATABASE'),
+    user=os.getenv('MYSQL_USER'),
+    password=os.getenv('MYSQL_PASSWORD'),
+    port=os.getenv('MYSQL_PORT'),
+    charset='utf8',  # Ensure the connection uses UTF-8
+    use_unicode=True
     )
+
     cursor = cnx.cursor()
     current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
     current_week_end = current_week_start + datetime.timedelta(days=6)
@@ -48,10 +69,10 @@ def show_matches():
     # Query the database for the results for the current week
     query = ("SELECT fr.*, fl.flag_url, "
             "lg.country "
-            "FROM football_results_espn_us fr "
-            "left join heroku_9f69e70d94a5650.leagues lg "
+            "FROM results fr "
+            "left join Predictions.leagues lg "
             "on fr.league=lg.league "
-            "left join heroku_9f69e70d94a5650.flags fl "
+            "left join Predictions.flags fl "
             "on upper(fl.country) = upper(lg.country) "
             "WHERE date >= %s "
             "AND date <= %s "
@@ -80,12 +101,21 @@ def show_results():
     #                               host='localhost', database='football')
      ## heroku db
     #mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650
-    cnx = mysql.connector.connect(
-    host='eu-cluster-west-01.k8s.cleardb.net',
-    database='heroku_9f69e70d94a5650',
-    user='b902878f5a41b4',
-    password='4acedb6a',
-    port='3306'
+    # cnx = mysql.connector.connect(
+    # host='eu-cluster-west-01.k8s.cleardb.net',
+    # database='heroku_9f69e70d94a5650',
+    # user='b902878f5a41b4',
+    # password='4acedb6a',
+    # port='3306'
+    # )
+    cnx=mysql.connector.connect(
+    host='junction.proxy.rlwy.net',
+    database='Predictions',
+    user='root',
+    password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
+    port='27797',
+    charset='utf8',  # Ensure the connection uses UTF-8
+    use_unicode=True
     )
     cursor = cnx.cursor()
     previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=7)
@@ -95,7 +125,7 @@ def show_results():
 
     # Get all the weeks from the database
     query = ("SELECT DISTINCT concat(Year,'-W',week(date,3)), year, week(date,3) "
-                "FROM heroku_9f69e70d94a5650.football_results_espn_us "
+                "FROM Predictions.results "
                 "WHERE concat(year,week)<=%s%s "
                 "ORDER by year desc, week(date,3) DESC"
                 )
@@ -108,7 +138,7 @@ def show_results():
 
     # Get all the teams from the database
     query = ("SELECT DISTINCT Local "
-                "FROM heroku_9f69e70d94a5650.football_results_espn_us "
+                "FROM Predictions.results "
                 "ORDER BY Local ASC"
                 )
     cursor.execute(query)
@@ -133,12 +163,12 @@ def show_results():
                     "'Copa de Alemania', "
                     "'Coppa Italia') then ph.max_prob else 0 end as max_prob, "
                     "lg.country "
-                    "FROM heroku_9f69e70d94a5650.football_results_espn_us fr "
-                    "left join heroku_9f69e70d94a5650.predictions_history ph "
+                    "FROM Predictions.results fr "
+                    "left join Predictions.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
-                    "left join heroku_9f69e70d94a5650.leagues lg "
+                    "left join Predictions.leagues lg "
                     "on lg.league = fr.league "
-                    "left join heroku_9f69e70d94a5650.flags fl "
+                    "left join Predictions.flags fl "
                     "on upper(fl.country) = coalesce(upper(lg.country),upper(fr.league)) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
@@ -160,12 +190,12 @@ def show_results():
                     "'Copa de Alemania', "
                     "'Coppa Italia') then ph.max_prob else 0 end as max_prob, "
                     "lg.country "
-                    "FROM heroku_9f69e70d94a5650.football_results_espn_us fr "
-                    "left join heroku_9f69e70d94a5650.predictions_history ph "
+                    "FROM Predictions.results fr "
+                    "left join Predictions.predictions_history ph "
                     "on fr.date = ph.date and fr.local=ph.local and fr.visitor=ph.visitor "
-                    "left join heroku_9f69e70d94a5650.leagues lg "
+                    "left join Predictions.leagues lg "
                     "on lg.league = fr.league "
-                    "left join heroku_9f69e70d94a5650.flags fl "
+                    "left join Predictions.flags fl "
                     "on upper(fl.Country) = coalesce(upper(lg.country),upper(fr.league)) "
                     "WHERE fr.date >= %s AND fr.date <= %s "
                     "AND fr.goalslocal <>'' "
@@ -227,12 +257,21 @@ def show_predictions():
     # cnx = mysql.connector.connect(user='root', password='milanesa',
     #                               host='localhost', database='football')
      ## heroku db
-    cnx = mysql.connector.connect(
-    host='eu-cluster-west-01.k8s.cleardb.net',
-    database='heroku_9f69e70d94a5650',
-    user='b902878f5a41b4',
-    password='4acedb6a',
-    port='3306'
+    # cnx = mysql.connector.connect(
+    # host='eu-cluster-west-01.k8s.cleardb.net',
+    # database='heroku_9f69e70d94a5650',
+    # user='b902878f5a41b4',
+    # password='4acedb6a',
+    # port='3306'
+    # )
+    cnx=mysql.connector.connect(
+    host='junction.proxy.rlwy.net',
+    database='Predictions',
+    user='root',
+    password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
+    port='27797',
+    charset='utf8',  # Ensure the connection uses UTF-8
+    use_unicode=True
     )
     cursor = cnx.cursor()
     previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=7)
@@ -263,12 +302,12 @@ def show_predictions():
              pr.top_homebookmaker, pr.top_homeodds,
              pr.top_drawbookmaker, pr.top_drawodds,
              pr.top_awaybookmaker, pr.top_awayodds
-             FROM heroku_9f69e70d94a5650.predictions_espn_us pr 
-             LEFT JOIN heroku_9f69e70d94a5650.football_results_espn_us r 
+             FROM Predictions.predictions pr 
+             LEFT JOIN Predictions.results r 
              ON pr.date = r.date AND pr.local = r.local AND pr.visitor = r.visitor 
-             LEFT JOIN heroku_9f69e70d94a5650.leagues lg 
+             LEFT JOIN Predictions.leagues lg 
              ON UPPER(lg.League) = UPPER(pr.League) 
-             LEFT JOIN heroku_9f69e70d94a5650.flags fl 
+             LEFT JOIN Predictions.flags fl 
              ON UPPER(fl.Country) = UPPER(lg.Country) 
              WHERE pr.date >= %s AND pr.date <= %s 
              ORDER BY case when lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') 
@@ -301,12 +340,21 @@ def show_invest():
     # cnx = mysql.connector.connect(user='root', password='milanesa',
     #                               host='localhost', database='football')
      ## heroku db
-    cnx = mysql.connector.connect(
-    host='eu-cluster-west-01.k8s.cleardb.net',
-    database='heroku_9f69e70d94a5650',
-    user='b902878f5a41b4',
-    password='4acedb6a',
-    port='3306'
+    # cnx = mysql.connector.connect(
+    # host='eu-cluster-west-01.k8s.cleardb.net',
+    # database='heroku_9f69e70d94a5650',
+    # user='b902878f5a41b4',
+    # password='4acedb6a',
+    # port='3306'
+    # )
+    cnx=mysql.connector.connect(
+    host='junction.proxy.rlwy.net',
+    database='Predictions',
+    user='root',
+    password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
+    port='27797',
+    charset='utf8',  # Ensure the connection uses UTF-8
+    use_unicode=True
     )
     cursor = cnx.cursor()
     current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
@@ -314,7 +362,7 @@ def show_invest():
 
     # Query the database for the results for the current week
     query = ("SELECT distinct League "
-                "FROM heroku_9f69e70d94a5650.predictions "
+                "FROM Predictions.predictions "
                 "WHERE date >= %s "
                 "ORDER BY League"
                 )
@@ -345,21 +393,30 @@ def show_invest():
             # cnx = mysql.connector.connect(user='root', password='milanesa',
             #                             host='localhost', database='football')
             ## heroku db
-            cnx = mysql.connector.connect(
-            host='eu-cluster-west-01.k8s.cleardb.net',
-            database='heroku_9f69e70d94a5650',
-            user='b902878f5a41b4',
-            password='4acedb6a',
-            port='3306'
+            # cnx = mysql.connector.connect(
+            # host='eu-cluster-west-01.k8s.cleardb.net',
+            # database='heroku_9f69e70d94a5650',
+            # user='b902878f5a41b4',
+            # password='4acedb6a',
+            # port='3306'
+            # )
+            cnx=mysql.connector.connect(
+            host='junction.proxy.rlwy.net',
+            database='Predictions',
+            user='root',
+            password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
+            port='27797',
+            charset='utf8',  # Ensure the connection uses UTF-8
+            use_unicode=True
             )
             cursor = cnx.cursor()
 
     # Query the database for the results for the current week
             query = ("SELECT distinct pr.*, r.result, fl.flag_url "
-                        "FROM heroku_9f69e70d94a5650.predictions pr "
-                        "left join heroku_9f69e70d94a5650.football_results r "
+                        "FROM Predictions.predictions pr "
+                        "left join Predictions.football_results r "
                         "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
-                        "left join heroku_9f69e70d94a5650.flags fl "
+                        "left join Predictions.flags fl "
                         "on upper(fl.Country) = upper(pr.League) "
                         "WHERE pr.date >= %s AND pr.date <= %s "
                         f"AND pr.league in ({selected_leagues_str}) "

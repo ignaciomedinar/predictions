@@ -15,7 +15,7 @@
     <!-- Include Bootstrap Datepicker CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" type="image/png" href="static/balon2.png"/>
+    <link rel="icon" type="image/png" href="static/soccer_ball.png"/>
     <meta name="fo-verify" content="24de5f42-7458-492f-a906-154cb817b974" />
 </head>
 <!-- Google tag (gtag.js) -->
@@ -31,7 +31,7 @@
     <header class="shadow-sm header">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand" href="/"><img class="shadow-sm rounded" src="static/logo-test3.jpg" alt="Goal Genius"></a>
+                <a class="navbar-brand" href="/"><img class="welcome-image" src="static/soccer_ball.png" alt="Goal Genius"><span class="banner-header">Goal Genius!</span></a>
                 <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -61,7 +61,7 @@
         </div>
     </header>    
 
-    <main class="main">
+    <main class="main img-fluid">
         <div class="container">
             <h1 class="title mx-2 my-4">{{ title }}</h1>
             {% block main %}
@@ -78,7 +78,6 @@
     <div id="cookie-banner" class="cookie-banner">
         <p>This website uses cookies to ensure you get the best experience on our website.</p>
         <button id="accept-cookies" class="btn btn-primary mx-4">Accept</button>
-        <button id="decline-cookies" class="btn btn-secondary mx-4">Decline</button>
     </div>      
 
     <footer class="footer">

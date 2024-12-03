@@ -12,8 +12,8 @@ Antigua and Barbuda,AG,ATG,28,https://www.worldometers.info/img/flags/ag-flag.gi
 Argentina,AR,ARG,32,https://www.worldometers.info/img/flags/ar-flag.gif
 Armenia,AM,ARM,51,https://www.worldometers.info/img/flags/am-flag.gif
 Aruba,AW,ABW,533,https://www.worldometers.info/img/flags/aw-flag.gif
-Australia,AU,AUS,36,https://www.worldometers.info/img/flags/au-flag.gif
-Austria,AT,AUT,40,https://www.worldometers.info/img/flags/at-flag.gif
+Australia,AU,AUS,36,https://www.worldometers.info/img/flags/at-flag.gif
+Austria,AT,AUT,40,https://www.worldometers.info/img/flags/au-flag.gif
 Azerbaijan,AZ,AZE,31,https://www.worldometers.info/img/flags/az-flag.gif
 Bahamas (the),BS,BHS,44,https://www.worldometers.info/img/flags/bs-flag.gif
 Bahrain,BH,BHR,48,https://www.worldometers.info/img/flags/bh-flag.gif
@@ -59,7 +59,7 @@ Cuba,CU,CUB,192,https://www.worldometers.info/img/flags/cu-flag.gif
 Cura�ao,CW,CUW,531,https://www.worldometers.info/img/flags/cw-flag.gif
 Cyprus,CY,CYP,196,https://www.worldometers.info/img/flags/cy-flag.gif
 Czechia,CZ,CZE,203,https://www.worldometers.info/img/flags/cz-flag.gif
-Denmark,DK,DNK,208,https://www.worldometers.info/img/flags/dk-flag.gif
+Denmark,DK,DNK,208,https://upload.wikimedia.org/wikipedia/commons/9/9c/Flag_of_Denmark.svg
 Djibouti,DJ,DJI,262,https://www.worldometers.info/img/flags/dj-flag.gif
 Dominica,DM,DMA,212,https://www.worldometers.info/img/flags/dm-flag.gif
 Dominican Republic (the),DO,DOM,214,https://www.worldometers.info/img/flags/do-flag.gif
@@ -161,7 +161,7 @@ New Caledonia,NC,NCL,540,https://www.worldometers.info/img/flags/nc-flag.gif
 New Zealand,NZ,NZL,554,https://www.worldometers.info/img/flags/nz-flag.gif
 Nicaragua,NI,NIC,558,https://www.worldometers.info/img/flags/ni-flag.gif
 Niger (the),NE,NER,562,https://www.worldometers.info/img/flags/ne-flag.gif
-Nigeria,NG,NGA,566,https://www.worldometers.info/img/flags/ng-flag.gif
+Nigeria,NG,NGA,566,https://upload.wikimedia.org/wikipedia/commons/7/79/Flag_of_Nigeria.svg
 Niue,NU,NIU,570,https://www.worldometers.info/img/flags/nu-flag.gif
 Norfolk Island,NF,NFK,574,https://www.worldometers.info/img/flags/nf-flag.gif
 Northern Mariana Islands (the),MP,MNP,580,https://www.worldometers.info/img/flags/mp-flag.gif
@@ -200,7 +200,7 @@ Senegal,SN,SEN,686,https://www.worldometers.info/img/flags/sn-flag.gif
 Serbia,RS,SRB,688,https://www.worldometers.info/img/flags/rs-flag.gif
 Seychelles,SC,SYC,690,https://www.worldometers.info/img/flags/sc-flag.gif
 Sierra Leone,SL,SLE,694,https://www.worldometers.info/img/flags/sl-flag.gif
-Singapore,SG,SGP,702,https://www.worldometers.info/img/flags/sg-flag.gif
+Singapore,SG,SGP,702,https://upload.wikimedia.org/wikipedia/commons/4/48/Flag_of_Singapore.svg
 Sint Maarten (Dutch part),SX,SXM,534,https://www.worldometers.info/img/flags/sx-flag.gif
 Slovakia,SK,SVK,703,https://www.worldometers.info/img/flags/sk-flag.gif
 Slovenia,SI,SVN,705,https://www.worldometers.info/img/flags/si-flag.gif
@@ -214,8 +214,8 @@ Sri Lanka,LK,LKA,144,https://www.worldometers.info/img/flags/lk-flag.gif
 Sudan (the),SD,SDN,729,https://www.worldometers.info/img/flags/sd-flag.gif
 Suriname,SR,SUR,740,https://www.worldometers.info/img/flags/sr-flag.gif
 Svalbard and Jan Mayen,SJ,SJM,744,https://www.worldometers.info/img/flags/sj-flag.gif
-Sweden,SE,SWE,752,https://www.worldometers.info/img/flags/se-flag.gif
-Switzerland,CH,CHE,756,https://www.worldometers.info/img/flags/ch-flag.gif
+Sweden,SE,SWE,752,https://upload.wikimedia.org/wikipedia/en/4/4c/Flag_of_Sweden.svg
+Switzerland,CH,CHE,756,https://upload.wikimedia.org/wikipedia/commons/0/08/Flag_of_Switzerland_%28Pantone%29.svg
 Syrian Arab Republic,SY,SYR,760,https://www.worldometers.info/img/flags/sy-flag.gif
 Taiwan (Province of China),TW,TWN,158,https://www.worldometers.info/img/flags/tw-flag.gif
 Tajikistan,TJ,TJK,762,https://www.worldometers.info/img/flags/tj-flag.gif
@@ -248,7 +248,7 @@ Wallis and Futuna,WF,WLF,876,https://www.worldometers.info/img/flags/wf-flag.gif
 Western Sahara,EH,ESH,732,https://www.worldometers.info/img/flags/eh-flag.gif
 Yemen,YE,YEM,887,https://www.worldometers.info/img/flags/ye-flag.gif
 Zambia,ZM,ZMB,894,https://upload.wikimedia.org/wikipedia/commons/0/06/Flag_of_Zambia.svg
-Zimbabwe,ZW,ZWE,716,https://www.worldometers.info/img/flags/zw-flag.gif
+Zimbabwe,ZW,ZWE,716,https://upload.wikimedia.org/wikipedia/commons/6/6a/Flag_of_Zimbabwe.svg
 World,,,,https://www.svgrepo.com/show/12661/earth.svg
 Asia,,,,https://upload.wikimedia.org/wikipedia/commons/3/36/AFC_text_logo.png
 Europe,,,,https://cdn.worldvectorlogo.com/logos/uefa.svg

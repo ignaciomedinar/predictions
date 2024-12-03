@@ -2,12 +2,23 @@ import mysql.connector
 import pandas as pd
 from sqlalchemy import create_engine, text
 
-cnx =mysql.connector.connect(
-    host='eu-cluster-west-01.k8s.cleardb.net',
-    database='heroku_9f69e70d94a5650', #heroku_f8c05e23b7aa26a
-    user='b902878f5a41b4',
-    password='4acedb6a',
-    port='3306'
+# cnx =mysql.connector.connect(
+#     host='eu-cluster-west-01.k8s.cleardb.net',
+#     database='heroku_9f69e70d94a5650', #heroku_f8c05e23b7aa26a
+#     user='b902878f5a41b4',
+#     password='4acedb6a',
+#     port='3306'
+# )
+cnx = mysql.connector.connect(
+    host='junction.proxy.rlwy.net',
+    database='Predictions',
+    user='root',
+    password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
+    port='27797'
+    # charset='utf8',  # Ensure the connection uses UTF-8
+    # use_unicode=True,
+    # allow_public_key_retrieval=True,
+    # auth_plugin='mysql_native_password'
 )
 
 cursor = cnx.cursor()
@@ -85,7 +96,7 @@ query = ('''
             od.top_DrawOdds,
             od.top_AwayBookmaker,
             od.top_AwayOdds
-            from predictions_espn_us p
+            from predictions p
             left join top_odds od 
             on p.local=od.local
             and p.Visitor =od.visitor
@@ -95,7 +106,9 @@ pred_df=pd.read_sql(query,cnx)
 cursor.close()
 cnx.close()
 
-connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650' #?reconnect=true
+# connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650' #?reconnect=true
+connection_url = 'mysql://root:xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB@junction.proxy.rlwy.net:27797/Predictions'
+
 engine = create_engine(connection_url)  
 
 # Drop the table if it exists at the beginning
@@ -104,7 +117,7 @@ with engine.connect() as connection:
     # connection.execute(query)
 
     # Append to the SQL table
-    pred_df.to_sql('predictions_espn_us', con=engine, if_exists='replace', index=False)
+    pred_df.to_sql('predictions', con=engine, if_exists='replace', index=False)
     print("Prediction and odds updated")
             
 engine.dispose()

@@ -16,12 +16,23 @@ actualyear = datetime.date.today().strftime("%Y")
 def get_week_number(date):
     return int(date.isocalendar().week)
 
-cnx =mysql.connector.connect(
-    host='eu-cluster-west-01.k8s.cleardb.net',
-    database='heroku_9f69e70d94a5650', #heroku_f8c05e23b7aa26a
-    user='b902878f5a41b4',
-    password='4acedb6a',
-    port='3306'
+# cnx =mysql.connector.connect(
+#     host='eu-cluster-west-01.k8s.cleardb.net',
+#     database='heroku_9f69e70d94a5650', #heroku_f8c05e23b7aa26a
+#     user='b902878f5a41b4',
+#     password='4acedb6a',
+#     port='3306'
+# )
+cnx = mysql.connector.connect(
+    host='junction.proxy.rlwy.net',
+    database='Predictions',
+    user='root',
+    password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
+    port='27797'
+    # charset='utf8',  # Ensure the connection uses UTF-8
+    # use_unicode=True,
+    # allow_public_key_retrieval=True,
+    # auth_plugin='mysql_native_password'
 )
 
 cursor = cnx.cursor()
@@ -34,7 +45,7 @@ current_week_end = current_week_start + datetime.timedelta(days=6)
 next_week_end=current_week_start + datetime.timedelta(days=13)
 date_548_days_ago = datetime.datetime.now().date() - datetime.timedelta(days=548)
 query = ("SELECT DISTINCT League, date(Date) as Date, Local, Visitor, Goalslocal, Goalsvisitor, Result, year(date) as Year "
-            "FROM heroku_9f69e70d94a5650.football_results_espn_us " # football
+            "FROM results " # football_results_espn_us
             "ORDER BY Date ASC"
             )
 cal_df=pd.read_sql(query,cnx)
@@ -45,12 +56,12 @@ current_week_start_str = current_week_start.strftime('%Y-%m-%d')
 date_548_days_ago_str = date_548_days_ago.strftime('%Y-%m-%d')
 
 query = (f"SELECT League, fre.Local as Team, COUNT(fre.Result) AS GP, SUM(fre.Goalslocal) AS GF, SUM(fre.Goalsvisitor) AS GA, 'Home' AS HA "
-         f"FROM football_results_espn_us fre "
+         f"FROM results fre "
          f"WHERE fre.Date BETWEEN '{date_548_days_ago_str}' AND '{current_week_start_str}' "
          f"GROUP BY League, fre.Local "
          f"UNION ALL "
          f"SELECT League, fre.Visitor as Team, COUNT(fre.Result) AS GP, SUM(fre.Goalsvisitor) AS GF, SUM(fre.Goalslocal) AS GA, 'Away' AS HA "
-         f"FROM football_results_espn_us fre "
+         f"FROM results fre "
          f"WHERE fre.Date BETWEEN '{date_548_days_ago_str}' AND '{current_week_start_str}' "
          f"GROUP BY League, fre.Visitor"
             )
@@ -171,7 +182,9 @@ df_final['bet']=np.where((df_final['phg'] == df_final['pag']) & (df_final['bet']
 # print(df_final['max_prob'])
 
 # Define the connection URL
-connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650' #?reconnect=true
+# connection_url = 'mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650' #?reconnect=true
+connection_url = 'mysql://root:xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB@junction.proxy.rlwy.net:27797/Predictions'
+
 
 # Create the engine
 engine = create_engine(connection_url) 
@@ -180,11 +193,11 @@ engine = create_engine(connection_url)
 # engine = create_engine(f'mysql://{user}:{password}@{host}/{database}')
 
 # Insert data from the DataFrame to MySQL
-table_name = 'predictions_espn_us'
+table_name = 'predictions' #predictions
 df_final.to_sql(table_name, con=engine, if_exists='replace', index=False)
 
 # Append the dataframe to the MySQL table
-df_final.to_sql('predictions_history', con=engine, if_exists='append', index=False) # changed from predictions_history_espn
+df_final.to_sql('predictions_history', con=engine, if_exists='append', index=False) # changed from predictions_history
 print('Predictions completed!')
 
 # Close the connection to MySQL

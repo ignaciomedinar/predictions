@@ -21,13 +21,13 @@ app.jinja_env.filters['add_days'] = add_days
 
 @app.route('/')
 def home():
-    title = 'Welcome'
+    title = 'Welcome to Goal Genius!'
     message='Goal Genius is a platform that offers football result predictions on football matches from \
         the most significant Leagues. It also provides Dates, Results, and the Matches that will \
-        take place in the next 4 months.<br><br> \
+        take place in the next weeks.<br><br> \
         The predictions are based \
         on a statistic model considering goals scored and goals received by teams in the last two years.'
-    return render_template('base.html', title=title, message=message)
+    return render_template('homepage.html', title=title, message=message)
 
 @app.route('/calendar')
 def show_matches():
@@ -161,7 +161,10 @@ def show_results():
                     "'U.S. Open Cup', "
                     "'Copa de la Liga de Inglaterra', "
                     "'Copa de Alemania', "
-                    "'Coppa Italia') then ph.max_prob else 0 end as max_prob, "
+                    "'Coppa Italia') "
+                    "and lower(lg.League) not like '%cup%' "
+                    "and lower(lg.League) not like '%copa%' "
+                    "then ph.max_prob else 0 end as max_prob, "
                     "lg.country "
                     "FROM Predictions.results fr "
                     "left join Predictions.predictions_history ph "
@@ -188,7 +191,10 @@ def show_results():
                     "'U.S. Open Cup', "
                     "'Copa de la Liga de Inglaterra', "
                     "'Copa de Alemania', "
-                    "'Coppa Italia') then ph.max_prob else 0 end as max_prob, "
+                    "'Coppa Italia') " 
+                    "and lower(lg.League) not like '%cup%' "
+                    "and lower(lg.League) not like '%copa%' "
+                    "then ph.max_prob else 0 end as max_prob, "
                     "lg.country "
                     "FROM Predictions.results fr "
                     "left join Predictions.predictions_history ph "
@@ -294,7 +300,10 @@ def show_predictions():
             'U.S. Open Cup', 
             'Copa de la Liga de Inglaterra', 
             'Copa de Alemania', 
-            'Coppa Italia') then pr.max_prob else 0 end as max_prob, 
+            'Coppa Italia')
+             and lower(lg.League) not like '%cup%' 
+            and lower(lg.League) not like '%copa%' 
+             then pr.max_prob else 0 end as max_prob, 
              r.result, 
              CASE WHEN r.goalslocal IS NULL THEN '' ELSE r.goalslocal END AS goalslocal, 
              CASE WHEN r.goalsvisitor IS NULL THEN '' ELSE r.goalsvisitor END AS goalsvisitor, 
@@ -316,7 +325,10 @@ def show_predictions():
             'U.S. Open Cup', 
             'Copa de la Liga de Inglaterra', 
             'Copa de Alemania', 
-            'Coppa Italia') then pr.max_prob else 0 end DESC
+            'Coppa Italia')
+            and lower(lg.League) not like '%cup%' 
+            and lower(lg.League) not like '%copa%' 
+            then pr.max_prob else 0 end DESC
              '''
                 )
     cursor.execute(query, (current_week_start, current_week_end))

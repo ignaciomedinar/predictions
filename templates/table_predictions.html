@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% block main %}
+<main class="main img-fluid">
+    <div class="container table-container">
+        <h1 class="title mx-2 my-4">{{ title }}</h1>
 <div class="container">
 <h4 class="m-2">{{ mi }} {{ di }} - {{ mf }} {{ df }}, {{ yf }}</h4>
 
@@ -167,4 +170,6 @@
           </div>
           {% endfor %}
 </div>
+</div>
+</main>
 {% endblock %}

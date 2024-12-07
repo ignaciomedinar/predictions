@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block main %}
 {% if leagues %}
+<main class="main img-fluid">
+    <div class="container table-container">
+        <h1 class="title mx-2 my-4">{{ title }}</h1>
 <form method="POST" action="/invest" class="mb-2">
     <div class="cont col-md-4">
         <div class="form-floating">
@@ -189,6 +192,7 @@
         you want to bet on (default is 10), and choose the Leagues you're interested in.</p>
    {% endif %}
 </div>  
-
+</div>
+</main>
 {% endif %}
 {% endblock %}

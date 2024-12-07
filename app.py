@@ -27,30 +27,88 @@ def home():
         take place in the next weeks.<br><br> \
         The predictions are based \
         on a statistic model considering goals scored and goals received by teams in the last two years.'
-    return render_template('homepage.html', title=title, message=message)
+    
+    cnx = mysql.connector.connect(
+    host=os.getenv('MYSQL_HOST'),
+    database=os.getenv('MYSQL_DATABASE'),
+    user=os.getenv('MYSQL_USER'),
+    password=os.getenv('MYSQL_PASSWORD'),
+    port=os.getenv('MYSQL_PORT'),
+    charset='utf8',  # Ensure the connection uses UTF-8
+    use_unicode=True
+    )
+
+    cursor = cnx.cursor()
+    previous_week_start = (datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())) - datetime.timedelta(days=7)
+    current_week_start = previous_week_start + datetime.timedelta(days=7)
+    current_week_end = previous_week_start + datetime.timedelta(days=13)
+    di=current_week_start.day
+    df=current_week_end.day
+    mi = calendar.month_abbr[current_week_start.month]  # Access month abbreviation using the month number
+    mf = calendar.month_abbr[current_week_end.month]  # Access month abbreviation using the month number
+    yf=current_week_end.year
+
+    # Query the database for the results for the current week
+    query = ('''
+             SELECT DISTINCT 
+             pr.League, pr.Round, pr.Week, pr.Year, pr.Date, pr.Local, pr.Visitor,
+             pr.bet, pr.phg, pr.pag, pr.Created, 
+             case when lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') 
+            and lg.league not in ( 
+            'Copa Do Brazil', 
+            'U.S. Open Cup', 
+            'Copa de la Liga de Inglaterra', 
+            'Copa de Alemania', 
+            'Coppa Italia')
+             and lower(lg.League) not like '%cup%' 
+            and lower(lg.League) not like '%copa%' 
+             then pr.max_prob else 0 end as max_prob, 
+             r.result, 
+             CASE WHEN r.goalslocal IS NULL THEN '' ELSE r.goalslocal END AS goalslocal, 
+             CASE WHEN r.goalsvisitor IS NULL THEN '' ELSE r.goalsvisitor END AS goalsvisitor, 
+             fl.flag_url, lg.country,
+             pr.top_homebookmaker, pr.top_homeodds,
+             pr.top_drawbookmaker, pr.top_drawodds,
+             pr.top_awaybookmaker, pr.top_awayodds
+             FROM Predictions.predictions pr 
+             LEFT JOIN Predictions.results r 
+             ON pr.date = r.date AND pr.local = r.local AND pr.visitor = r.visitor 
+             LEFT JOIN Predictions.leagues lg 
+             ON UPPER(lg.League) = UPPER(pr.League) 
+             LEFT JOIN Predictions.flags fl 
+             ON UPPER(fl.Country) = UPPER(lg.Country) 
+             WHERE pr.date >= %s AND pr.date <= %s 
+             ORDER BY case when lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') 
+            and lg.league not in ( 
+            'Copa Do Brazil', 
+            'U.S. Open Cup', 
+            'Copa de la Liga de Inglaterra', 
+            'Copa de Alemania', 
+            'Coppa Italia')
+            and lower(lg.League) not like '%cup%' 
+            and lower(lg.League) not like '%copa%' 
+            then pr.max_prob else 0 end DESC
+            limit 1
+             '''
+                )
+    cursor.execute(query, (current_week_start, current_week_end))
+    # Get the column names
+    columns = [col[0] for col in cursor.description]
+
+    # Fetch all rows and convert to list of dictionaries
+    predictions = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+    # Close the database connection
+    cursor.close()
+    cnx.close()
+
+
+    return render_template('homepage.html', title=title, message=message, predictions=predictions)
 
 @app.route('/calendar')
 def show_matches():
     title = 'Next Matches'
-    # cnx = mysql.connector.connect(user='root', password='milanesa',
-                                #   host='localhost', database='football')
-     ## heroku db
-    # cnx = mysql.connector.connect(
-    # host='eu-cluster-west-01.k8s.cleardb.net',
-    # database='heroku_9f69e70d94a5650',
-    # user='b902878f5a41b4',
-    # password='4acedb6a',
-    # port='3306'
-    # )
-    # cnx=mysql.connector.connect(
-    # host='junction.proxy.rlwy.net',
-    # database='Predictions',
-    # user='root',
-    # password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
-    # port='27797',
-    # charset='utf8',  # Ensure the connection uses UTF-8
-    # use_unicode=True
-    # )
+
     cnx = mysql.connector.connect(
     host=os.getenv('MYSQL_HOST'),
     database=os.getenv('MYSQL_DATABASE'),

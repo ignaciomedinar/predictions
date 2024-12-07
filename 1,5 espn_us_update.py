@@ -119,7 +119,7 @@ def update_mysql_table(connection_url):
     
     # Get max date from existing data in MySQL
     max_date = get_max_date_from_mysql(engine)
-    # max_date = datetime.strptime('2024-11-17', '%Y-%m-%d')
+    # max_date = datetime.strptime('2024-12-01', '%Y-%m-%d')
     
     # Calculate start and end dates
     if max_date:

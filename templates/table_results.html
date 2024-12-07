@@ -3,6 +3,9 @@
 {% if selected_week_start is not none %}
 <h4 class="m-2">{{ selected_week_start.strftime('%b %d') }} - {{ (selected_week_start | add_days(6)).strftime('%b %d, %Y') }}</h4>
 {% endif %}
+<main class="main img-fluid">
+    <div class="container table-container">
+        <h1 class="title mx-2 my-4">{{ title }}</h1>
 <div class="search-container col-md-4 m-2">
     <input class="form-control " type="text" placeholder="Search team..." id="search-input">
 </div>
@@ -186,4 +189,6 @@
       {% endfor %}
     {% endfor %}
   </div> 
+</div>
+</main>
 {% endblock %}

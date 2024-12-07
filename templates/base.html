@@ -1,89 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="football predictions, soccer tips, match analysis, Premier League predictions, La Liga tips, Serie A analysis, Bundesliga previews, Ligue 1 tips, football betting, sports predictions, pronostico fútbol, futbol, fútbol, bet high performance, efectividad, high efficience">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="This site predicts scores for the week's matches of the top Football/Soccer Leagues">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="keywords"
+      content="football predictions, soccer tips, match analysis, Premier League predictions, La Liga tips, Serie A analysis, Bundesliga previews, Ligue 1 tips, football betting, sports predictions, pronostico fútbol, futbol, fútbol, bet high performance, efectividad, high efficience"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="This site predicts scores for the week's matches of the top Football/Soccer Leagues"
+    />
     <title>{{ title }}</title>
-    <link rel="canonical" href="https://www.goal-genius.net{{ request.path }}">
+    <link
+      rel="canonical"
+      href="https://www.goal-genius.net{{ request.path }}"
+    />
     <!-- Bootstrap   -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
     <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <!-- Include Bootstrap Datepicker CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" type="image/png" href="static/soccer_ball.png"/>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link rel="icon" type="image/png" href="static/soccer_ball.png" />
     <meta name="fo-verify" content="24de5f42-7458-492f-a906-154cb817b974" />
-</head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WRCQ41KVM8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  </head>
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-WRCQ41KVM8"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
 
-  gtag('config', 'G-WRCQ41KVM8');
-</script>
-<body>
+    gtag("config", "G-WRCQ41KVM8");
+  </script>
+  <body>
     <header class="shadow-sm header">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand" href="/"><img class="welcome-image" src="static/soccer_ball.png" alt="Goal Genius"><span class="banner-header">Goal Genius!</span></a>
-                <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" aria-current="page" href="/">Home</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="predictions">Predictions</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="invest">Investing</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="results">Results</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="calendar">Next Matches</a>
-                        </li>
-                        <!-- <li class="nav-item mx-2">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <a class="navbar-brand" href="/"
+            ><img
+              class="welcome-image"
+              src="static/soccer_ball.png"
+              alt="Goal Genius"
+            /><span class="banner-header">Goal Genius</span></a
+          >
+          <button
+            class="navbar-toggler navbar-dark"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item mx-2">
+                <a class="nav-link" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item mx-2">
+                <a class="nav-link" href="predictions">Predictions</a>
+              </li>
+              <li class="nav-item mx-2">
+                <a class="nav-link" href="invest">Investing</a>
+              </li>
+              <li class="nav-item mx-2">
+                <a class="nav-link" href="results">Results</a>
+              </li>
+              <li class="nav-item mx-2">
+                <a class="nav-link" href="calendar">Next Matches</a>
+              </li>
+              <!-- <li class="nav-item mx-2">
                             <a class="nav-link" href="contact_submit">Send a comment</a>
                         </li> -->
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </header>    
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
 
-    <main class="main img-fluid">
-        <div class="container">
-            <h1 class="title mx-2 my-4">{{ title }}</h1>
-            {% block main %}
-            <p class="message m-2">{{ message | safe }}</p>
-            <div class="buttons d-flex justify-content-center m-4">
-                <!-- <div class="btn btn-primary p-4 m-2"><i class="fa-solid fa-wand-magic-sparkles"></i><br><a href="predictions">Go to week's predictions</a></div> -->
-                <a class="btn btn-primary p-4 my-2 mx-4" href="predictions" role="button"><i class="fa-solid fa-wand-magic-sparkles"></i><br>Go to week's predictions</a>
-                <a class="btn btn-primary p-4 my-2 mx-4" href="results" role="button"><i class="fa-regular fa-calendar"></i><br>Go to week's results</a>
-            </div>
-            {% endblock %}
-        </div>
-    </main>
+    {% block main %} {% endblock %}
 
     <div id="cookie-banner" class="cookie-banner">
-        <p>This website uses cookies to ensure you get the best experience on our website.</p>
-        <button id="accept-cookies" class="btn btn-primary mx-4">Accept</button>
-    </div>      
+      <p>
+        This website uses cookies to ensure you get the best experience on our
+        website.
+      </p>
+      <button id="accept-cookies" class="btn btn-primary mx-4">Accept</button>
+    </div>
 
     <footer class="footer">
-        <div class="container">
-            <p class="disclaimer">Disclaimer: These predictions are for informational and recreational purposes only. If your intention is on betting, please gamble responsibly.</p>
-        </div>
+      <div class="container">
+        <p class="disclaimer">
+          Disclaimer: These predictions are for informational and recreational
+          purposes only. If your intention is on betting, please gamble
+          responsibly.
+        </p>
+      </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
@@ -91,5 +131,5 @@
     <!-- Include Bootstrap Datepicker JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
-</body>
+  </body>
 </html>

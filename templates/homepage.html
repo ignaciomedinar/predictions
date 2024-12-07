@@ -1,0 +1,281 @@
+{% extends 'base.html' %} {% block main %}
+<main class="main homepage">
+  <div class="homepage-img"></div>
+  <div class="container my-4">
+    <div class="row align-items-center pb-4">
+      <!-- Use row to create a flex container -->
+      <div class="col-4">
+        <!-- Column for the h1 -->
+        <h1 class="title mx-2 my-4">{{ title }}</h1>
+      </div>
+      <div class="col-8 mt-4">
+        <!-- Column for the p -->
+        <p class="message m-2">{{ message | safe }}</p>
+      </div>
+    </div>
+  </div>
+</main>
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <!-- Center the card horizontally -->
+      <div class="match-of-the-week mt-4 col-6 mx-auto">
+        <!-- Center the card -->
+        <div class="card-body text-center">
+          <!-- Center the content within the card -->
+          <h3 class="card-title">Match of the week</h3>
+          <div class="card-text my-2">
+            {% for prediction in predictions %}
+            <img
+              class="mx-2 w-7 h-7 rounded-full col-1 text-center my-auto"
+              src="{{ prediction.flag_url
+            }}"
+              alt="{{ prediction.country }}"
+            />
+            {{ prediction.Date.strftime('%b %d, %Y') }}<br />
+            {{ prediction.League }}
+            <br /><br />
+            <b>
+              {% if prediction.bet == "Local" %}
+              <span class="col-3 text-center my-auto bold-green"
+                >{{ prediction.Local }}</span
+              >
+              {% else %}
+              <span class="col-3 text-center my-auto"
+                >{{ prediction.Local }}</span
+              >
+              {% endif %}
+
+              <br />Vs.<br />
+              {% if prediction.bet == "Visitor" %}
+              <span class="col-3 text-center my-auto bold-green"
+                >{{ prediction.Visitor }}</span
+              >
+              {% else %}
+              <span class="col-3 text-center my-auto"
+                >{{ prediction.Visitor }}</span
+              >
+              <br /><br />
+              {% endif %}
+            </b>
+          </div>
+          <span class="card-text my-4">
+            The green team has a
+            <b
+              >{% if prediction.max_prob is not none %} {{ '%.1f' %
+              (prediction.max_prob * 100) }}% {% endif %} </b
+            >chance of winning
+          </span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img
+          class="card-img-top card-images rounded mt-2 mx-auto d-block"
+          src="../static/soccer ball ai.jpeg"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Predictions</h5>
+          <p class="card-text">
+            See this week's match predictions and find out who's likely to win
+            in most leagues around the world.
+          </p>
+          <p class="card-text">
+            <a class="btn btn-primary" href="predictions" role="button"
+              >Go to week's predictions</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img
+          class="card-img-top card-images rounded mt-2 mx-auto d-block"
+          src="../static/soccer_field.png"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Results</h5>
+          <p class="card-text">
+            Check past match results and see how our predictions performed.
+          </p>
+          <p class="card-text">
+            <small class="text-muted"
+              ><a class="btn btn-primary" href="results" role="button"
+                >Go to week's results</a
+              ></small
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img
+          class="card-img-top card-images rounded mt-2 mx-auto d-block"
+          src="../static/soccer calendar.png"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Next matches</h5>
+          <p class="card-text">
+            Explore upcoming games for the next two weeks and stay ahead.
+          </p>
+          <p class="card-text">
+            <small class="text-muted"
+              ><a class="btn btn-primary" href="calendar" role="button"
+                >Go to next matches</a
+              ></small
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container my-4">
+  <h3>World of Football</h3>
+  <div>
+    <h4 class="my-4">AFC (Asian Football Confederation)</h4>
+    <span class="my-2">
+      The AFC governs football in Asia and Australia, promoting the sport across
+      the continent's diverse nations. Known for its exciting matches and rising
+      talent, the AFC represents a mix of emerging and established football
+      powerhouses. <br /><br />
+      Popular Clubs: <br />
+      <li>
+        Al-Hilal (Saudi Arabia) – The most successful club in Asian Champions
+        League history.
+      </li>
+      <li>
+        Urawa Red Diamonds (Japan) – A dominant force in Japanese football and
+        frequent continental competitors.
+      </li>
+      <li>
+        Persepolis (Iran) – A fan-favorite club with a storied history in Iran's
+        domestic league and Asia.
+      </li>
+    </span>
+  </div>
+  <div>
+    <h4 class="my-4">CAF (Confederation of African Football)</h4>
+    <span class="my-2">
+      TCAF oversees football development in Africa, producing some of the
+      world’s most gifted players and vibrant club competitions. African
+      football is renowned for its passion and high-energy games. <br /><br />
+      Popular Clubs:<br />
+      <li>
+        Al Ahly (Egypt) – The most successful club in CAF Champions League
+        history.
+      </li>
+      <li>
+        Zamalek SC (Egypt) – A fierce rival to Al Ahly and a powerhouse in
+        African football.
+      </li>
+      <li>
+        TP Mazembe (DR Congo) – Known for their strong performances on the
+        African stage.
+      </li>
+    </span>
+  </div>
+  <div>
+    <h4 class="my-4">
+      CONCACAF (Confederation of North, Central America, and Caribbean
+      Association Football)
+    </h4>
+    <span class="my-2">
+      CONCACAF unites football across North and Central America and the
+      Caribbean, offering thrilling competitions and strong fan support.<br /><br />
+      Popular Clubs:<br />
+      <li>
+        Club América (Mexico) – The most successful team in Mexican football
+        history.
+      </li>
+      <li>
+        CF Monterrey (Mexico) – A consistent performer in the CONCACAF Champions
+        League.
+      </li>
+      <li>
+        LAFC (USA) – A rising star in Major League Soccer with international
+        ambitions.
+      </li>
+    </span>
+  </div>
+
+  <div>
+    <h4 class="my-4">CONMEBOL (South American Football Confederation)</h4>
+    <span class="my-2">
+      CONMEBOL is the heart of South American football, home to some of the
+      world's most iconic players and clubs. Its competitions are famed for
+      intense rivalries and passionate fanbases. <br /><br />
+      Popular Clubs:<br />
+      <li>
+        Boca Juniors (Argentina) – A legendary club known for its historic
+        rivalries and Libertadores success.
+      </li>
+      <li>
+        Flamengo (Brazil) – One of Brazil's most successful and beloved teams.
+      </li>
+      <li>
+        River Plate (Argentina) – Boca Juniors' fierce rival, with a similarly
+        rich history.
+      </li>
+    </span>
+  </div>
+
+  <div>
+    <h4 class="my-4">OFC (Oceania Football Confederation)</h4>
+    <span class="my-2">
+      The OFC manages football in Oceania, fostering the growth of the sport in
+      smaller island nations. While less prominent globally, the OFC has
+      competitive teams in its region. <br /><br />
+      Popular Clubs:<br />
+      <li>
+        Auckland City FC (New Zealand) – Dominates Oceania’s club competitions
+        and often represents the region in global tournaments.
+      </li>
+      <li>
+        Team Wellington (New Zealand) – A strong contender in the OFC Champions
+        League.
+      </li>
+      <li>
+        Hienghène Sport (New Caledonia) – Made history by reaching the FIFA Club
+        World Cup.
+      </li>
+    </span>
+  </div>
+
+  <div>
+    <h4 class="my-4">UEFA (Union of European Football Associations)</h4>
+    <span class="my-2">
+      UEFA is the powerhouse of global football, representing Europe's elite
+      clubs, iconic players, and prestigious tournaments. Its clubs and leagues
+      are the most watched worldwide. <br /><br />
+      Popular Clubs:<br />
+      <li>
+        Real Madrid (Spain) – The most successful club in UEFA Champions League
+        history.
+      </li>
+      <li>
+        Manchester United (England) – A global brand and dominant force in
+        English football.
+      </li>
+      <li>
+        Bayern Munich (Germany) – A perennial contender in European
+        competitions.
+      </li>
+    </span>
+  </div>
+</div>
+
+{% endblock %}

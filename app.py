@@ -6,6 +6,8 @@ import calendar
 import smtplib
 from dotenv import load_dotenv
 import os
+import pandas as pd
+from itertools import combinations
 
 app = Flask(__name__)
 
@@ -155,23 +157,12 @@ def show_matches():
 @app.route('/results')
 def show_results():
     title = 'Results'
-    # cnx = mysql.connector.connect(user='root', password='milanesa',
-    #                               host='localhost', database='football')
-     ## heroku db
-    #mysql://b902878f5a41b4:4acedb6a@eu-cluster-west-01.k8s.cleardb.net/heroku_9f69e70d94a5650
-    # cnx = mysql.connector.connect(
-    # host='eu-cluster-west-01.k8s.cleardb.net',
-    # database='heroku_9f69e70d94a5650',
-    # user='b902878f5a41b4',
-    # password='4acedb6a',
-    # port='3306'
-    # )
-    cnx=mysql.connector.connect(
-    host='junction.proxy.rlwy.net',
-    database='Predictions',
-    user='root',
-    password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
-    port='27797',
+    cnx = mysql.connector.connect(
+    host=os.getenv('MYSQL_HOST'),
+    database=os.getenv('MYSQL_DATABASE'),
+    user=os.getenv('MYSQL_USER'),
+    password=os.getenv('MYSQL_PASSWORD'),
+    port=os.getenv('MYSQL_PORT'),
     charset='utf8',  # Ensure the connection uses UTF-8
     use_unicode=True
     )
@@ -318,22 +309,13 @@ def show_results():
 @app.route('/predictions')
 def show_predictions():
     title = 'Predictions'
-    # cnx = mysql.connector.connect(user='root', password='milanesa',
-    #                               host='localhost', database='football')
-     ## heroku db
-    # cnx = mysql.connector.connect(
-    # host='eu-cluster-west-01.k8s.cleardb.net',
-    # database='heroku_9f69e70d94a5650',
-    # user='b902878f5a41b4',
-    # password='4acedb6a',
-    # port='3306'
-    # )
-    cnx=mysql.connector.connect(
-    host='junction.proxy.rlwy.net',
-    database='Predictions',
-    user='root',
-    password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
-    port='27797',
+
+    cnx = mysql.connector.connect(
+    host=os.getenv('MYSQL_HOST'),
+    database=os.getenv('MYSQL_DATABASE'),
+    user=os.getenv('MYSQL_USER'),
+    password=os.getenv('MYSQL_PASSWORD'),
+    port=os.getenv('MYSQL_PORT'),
     charset='utf8',  # Ensure the connection uses UTF-8
     use_unicode=True
     )
@@ -403,121 +385,130 @@ def show_predictions():
     # Pass the results and weeks to the HTML template
     return render_template("table_predictions.html", title=title, predictions=predictions, current_week_end=current_week_end,di=di,df=df,mi=mi,mf=mf,yf=yf)
 
-@app.route('/invest', methods=['GET', 'POST'])
+@app.route('/invest')
 def show_invest():
-    title = 'Investing'
-    selected_leagues =()
-    # cnx = mysql.connector.connect(user='root', password='milanesa',
-    #                               host='localhost', database='football')
-     ## heroku db
-    # cnx = mysql.connector.connect(
-    # host='eu-cluster-west-01.k8s.cleardb.net',
-    # database='heroku_9f69e70d94a5650',
-    # user='b902878f5a41b4',
-    # password='4acedb6a',
-    # port='3306'
-    # )
-    cnx=mysql.connector.connect(
-    host='junction.proxy.rlwy.net',
-    database='Predictions',
-    user='root',
-    password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
-    port='27797',
+    title = 'Suggested Parlays'
+    # selected_leagues =()
+
+    cnx = mysql.connector.connect(
+    host=os.getenv('MYSQL_HOST'),
+    database=os.getenv('MYSQL_DATABASE'),
+    user=os.getenv('MYSQL_USER'),
+    password=os.getenv('MYSQL_PASSWORD'),
+    port=os.getenv('MYSQL_PORT'),
     charset='utf8',  # Ensure the connection uses UTF-8
     use_unicode=True
     )
+    
     cursor = cnx.cursor()
     current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
     current_week_end = current_week_start + datetime.timedelta(days=6)
 
-    # Query the database for the results for the current week
-    query = ("SELECT distinct League "
-                "FROM Predictions.predictions "
-                "WHERE date >= %s "
-                "ORDER BY League"
+    query = ('''
+             SELECT DISTINCT 
+             pr.League, pr.Round, pr.Week, pr.Year, pr.Date, pr.Local, pr.Visitor,
+             pr.bet, pr.phg, pr.pag, pr.Created, 
+             case when lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') 
+            and lg.league not in ( 
+            'Copa Do Brazil', 
+            'U.S. Open Cup', 
+            'Copa de la Liga de Inglaterra', 
+            'Copa de Alemania', 
+            'Coppa Italia')
+             and lower(lg.League) not like '%cup%' 
+            and lower(lg.League) not like '%copa%' 
+             then pr.max_prob else 0 end as max_prob, 
+             r.result, 
+             CASE WHEN r.goalslocal IS NULL THEN '' ELSE r.goalslocal END AS goalslocal, 
+             CASE WHEN r.goalsvisitor IS NULL THEN '' ELSE r.goalsvisitor END AS goalsvisitor, 
+             fl.flag_url, lg.country,
+             pr.top_homebookmaker, pr.top_homeodds,
+             pr.top_drawbookmaker, pr.top_drawodds,
+             pr.top_awaybookmaker, pr.top_awayodds
+             FROM Predictions.predictions pr 
+             LEFT JOIN Predictions.results r 
+             ON pr.date = r.date AND pr.local = r.local AND pr.visitor = r.visitor 
+             LEFT JOIN Predictions.leagues lg 
+             ON UPPER(lg.League) = UPPER(pr.League) 
+             LEFT JOIN Predictions.flags fl 
+             ON UPPER(fl.Country) = UPPER(lg.Country) 
+             WHERE pr.date >= %s AND pr.date <= %s 
+             ORDER BY case when lg.Country not in ('America', 'Europe','Africa','Asia','Concacaf','Conmebol', 'Europe', 'World') 
+            and lg.league not in ( 
+            'Copa Do Brazil', 
+            'U.S. Open Cup', 
+            'Copa de la Liga de Inglaterra', 
+            'Copa de Alemania', 
+            'Coppa Italia')
+            and lower(lg.League) not like '%cup%' 
+            and lower(lg.League) not like '%copa%' 
+            then pr.max_prob else 0 end DESC
+            limit 7
+             '''
                 )
-    cursor.execute(query, (current_week_start, ))
+    cursor.execute(query, (current_week_start, current_week_end))
     # Get the column names
-    
-    leagues = [league[0] for league in cursor.fetchall()]
+    columns = [col[0] for col in cursor.description]
+    predictions = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
-    inputs=()
-    predictions=''
-    if request.method == 'POST':
-        amount = request.form['amount']
-        try:
-            num_matches = int(request.form['num_matches'])
-        except: 
-            num_matches = 10
- 
-        selected_leagues = request.form.getlist('leagues[]')
-        if len(selected_leagues):
-            pass
-        else:
-            selected_leagues = leagues
-        selected_leagues_str = ",".join(["'" + league + "'" for league in selected_leagues])
-        if amount != '' and num_matches!='':
-            inputs=(amount, num_matches)
-            current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
-            current_week_end = current_week_start + datetime.timedelta(days=6)
-            # cnx = mysql.connector.connect(user='root', password='milanesa',
-            #                             host='localhost', database='football')
-            ## heroku db
-            # cnx = mysql.connector.connect(
-            # host='eu-cluster-west-01.k8s.cleardb.net',
-            # database='heroku_9f69e70d94a5650',
-            # user='b902878f5a41b4',
-            # password='4acedb6a',
-            # port='3306'
-            # )
-            cnx=mysql.connector.connect(
-            host='junction.proxy.rlwy.net',
-            database='Predictions',
-            user='root',
-            password='xEkkvZHDuwVxfhYziMKMxYytsmKvOfSB',
-            port='27797',
-            charset='utf8',  # Ensure the connection uses UTF-8
-            use_unicode=True
-            )
-            cursor = cnx.cursor()
+    # Close the database connection
+    cursor.close()
+    cnx.close()
+    df = pd.DataFrame(predictions)
+    df=df.sort_values(by='max_prob', ascending=False).head(7)
+    parlay_combinations = list(combinations(df.index, 3))
+    parlay_data = []
+    for parlay_num, (idx1, idx2, idx3) in enumerate(parlay_combinations, start=1):
+        # Define a helper function to get the winner and loser based on 'victor' value
+        def get_winner_loser(row):
+            if row['bet'] == 'Local':
+                return row['Local'], row['Visitor']
+            else:
+                return row['Visitor'], row['Local']
+        
+        # Extract winner and loser for each match in the combination
+        winner1, loser1 = get_winner_loser(df.loc[idx1])
+        winner2, loser2 = get_winner_loser(df.loc[idx2])
+        winner3, loser3 = get_winner_loser(df.loc[idx3])
 
-    # Query the database for the results for the current week
-            query = ("SELECT distinct pr.*, r.result, fl.flag_url "
-                        "FROM Predictions.predictions pr "
-                        "left join Predictions.football_results r "
-                        "on pr.date = r.date and pr.local=r.local and pr.visitor=r.visitor "
-                        "left join Predictions.flags fl "
-                        "on upper(fl.Country) = upper(pr.League) "
-                        "WHERE pr.date >= %s AND pr.date <= %s "
-                        f"AND pr.league in ({selected_leagues_str}) "
-                        "ORDER BY pr.max_prob desc "
-                        "limit %s"
-                        )
-            cursor.execute(query, (current_week_start, current_week_end, num_matches))
+        # Retrieve probabilities for each match
+        prob1 = df.loc[idx1, 'max_prob']
+        prob2 = df.loc[idx2, 'max_prob']
+        prob3 = df.loc[idx3, 'max_prob']
 
-            # Get the column names
-            columns = [col[0] for col in cursor.description]
-            # Fetch all rows and convert to list of dictionaries
-            predictions = [dict(zip(columns, row)) for row in cursor.fetchall()]
-            probs = 0
-            for row in predictions:
-                probs += row['max_prob']
-            ratio=float(amount)/probs
-            for row in predictions:
-                row['bet_amount'] = row['max_prob'] * ratio
+        # Retrieve probabilities for each match
+        date1 = df.loc[idx1, 'Date']
+        date2 = df.loc[idx2, 'Date']
+        date3 = df.loc[idx3, 'Date']
 
-            # Close the database connection
-            cursor.close()
-            cnx.close()
+        # Retrieve probabilities for each match
+        flag1 = df.loc[idx1, 'flag_url']
+        flag2 = df.loc[idx2, 'flag_url']
+        flag3 = df.loc[idx3, 'flag_url']
 
-        else:
-            predictions=''
-    return render_template("invest.html", title=title, predictions=predictions,inputs=inputs,leagues=leagues,selected_leagues=selected_leagues)
+        # # Convert the probabilities to numeric values (e.g., '61%' becomes 0.61)
+        # prob1 = float(prob1.strip('%'))
+        # prob2 = float(prob2.strip('%'))
+        # prob3 = float(prob3.strip('%'))
+
+        # print(prob1, prob2, prob3)
+        # Calculate potential win (product of probabilities)
+        potential_win = (1/prob1) * (1/prob2) * (1/prob3)
+        # Append the parlay row
+        parlay_data.append({
+            'parlay': parlay_num,
+            'date1': date1, 'date2': date2, 'date3': date3,
+            'flag1': flag1, 'flag2': flag2, 'flag3': flag3,
+            'winner1': winner1, 'winner2': winner2, 'winner3': winner3,
+            'loser1': loser1, 'loser2': loser2, 'loser3': loser3,
+            'potential_win': potential_win            
+        })
+        matches=parlay_data
+    return render_template("table_invest.html", title=title, matches=matches)
 
 @app.route('/sitemap.xml')
 def static_from_root():
     return send_from_directory(app.static_folder, request.path[1:])
-
 
 @app.route('/details')
 def show_details():

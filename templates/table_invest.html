@@ -1,0 +1,66 @@
+{% extends 'base.html' %} {% block main %}
+
+<main class="main img-fluid">
+  <div class="container table-container">
+    <h1 class="title mx-2 my-4">{{ title }}</h1>
+    <div class="">
+      <table class="table table-hover">
+        <thead class="align-top">
+          <tr>
+            <th>Paraly</th>
+            <th>Match1</th>
+            <th>Match2</th>
+            <th>Match3</th>
+            <th>Potential Win</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for match in matches %}
+          <tr>
+            <td>{{ match.parlay }}</td>
+            <td>
+              <span
+                ><img class="mx-2" src="{{ match.flag1 }}" /><u
+                  >{{ match.date1.strftime('%b %d, %Y') }}</u
+                ></span
+              ><br /><br /><b>{{ match.winner1 }}</b><br /><span
+                class="realgoals"
+                >{{ match.loser1 }}</span
+              >
+            </td>
+            <td>
+              <span
+                ><img class="mx-2" src="{{ match.flag2 }}" /><u
+                  >{{ match.date2.strftime('%b %d, %Y') }}</u
+                ></span
+              ><br /><br /><b>{{ match.winner2 }}</b><br /><span
+                class="realgoals"
+                >{{ match.loser2 }}</span
+              >
+            </td>
+            <td>
+              <span
+                ><img class="mx-2" src="{{ match.flag3 }}" /><u
+                  >{{ match.date3.strftime('%b %d, %Y') }}</u
+                ></span
+              ><br /><br /><b>{{ match.winner3 }}</b><br /><span
+                class="realgoals"
+                >{{ match.loser3 }}</span
+              >
+            </td>
+            <td>{{ match.potential_win | round(2) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <p>
+        Enter the amount of money you want to invest in any currency, select the
+        number of matches you want to bet on (default is 10), and choose the
+        Leagues you're interested in.
+      </p>
+    </div>
+  </div>
+</main>
+
+{% endblock %}

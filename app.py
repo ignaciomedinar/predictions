@@ -61,7 +61,8 @@ def home():
             'U.S. Open Cup', 
             'Copa de la Liga de Inglaterra', 
             'Copa de Alemania', 
-            'Coppa Italia')
+            'Coppa Italia',
+            'English EFL Trophy')
              and lower(lg.League) not like '%cup%' 
             and lower(lg.League) not like '%copa%' 
              then pr.max_prob else 0 end as max_prob, 
@@ -86,7 +87,8 @@ def home():
             'U.S. Open Cup', 
             'Copa de la Liga de Inglaterra', 
             'Copa de Alemania', 
-            'Coppa Italia')
+            'Coppa Italia',
+            'English EFL Trophy')
             and lower(lg.League) not like '%cup%' 
             and lower(lg.League) not like '%copa%' 
             then pr.max_prob else 0 end DESC
@@ -210,7 +212,8 @@ def show_results():
                     "'U.S. Open Cup', "
                     "'Copa de la Liga de Inglaterra', "
                     "'Copa de Alemania', "
-                    "'Coppa Italia') "
+                    "'Coppa Italia', "
+                    "'English EFL Trophy') "
                     "and lower(lg.League) not like '%cup%' "
                     "and lower(lg.League) not like '%copa%' "
                     "then ph.max_prob else 0 end as max_prob, "
@@ -240,7 +243,8 @@ def show_results():
                     "'U.S. Open Cup', "
                     "'Copa de la Liga de Inglaterra', "
                     "'Copa de Alemania', "
-                    "'Coppa Italia') " 
+                    "'Coppa Italia', "
+                    "'English EFL Trophy') " 
                     "and lower(lg.League) not like '%cup%' "
                     "and lower(lg.League) not like '%copa%' "
                     "then ph.max_prob else 0 end as max_prob, "
@@ -399,7 +403,7 @@ def show_invest():
     charset='utf8',  # Ensure the connection uses UTF-8
     use_unicode=True
     )
-    
+
     cursor = cnx.cursor()
     current_week_start = datetime.datetime.now().date() - datetime.timedelta(days=datetime.datetime.now().weekday())
     current_week_end = current_week_start + datetime.timedelta(days=6)

@@ -4,7 +4,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import calendar
 import smtplib
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import os
 import pandas as pd
 from itertools import combinations

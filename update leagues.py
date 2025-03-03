@@ -39,8 +39,9 @@ CREATE TABLE leagues (
     League VARCHAR(100),
     Country VARCHAR(100),
     league_key VARCHAR(100)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
+) 
 """
+# CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
 cursor.execute(create_table_query)
 
 # Insert the DataFrame data into the table
